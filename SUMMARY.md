@@ -2,7 +2,7 @@
 
 * [封面](README.md)
 * [1. 引言](chap1.md)
-* [2. 有关 Parsing](chap2.md)
+* [2. 本书有关 Parsing 的一切](chap2.md)
 * [3. 解释器初窥](chap3.md)
 * [4. 初识语法糖](chap4.md)
 * [5. 添加函数](chap5.md)

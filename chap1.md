@@ -8,7 +8,7 @@
 #!/bin/sh
 ```
 
-类似的，Racket 需要你声明你要使用的语言。 Racket语言 可能使用和 Racket 一样的括号语法，但是有不同的语义；或语义相同语法不同；或者有不同的语法和语义。因此每个 Racket 程序以 `#lang <语言名字>` 开头。默认的语言为 Racket（名字为 racket）。这本书中我们几乎总是使用语言：
+类似的，Racket 需要你声明你要使用的语言。 Racket 语言可能使用和 Racket 一样的括号语法，但是有不同的语义；或语义相同语法不同；或者有不同的语法和语义。因此每个 Racket 程序以 `#lang <语言名字>` 开头。默认的语言为 Racket（名字为 racket）。这本书中我们几乎总是使用语言：
 
 ```text
 plai-typed
@@ -24,7 +24,7 @@ Typed PLAI 语言和传统的 Racket 最主要的不同是它是静态类型的�
 
 ```Racket
 (define-type MisspelledAnimal
-  [cmal (humps : number)]
+  [caml (humps : number)]
   [yacc (height : number)])
 ```
 
@@ -52,7 +52,7 @@ Typed PLAI 语言和传统的 Racket 最主要的不同是它是静态类型的�
 (yacc-height (yacc 10)) ;; 10
 ```
 
-同名字暗示的一样， `define-type` 创建一个给定名字的类型。我们可以将实例绑定到名字：
+同名字暗示的一样，`define-type` 创建一个给定名字的类型。我们可以将实例绑定到名字：
 
 ```racket
 (define ma1 : MisspelledAnimal (caml 2))
@@ -73,7 +73,7 @@ Typed PLAI 语言和传统的 Racket 最主要的不同是它是静态类型的�
 该语言为我们提供了模式匹配，例如对于函数体：
 
 ```racket
-(deifne (good? [ma : MisspelledAnimal]) : boolean
+(define (good? [ma : MisspelledAnimal]) : boolean
         (type-case MisspelledAnimal ma
                    [caml (humps) (>= humps 2)]
                    [yacc (height) (> height 2.1)]))

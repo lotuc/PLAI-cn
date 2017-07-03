@@ -2,69 +2,9 @@
 
 下面尝试将其变成一个真正的变成语言。可以考虑添加诸如条件语句这种特性，但是不妨一步到位，添加最有意思的东西——函数，或者对于本节来说，我们添加一个等同函数的东西。
 
-> **作业**
+> **练习**
 >
-> 给语言添加条件语句。你可以选择添加 boolean 类型，或者方便起见，将 0
-> 作为 false，其他东西作为 true。（下面是我的一个实现）
->
-> ```racket
-> #lang plai-typed
->
-> (define-type ArithC
->   [numC (n : number)]
->   [ifC (cond : ArithC) (ifResut : ArithC) (elseResult : ArithC)]
->   [plusC (l : ArithC) (r : ArithC)]
->   [multC (l : ArithC) (r : ArithC)])
->
-> (define-type ArithS
->   [numS (n : number)]
->   [plusS (l : ArithS) (r : ArithS)]
->   [bminusS (l : ArithS) (r : ArithS)]
->   [uminusS (e : ArithS)]
->   [multS (l : ArithS) (r : ArithS)]
->   [ifS (cond : ArithS) (ifResult : ArithS) (elseResult : ArithS)])
->
-> (define (desugar [as : ArithS]) : ArithC
->   (type-case ArithS as
->     [numS (n) (numC n)]
->     [plusS (l r) (plusC (desugar l)
->                         (desugar r))]
->     [multS (l r) (multC (desugar l)
->                         (desugar r))]
->     [uminusS (e) (multC (numC -1) (desugar e))]
->     [bminusS (l r) (plusC (desugar l)
->                           (multC (numC -1) (desugar r)))]
->     [ifS (cond ifResult elseResult)
->          (ifC (desugar cond) (desugar ifResult) (desugar elseResult))]))
->
-> (define (parse [s : s-expression]) : ArithS
->   (cond
->     [(s-exp-number? s) (numS (s-exp->number s))]
->     [(s-exp-list? s)
->      (let ([sl (s-exp->list s)])
->        (case (s-exp->symbol (first sl))
->          [(+) (plusS (parse (second sl)) (parse (third sl)))]
->          [(*) (multS (parse (second sl)) (parse (third sl)))]
->          [(-)
->           (if (= (length sl) 2)
->               (uminusS (parse (second sl)))
->               (bminusS (parse (second sl)) (parse (third sl))))]
->          [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (third (rest sl))))]
->          [else (error 'parse "invalid list input")]))]
->     [else (error 'parse "invalid input")]))
->
-> (define (interp [a : ArithC]) : number
->   (type-case ArithC a
->     [numC (n) n]
->     [plusC (l r) (+ (interp l) (interp r))]
->     [multC (l r) (* (interp l) (interp r))]
->     [ifC (cond ifResult elseResult)
->          (if (= (interp cond) 0)
->              (interp elseResult)
->              (interp ifResult))]))
->
-> (interp (desugar (parse (read))))
-> ```
+> 给语言添加条件语句。你可以选择添加 boolean 类型，或者方便起见，将 0 作为 false，其他东西作为 true。（这是是译者的一个[丑陋实现](./src/chap5.ex01.rkt)）
 
 想象一下，我们要构造一个像 DrRacket 一样的系统。开发者在编辑窗口中定义函数，然后在交互窗口中使用它们。我们先假设所有的函数只能在编辑窗口定义，定义的函数可以在交互窗口使用；所有的表达式只在交互窗口中使用（这些限制会随着内容的深入被解除）。即按现在假定，当运行程序（目前来说，就是解释一个表达式）时，默认函数已经被解析可供使用。所以，我们给解释器添加一个参数——函数定义的集合。
 
@@ -125,38 +65,9 @@
 
 下面还需要选择函数定义集合的表示。使用列表这个类型去表示它是比较方便的。
 
-> 注意这里我们使用了有序的列表来表示之前说过的无序的函数定义的集合。
-> 测试实现阶段为了方便实现未尝不可，但是需要注意我们的程序不应该依赖列表的有序性。
+> 注意这里我们使用了有序的列表来表示之前说过的无序的函数定义的集合。测试实现阶段为了方便实现未尝不可，但是需要注意我们的程序不应该依赖列表的有序性。
 
 ## 开始实现解释器
-
-> 这里将之前 `ArithC` 语言的解释器代码放在这方便查阅对比
->
-> ```racket
-> (define-type ArithC
->   [numC (n : number)]
->   [plusC (l : ArithC) (r : ArithC)]
->   [multC (l : ArithC) (r : ArithC)])
-> 
-> (define (parse [s : s-expression])
->   (cond
->     [(s-exp-number? s) (numC (s-exp->number s))]
->     [(s-exp-list? s)
->      (let ([sl (s-exp->list s)])
->        (case (s-exp->symbol (first sl))
->          [(+) (plusC (parse (second sl)) (parse (third sl)))]
->          [(*) (multC (parse (second sl)) (parse (third sl)))]
->          [else (error 'parse "invalid list input")]))]
->     [else (error 'parse "invalid input")]))
->
-> (define (interp [a : ArithC]) : number
->   (type-case ArithC a
->              [numC (n) n]
->              [plusC (l r) (+ (interp l) (interp r))]
->              [multC (l r) (* (interp l) (interp r))]))
->
-> (interp (parse (read)))
-> ```
 
 下面开始实现解释器。首先考虑我们的解释器输入是什么。之前，我们只需要传入一个表达式即可，现在它还需要额外传入一个函数定义列表。
 

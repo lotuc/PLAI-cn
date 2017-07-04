@@ -124,4 +124,3 @@
 (test (run '(def f x (* x x))) (funV 'f 'x (multC (idC 'x) (idC 'x))))
 (test (run '((def f x (* x x)) 10)) (numV 100))
 
-(test (run '(def f x (* x x))))

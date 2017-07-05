@@ -52,7 +52,11 @@
 
 ;; 环境／存储得查询／寻值测试
 (test 2 (lookup 'a (extend-env (bind 'b 1) (extend-env (bind 'a 2) mt-env))))
-(test (numV 23) (fetch 2 (override-store (cell 1 (numV 20)) (override-store (cell 2 (numV 23)) mt-store))))
+(test (numV 23)
+      (fetch 2 (override-store
+                (cell 1 (numV 20))
+                (override-store
+                 (cell 2 (numV 23)) mt-store))))
 
 ;; 值类型得加减操作
 (define (num+ [l : Value] [r : Value]) : Value
@@ -123,10 +127,36 @@
                                 (v*s v-b2 s-b2)])])]
     ))
 
-(type-case Result (interp (numC 10) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (unboxC (boxC (numC 10))) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (appC (lamC 'a (plusC (idC 'a) (idC 'a))) (numC 5)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (appC (lamC 'a (plusC (idC 'a) (idC 'a))) (numC 5)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (seqC (numC 20) (numC 10)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (setboxC (boxC (numC 5)) (numC 10)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (appC (lamC 'a (seqC (setboxC (idC 'a) (numC 10)) (unboxC (idC 'a)))) (boxC (numC 5))) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
+(define (parse [s : s-expression]) : ExprC
+  (cond
+    [(s-exp-number? s) (numC (s-exp->number s))]
+    [(s-exp-symbol? s) (idC (s-exp->symbol s))]
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (if (s-exp-symbol? (first sl))
+           (case (s-exp->symbol (first sl))
+             [(+) (plusC (parse (second sl)) (parse (third sl)))]
+             [(*) (multC (parse (second sl)) (parse (third sl)))]
+             [(lambda) (lamC (s-exp->symbol (second sl))
+                             (parse (third sl)))]
+             [(box) (boxC (parse (second sl)))]
+             [(unbox) (unboxC (parse (second sl)))]
+             [(setbox) (setboxC (parse (second sl)) (parse (third sl)))]
+             [(seq) (seqC (parse (second sl)) (parse (third sl)))])
+           (appC (parse (first sl))
+                 (parse (second sl)))))]))
+
+
+(define (run s-exp)
+  (interp (parse s-exp) mt-env mt-store))
+
+(define (testResult s-exp result-value)
+  (type-case Result (run s-exp) [v*s (v s) (test v result-value)]))
+
+(testResult '(+ 1 2) (numV 3))
+(testResult '(unbox (box 10)) (numV 10))
+(testResult '((lambda a (+ a a)) 10) (numV 20))
+(testResult '((lambda x (* x x)) 12) (numV 144))
+(testResult '(seq 20 10) (numV 10))
+(testResult '(setbox (box 10) 20) (numV 20))
+(testResult '((lambda a (seq (setbox a 10) (unbox a))) (box 5)) (numV 10))

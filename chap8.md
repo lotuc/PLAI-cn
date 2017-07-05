@@ -8,9 +8,9 @@
 
 假设上面的表达式使用 Java 书写，则第一个和第三个的可能意义一样，并且，同时第二个可能和它们也相同：取决于 `f` 是本地标识符（如作为方法的参数）还是对象的一个字段（如，作为 `this.f = 3` 的简写）。
 
-不管是哪种情况，求值器都将永久改变绑定到 `f` 的值。到目前为止，我们实现的求值过程对于一组相同的输入总是输出相同的东西。直到现在这种情形被打破了，一个计算过程的结果与它在何时 —— 在 `f` 的值被改变之前或之后 —— 相关。时间的引入对于代码的实际含义的考虑有深远影响。
+不管是哪种情况，求值器都将永久改变绑定到 `f` 的值。到目前为止，我们实现的求值过程对于一组相同的输入总是输出相同的东西。这种情形现在被打破了，一个计算过程的结果与它在何时 —— `f` 的值改变前后 —— 相关。时间的引入对于代码的实际含义有深远影响。
 
-还有需要注意的是，改变字段的值（`o.f = 3` 或者 `this.f = 3`）和改变一个标识符的值（`f = 3` 在方法内部被绑定而不是由对象绑定）有着非常大的区别。我们会依次讨论它们。我们将首先探讨字段，再在[变量]()那一节中探讨标识符。
+还有需要注意的是，改变字段的值（`o.f = 3` 或者 `this.f = 3`）和改变一个标识符的值（`f = 3` 在方法内部被绑定而不是由对象绑定）有着非常大的区别。我们会依次讨论它们。我们将首先探讨字段，再在[变量](#变量)那一节中探讨标识符。
 
 ## 可变结构
 
@@ -43,13 +43,15 @@ class Box<T> {
 
 由于 mutation（不知道翻译成什么词合适，暂不翻译） 操作经常成组进行（例如，从一个银行账户中取出一些钱存放到另一个账户），去支持 mutation 操作的序列将非常有用。在 Racket 中，你可以使用 `begin` 表示一个操作的序列；它将依次计算序列中的每个表达式然后返回最后一个的求值结果作为其结果。
 
+**练习**
+
 > 尝试使用 `let`（本身也是个语法糖，可以解开为 lambda 函数调用）来构造一个 `begin` 的语法糖。
 
-尽管可以将 `begin` 实现为语法糖，但是后面我们将看到它能很好的帮助我们理解 mutation 的内部原理。所以我们还是决定直接在核心语言中支持序列操作，方便起见，我们只支持两个操作的序列（且不失一般性）。
+尽管可以将 `begin` 实现为语法糖，但是后面我们将看到它能很好的帮助我们理解 mutation 的内部原理。因此我们还是决定直接在核心语言中支持它，为简单起见且不失一般性，我们选择只支持两个操作的序列。
 
 ### 脚手架
 
-首先，为语言核心数据结构添加新的构造：
+首先，扩展语言的核心数据结构：
 
 ```scheme
 (define-type ExprC
@@ -65,7 +67,7 @@ class Box<T> {
   [seqC (b1 : ExprC) (b2 : ExprC)])    ;; seq，操作序列
 ```
 
-注意 `setboxC` 表达式，两个操作数（`box` 和新值）均为表达式（ExprC）。新值为表达式很自然，没什么奇怪的；但是 `box` 参数这样乍一看可能还挺奇怪的。它意味着我们可以写出这样的代码（下面使用的是 Racket 代码）：
+注意 `setboxC` 表达式中，两个操作数均为表达式（ExprC）。值（v）为表达式很自然，没什么奇怪的；但是 `box` 参数（b）为表达式的话乍一看还挺奇怪的。它意味着我们可以写出这样的代码（下面使用的是 Racket 代码）：
 
 ```scheme
 (let ([b0 (box 0)]
@@ -162,26 +164,26 @@ public static void main (String[] args) {
 
 ### 理解 box 的实现
 
-首先重现一下当前的解释器结构：
-
-```scheme
-(define (interp [expr : ExprC] [env : Env]) : Value
-  (type-case ExprC expr
-    [numC (n) (numV n)]
-    [idC (n) (lookup n env)]
-    [appC (f a) (local ([define f-value (interp f env)])
-                  (interp (closV-body f-value)
-                          (extend-env (bind (closV-arg f-value)
-                                            (interp a env))
-                                      (closV-env f-value))))]
-    [plusC (l r) (num+ (interp l env) (interp r env))]
-    [multC (l r) (num* (interp l env) (interp r env))]
-    [lamC (a b) (closV a b env)]
-    <boxC-case>
-    <unboxC-case>
-    <setboxC-case>
-    <seqC-case>))
-```
+> 首先重现一下当前的解释器结构：
+> 
+> ```scheme
+> (define (interp [expr : ExprC] [env : Env]) : Value
+>   (type-case ExprC expr
+>     [numC (n) (numV n)]
+>     [idC (n) (lookup n env)]
+>     [appC (f a) (local ([define f-value (interp f env)])
+>                   (interp (closV-body f-value)
+>                           (extend-env (bind (closV-arg f-value)
+>                                             (interp a env))
+>                                       (closV-env f-value))))]
+>     [plusC (l r) (num+ (interp l env) (interp r env))]
+>     [multC (l r) (num* (interp l env) (interp r env))]
+>     [lamC (a b) (closV a b env)]
+>     <boxC-case>
+>     <unboxC-case>
+>     <setboxC-case>
+>     <seqC-case>))
+> ```
 
 由于我们引入了新的类型的值，也需要更新一下值的数据结构：
 
@@ -456,7 +458,7 @@ public static void main (String[] args) {
 
 > 解决这个问题！
 >
-> 注意了注意了，上面的代码依赖 `new-loc`，而它自己的实现（前面[与闭包交互]()那一节）本身就依赖于 `box`，这就很尴尬了。考虑一下怎么修改使得解释器不需要这样一个依赖于可变结构的 `new-loc` 的实现。
+> 注意了注意了，上面的代码依赖 `new-loc`，而它自己的实现（前面[与闭包交互](#与闭包交互)那一节）本身就依赖于 `box`，这就很尴尬了。考虑一下怎么修改使得解释器不需要这样一个依赖于可变结构的 `new-loc` 的实现。
 
 要移除这种风格的 `new-loc`，最容易想到的方式当然是再给解释器添加一个参数用于表示当前使用过的最大的地址。store 每次分配地址的操作都会返回一个递增过的地址，而其它操作直接返回原最大地址。即我们又添加了一层 **store-passing** 模式进解释器。这样去实现的话会显得太笨拙。不管怎样，我们清楚的知道，不能依赖还没实现的 `box` 来实现我们的语言中的 `box`。
 
@@ -469,7 +471,7 @@ public static void main (String[] args) {
                      (v*s (fetch (boxV-l v-a) s-a) s-a)])]
 ```
 
-我们根据求得的 `box` 的地址从 store 中提取实际值。注意这里的代码没有直接判断 `a` 的求值结果是否的确是一个 `box`，而是依赖于实现该语言的宿主语言（pali-typed）抛出异常；考虑对于 C 语言，如果直接访问一个任意内存而不检测地址的类型将会产生多么严重的后果。
+我们根据求得的 `box` 的地址从 store 中提取实际值。注意这里的代码没有直接判断 `a` 的求值结果是否的确是一个 `box`，而是依赖于实现该语言的宿主语言（pali-typed）抛出异常；在 C 语言中，如果直接访问一个任意内存而不检测地址的类型将会产生多么严重的后果。
 
 下面考虑怎么更新一个 `box` 中的值。首先我们需要求值得到 `box` 和要更新的新值。而 `box` 的值将为 `boxV`，其中含有一个地址。
 
@@ -524,142 +526,7 @@ public static void main (String[] args) {
 
 > 但是作为练习，考虑 store 的地址只能被 `box` 使用是非常有益的，想一下，需要改动什么？
 
-（到这里我们又完成了一个解释器！照例，贴一下完整代码在这）
-
-```scheme
-#lang plai-typed
-
-;; 语言核心结构
-(define-type ExprC
-  [numC (n : number)]
-  [idC (s : symbol)]
-  [lamC (arg : symbol) (body : ExprC)]
-  [appC (fun : ExprC) (arg : ExprC)]
-  [plusC (l : ExprC) (r : ExprC)]
-  [multC (l : ExprC) (r : ExprC)]
-  [boxC (arg : ExprC)]
-  [unboxC (arg : ExprC)]
-  [setboxC (b : ExprC) (v : ExprC)]
-  [seqC (b1 : ExprC) (b2 : ExprC)])
-
-;; 值
-(define-type Value
-  [numV (n : number)]
-  [closV (arg : symbol) (body : ExprC) (env : Env)]
-  [boxV (l : Location)])
-
-;; 环境，存储（store）
-(define-type-alias Location number)
-(define-type Binding
-  [bind (name : symbol) (val : Location)])
-
-(define-type-alias Env (listof Binding))
-(define mt-env empty)
-(define extend-env cons)
-
-(define-type Storage
-  [cell (location : Location) (val : Value)])
-
-(define-type-alias Store (listof Storage))
-(define mt-store empty)
-(define override-store cons)
-
-(define (lookup [for : symbol] [env : Env]) : Location
-  (cond
-    [(= 0 (length env)) (error 'lookup "Can't find binding")]
-    [else (let [(b (first env))]
-            (if (symbol=? for (bind-name b))
-                (bind-val b)
-                (lookup for (rest env))))]))
-(define (fetch [loc : Location] [sto : Store]) : Value
-  (cond
-    [(= 0 (length sto)) (error 'fetch "Invalid address")]
-    [else (let [(storage (first sto))]
-            (if (= loc (cell-location storage))
-                (cell-val storage)
-                (fetch loc (rest sto))))]))
-
-;; 环境／存储得查询／寻值测试
-(test 2 (lookup 'a (extend-env (bind 'b 1) (extend-env (bind 'a 2) mt-env))))
-(test (numV 23) (fetch 2 (override-store (cell 1 (numV 20)) (override-store (cell 2 (numV 23)) mt-store))))
-
-;; 值类型得加减操作
-(define (num+ [l : Value] [r : Value]) : Value
-  (cond
-    [(and (numV? l) (numV? r))
-     (numV (+ (numV-n l) (numV-n r)))]
-    [else (error 'num+ "one argument was not number")]))
-(define (num* [l : Value] [r : Value]) : Value
-  (cond
-    [(and (numV? l) (numV? r))
-     (numV (* (numV-n l) (numV-n r)))]
-    [else (error 'num* "one argument was not number")]))
-
-(define-type Result
-  [v*s (v : Value) (s : Store)])
-(define new-loc
-  (let ([n 0])
-    (lambda ()
-      (begin (set! n (+ n 1))
-             n))))
-
-;; 解释器
-(define (interp [expr : ExprC] [env : Env] [sto : Store]) : Result
-  (type-case ExprC expr
-    [numC (n) (v*s (numV n) sto)]
-    [idC (s) (v*s (fetch (lookup s env) sto) sto)]
-    [appC (fun arg) (type-case Result (interp fun env sto)
-                      ;; 【以此为例】 解释得到类型 Result
-                      ;; 第一个子表达式的结果 v-fun 和计算过程返回的新的 store
-                      [v*s (v-fun s-fun)
-                           ;; 计算第二个子表达式使用了第一个子表达式返回的 store s-fun
-                           (type-case Result (interp arg env s-fun)
-                             ;; 第二个子表达式的结果 v-arg 和新的 store
-                             [v*s (v-arg s-arg)
-                                  ;; 根据具体的 case 得出最后的返回值 (v*s 值 新的store)
-                                  (let ([where (new-loc)])
-                                    (interp (closV-body v-fun)
-                                            (extend-env (bind (closV-arg v-fun) where)
-                                                        (closV-env v-fun))
-                                            (override-store (cell where v-arg) s-arg)))])])]
-    [plusC (l r) (type-case Result (interp l env sto)
-                   [v*s (v-l s-l)
-                        (type-case Result (interp r env s-l)
-                          [v*s (v-r s-r)
-                               (v*s (num+ v-l v-r) s-r)])])]
-    [multC (l r) (type-case Result (interp l env sto)
-                   [v*s (v-l s-l)
-                        (type-case Result (interp r env s-l)
-                          [v*s (v-r s-r)
-                               (v*s (num* v-l v-r) s-r)])])]
-    [lamC (arg body) (v*s (closV arg body env) sto)]
-    [boxC (arg) (type-case Result (interp arg env sto)
-                  [v*s (v-arg s-arg)
-                       (let ([where (new-loc)])
-                         (v*s (boxV where) (override-store (cell where v-arg) s-arg)))])]
-    [unboxC (arg) (type-case Result (interp arg env sto)
-                    [v*s (v-arg s-arg)
-                         (v*s (fetch (boxV-l v-arg) s-arg) sto)])]
-    [setboxC (b v) (type-case Result (interp b env sto)
-                     [v*s (v-b s-b)
-                          (type-case Result (interp v env s-b)
-                            [v*s (v-v s-v)
-                                 (v*s v-v (override-store (cell (boxV-l v-b) v-v) s-v))])])]
-    [seqC (b1 b2) (type-case Result (interp b1 env sto)
-                    [v*s (v-b1 s-b1)
-                         (type-case Result (interp b2 env s-b1)
-                           [v*s (v-b2 s-b2)
-                                (v*s v-b2 s-b2)])])]
-    ))
-
-(type-case Result (interp (numC 10) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (unboxC (boxC (numC 10))) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (appC (lamC 'a (plusC (idC 'a) (idC 'a))) (numC 5)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (appC (lamC 'a (plusC (idC 'a) (idC 'a))) (numC 5)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (seqC (numC 20) (numC 10)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (setboxC (boxC (numC 5)) (numC 10)) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-(type-case Result (interp (appC (lamC 'a (seqC (setboxC (idC 'a) (numC 10)) (unboxC (idC 'a)))) (boxC (numC 5))) mt-env mt-store) [v*s (v s) (test (numV 10) v)])
-```
+（到这里我们又完成了一个解释器！照例，代码在[这里](./src/chap8.rkt)）
 
 ### 回顾思考
 
@@ -825,4 +692,3 @@ o = new String("a new string");
 在 box 的处理过程中，对于 `idC` 的处理是：先从环境中找到该标识符绑定的地址，然后再直接返回从 store 中寻得的值；其结果是一个值，和放到 store 中的是同一类东西。而现在，对于变量标识符的处理止步于从环境中获取值的存储地址；这里的返回值按按照传统被称为“左值”，“（赋值语句）左侧的值”之意。是存储地址，而不是 store 中存储的真实值，注意到它并不和 `Value` 中任何类型对应。
 
 然后就没有然后了！这个解释器已经完成了。所有麻烦事已经在之前实现 *store-passing style* 时做完了。
-

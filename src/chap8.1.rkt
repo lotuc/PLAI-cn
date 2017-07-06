@@ -114,7 +114,7 @@
                          (v*s (boxV where) (override-store (cell where v-arg) s-arg)))])]
     [unboxC (arg) (type-case Result (interp arg env sto)
                     [v*s (v-arg s-arg)
-                         (v*s (fetch (boxV-l v-arg) s-arg) sto)])]
+                         (v*s (fetch (boxV-l v-arg) s-arg) s-arg)])]
     [setboxC (b v) (type-case Result (interp b env sto)
                      [v*s (v-b s-b)
                           (type-case Result (interp v env s-b)
@@ -160,3 +160,7 @@
 (testResult '(seq 20 10) (numV 10))
 (testResult '(setbox (box 10) 20) (numV 20))
 (testResult '((lambda a (seq (setbox a 10) (unbox a))) (box 5)) (numV 10))
+;; 回顾思考: 4
+(testResult '((lambda b (unbox (seq (setbox b 1) b))) (box 0)) (numV 1))
+;; 回顾思考: 5
+(testResult '((lambda b (+ (unbox (seq (setbox b 1) b)) (unbox b))) (box 0)) (numV 2))

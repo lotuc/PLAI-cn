@@ -147,4 +147,11 @@
 (testResult '((lambda x (* x x)) 12) (numV 144))
 (testResult '(seq 20 10) (numV 10))
 (testResult '((lambda a (seq (set a 10) a)) 5) (numV 10))
+;; chap8.4
+(testResult
+ '((lambda y
+     (seq
+      ((lambda x (set x 3)) y)
+      y)) 5)
+ (numV 5))
 

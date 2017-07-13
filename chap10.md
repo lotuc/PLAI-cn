@@ -155,3 +155,38 @@
 ```
 
 第一个测试式子中构造参数为 5，于是加 3 得到 8。第二个测试也是类似的。构造函数的不同次调用不会影响彼此。
+
+### 10.1.5 状态
+
+很多人认为对象的主要目的就是用来封装状态。我们可以很容易实现多个方法对同一个状态的操作，如：
+
+```scheme
+(define (o-state-1 count)
+  (lambda (m)
+    (case m
+      [(inc) (lambda () (set! count (+ count 1)))]
+      [(dec) (lambda () (set! count (- count 1)))]
+      [(get) (lambda () count)])))
+```
+
+可以使用下面的代码测试一下：
+
+```scheme
+(test (let ([o (o-state-1 5)])
+        (begin (msg o 'inc)
+               (msg o 'dec)
+               (msg o 'get)))
+      5)
+```
+
+应该注意到对一个对象中状态的改变不会影响到另一个：
+
+```scheme
+(test (let ([o1 (o-state-1 3)]
+            [o2 (o-state-1 3)])
+        (begin (msg o1 'inc)
+               (msg o1 'inc)
+               (+ (msg o1 'get)
+                  (msg o2 'get))))
+      (+ 5 3))
+```

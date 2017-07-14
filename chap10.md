@@ -190,3 +190,61 @@
                   (msg o2 'get))))
       (+ 5 3))
 ```
+
+### 10.1.6 私有成员
+
+另一个非常常见的面向对象语言特性是私有成员：那些只在对象内部可见的成员。看上去这个特性还有待我们去实现，但事实上我们实现的本地作用域、本地绑定变量已经可以实现这点了：
+
+```scheme
+(define (o-state-2 init)
+  (let ([count init])
+    (lambda (m)
+      (case m
+        [(inc) (lambda () (set! count (+ count 1)))]
+        [(dec) (lambda () (set! count (- count 1)))]
+        [(get) (lambda () count)]))))
+```
+
+上面这个语法糖的实现没有提供任何直接访问变量 count 的方式，这是通过本地作用域确保它对外部世界不可见。
+
+### 10.1.7 静态成员
+
+另一个非常有用的特性是静态成员：对所有“相同”类型对象实例来说通用的成员。这，实际上就是在构造器外面一层的本地作用域标识符：
+
+```scheme
+(define o-static-1
+  (let ([counter 0])
+    (lambda (amount)
+      (begin
+        (set! counter (+ 1 counter))
+        (lambda (m)
+          (case m
+            [(inc) (lambda (n) (set! amount (+ amount n)))]
+            [(dec) (lambda (n) (set! amount (- amount n)))]
+            [(get) (lambda () amount)]
+            [(count) (lambda () counter)]))))))
+```
+
+上面的代码我们在构造器中对计数值 `counter` 进行了加一操作，当然，在方法中也可以使用 `counter` 值。
+
+下面构造多个对象测试一下：
+
+```scheme
+(test (let ([o (o-static-1 1000)])
+        (msg o 'count))
+      1)
+ 
+(test (let ([o (o-static-1 0)])
+        (msg o 'count))
+      2)
+```
+
+### 10.1.8 带自引用的对象
+
+目前为止，我们的对象还只是打包在一起的一组命名了的函数。可以看到很多对象系统中被认为很重要的特性可以通过函数和作用域实现。
+
+对象系统一大不同与众不同的特征是每个对象都自动装填了对对象自己的引用，常被称为 `self` 或者 `this`。这可以很容易的被实现吗？
+
+### 10.1.8.1 使用 mutation 实现自引用
+
+是的，我们可以，之前实现递归的时候我们已经见过这种模式了；

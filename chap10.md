@@ -247,4 +247,43 @@
 
 ### 10.1.8.1 使用 mutation 实现自引用
 
-是的，我们可以，之前实现递归的时候我们已经见过这种模式了；
+是的，我们可以，之前实现递归的时候我们已经见过这种模式了；类似当时实现递归的方法，这里 `box` 中我们不引用函数而是引用对象：
+
+```scheme
+(define o-self!
+  (let ([self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(first) (lambda (x) (msg self 'second (+ x 1)))]
+                [(second) (lambda (x) (+ x 1))])))
+      self)))
+```
+
+可以看见上面这个代码和前面[递归函数](./chap9.md)的实现模式一样，稍微调整了一下。在方法 `first` 中使用自引用调用了方法 `second`。
+
+```scheme
+(test (msg o-self! 'first 5) 7)
+```
+
+### 10.1.8.2 不使用 mutaion 实现自引用
+
+如果你知道怎么不使用 mutation 实现递归，那么你会发现改种解决方案也适用于这里。
+
+```scheme
+(define o-self-no!
+  (lambda (m)
+    (case m
+      [(first) (lambda (self x) (msg/self self 'second (+ x 1)))]
+      [(second) (lambda (self x) (+ x 1))])))
+```
+
+现在每个方法需要传入 `self` 参数。这意味着方法调用也需要修改：
+
+```scheme
+(define (msg/self o m . a)
+  (apply (o m) o a))
+```
+
+即，当调用对象 `o` 的方法时，需要将 `o` 作为参数传给方法。显然这种方式存在隐患，调用方法的时候你可以传入一个不同的对象作为 `self`。因此让开发者显式传递 `self` 值可能是个坏主意；如果要使用这种方式，它应该是作为语法糖存在。

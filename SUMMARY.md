@@ -11,3 +11,4 @@
 * [8. 可变结构和变量](chap8.md)
 * [9.  递归与循环数据（Cyclic Data）](chap9.md)
 * [10. 对象](chap10.md)
+* [11. 内存管理](chap11.md)

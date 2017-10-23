@@ -12,3 +12,8 @@
 [Gitbook - PLAI-cn](https://www.gitbook.com/book/lotuc/plai-cn)
 
 [zhihu - lotuc](https://zhuanlan.zhihu.com/lotuc)
+
+## 译者
+
+- [lotuc](https://github.com/lotuc)
+- [MrMathematica](https://github.com/mrmathematica)

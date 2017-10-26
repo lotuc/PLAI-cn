@@ -12,7 +12,7 @@ Scheme语言报告修订版报告的概述（[r6rs 概述](http://www.r6rs.org/f
 
 将函数作为值，能用它做什么呢？显然，函数和数是不同类型的值，你不能对函数做加法运算。但是，有一件它显然能做的事：传入参数调用它！因此我们应该允许函数值出现在函数调用那个地方。其行为，显然是调用该函数。因此，我们的语言中应该允许下面的表达式作为合法程序（这里使用方括号以方便阅读）：
 
-```scheme
+```Racket
 (+ 2 ([define (f x) (* x 3)] 4))
 ```
 
@@ -22,7 +22,7 @@ Scheme语言报告修订版报告的概述（[r6rs 概述](http://www.r6rs.org/f
 
 首先在我们的核心语言中添加函数定义：
 
-```scheme
+```Racket
 <expr-type> ::=  ;表达式类型
 
     (define-type ExprC
@@ -36,7 +36,7 @@ Scheme语言报告修订版报告的概述（[r6rs 概述](http://www.r6rs.org/f
 
 现在，我们简单把函数定义复制到表达式语言中，以后需要的话还可以修改这一点。这样做我们现在可以复用已有的测试案例。
 
-```scheme
+```Racket
 <fun-type-take-1> ::=  ;函数类型，第一次尝试
 
     [fdC (name : symbol) (arg : symbol) (body : ExprC)]
@@ -44,7 +44,7 @@ Scheme语言报告修订版报告的概述（[r6rs 概述](http://www.r6rs.org/f
 
 接下来确定函数调用是什么样的。函数的位置应该放什么呢？我们希望它可以是函数定义，而不是像之前那样只能是定义好的函数名字。由于现在函数定义类型和其它表达式类型混在了一起，这里让函数的位置可以放任意表达式吧，但是需要记住我们其实只希望它为函数定义：
 
-```scheme
+```Racket
 <app-type> ::=  ;调用类型
 
     [appC (fun : ExprC) (arg : ExprC)]
@@ -56,7 +56,7 @@ Scheme语言报告修订版报告的概述（[r6rs 概述](http://www.r6rs.org/f
 
 下面，修改一下解释器`interp`。需要添加一个子句来处理函数定义，该部分代码大致会是这样：
 
-```scheme
+```Racket
   [fdC (n a b) expr]
 ```
 
@@ -68,7 +68,7 @@ __思考题__
 
 在之前解释器实现过程中，也不时的需要注意其返回值类型，但并没专门给其定义数据类型。现在是时候需要这么做了：
 
-```scheme
+```Racket
 <answer-type-take-1> ::=  ;返回值类型，第一次尝试
 
     (define-type Value
@@ -80,7 +80,7 @@ __思考题__
 
 下面我们尝试使用该输出类型重写解释器，从类型开始：
 
-```scheme
+```Racket
 <interp-hof> ::=  ;解释器，高阶函数
 
     (define (interp [expr : ExprC] [env : Env]) : Value
@@ -94,7 +94,7 @@ __习题__
 
 > 修改`Binding`和辅助函数`lookup`。
 
-```scheme
+```Racket
 <interp-body-hof> ::=  ;解释器主体，高阶函数
 
     [numC (n) (numV n)]
@@ -106,7 +106,7 @@ __习题__
 
 对于数，显然要使用新的返回值类型构造对其包裹一下。对于标识符，一切不变。对于加法／乘法，需要进行简单的修改使其能正确的返回`Value`类型而不是简单的数字：
 
-```scheme
+```Racket
 <plus/mult-case> ::=  ;加法/乘法子句
 
     [plusC (l r) (num+ (interp l env) (interp r env))]
@@ -115,7 +115,7 @@ __习题__
 
 辅助函数`num+`和`num*`我们以其中一个为例：
 
-```scheme
+```Racket
 (define (num+ [l : Value] [r : Value]) : Value
   (cond
     [(and (numV? l) (numV? r))
@@ -128,7 +128,7 @@ __习题__
 
 还有两段代码要完成。先是函数定义。上面说过，函数值就是其类型的数据：
 
-```scheme
+```Racket
 <fun-case-take-1> ::=  ;函数子句，第一次尝试
 
     [fdC (n a b) (funV n a b)]
@@ -136,7 +136,7 @@ __习题__
 
 最后剩下函数调用的代码。尽管我们不再需要从函数定义列表中查询函数定义，但是这里还是尽量保留之前函数调用的代码的结构：
 
-```scheme
+```Racket
 <app-case-take-1> ::=  ;调用子句，第一次尝试
 
     [appC (f a) (local ([define fd f])
@@ -159,7 +159,7 @@ __思考题__
 
 我们选择后一种做法，它会使得我们的语言更为灵活。即使我们人类不一定需要这么做，但对于程序来说，第二种选择可以处理更多情况，比如程序生成代码。并且我们也会用到这个功能，就在7.5节去除语法糖的讨论中。于是，修改函数调用部分代码得到：
 
-```scheme
+```Racket
 <app-case-take-2> ::=  ;调用子句，第二次尝试
 
     [appC (f a) (local ([define fd (interp f env)])
@@ -175,7 +175,7 @@ __习题__
 
 信不信由你，到此为止，一个可运行的解释器又完成了。最后我们照旧给出两个测试案例：
 
-```scheme
+```Racket
 (test (interp (plusC (numC 10) (appC (fdC 'const5 '_ (numC 5)) (numC 10)))
               mt-env)
       (numV 15))
@@ -191,7 +191,7 @@ __习题__
 
 函数定义的函数体部分可以是任意表达式。而函数定义本身也是表达式。于是函数定义中可以包含···函数定义。例如：
 
-```scheme
+```Racket
 <nested-fdC> ::=  ;嵌套的fdC
 
     (fdC 'f1 'x
@@ -201,13 +201,13 @@ __习题__
 
 对它求值还不是特别有意思：
 
-```scheme
+```Racket
 (funV 'f1 'x (fdC 'f2 'x (plusC (idC 'x) (idC 'x))))
 ```
 
 当时如果我们调用上面的函数：
 
-```scheme
+```Racket
 <applied-nested-fdC> ::=  ;调用嵌套的fdC
 
     (appC <nested-fdC>
@@ -216,13 +216,13 @@ __习题__
 
 再求值，结果就有点意思了：
 
-```scheme
+```Racket
 (funV 'f2 'x (plusC (idC 'x) (idC 'x)))
 ```
 
 这个结果就好像外部函数的调用对内部的函数没有任何影响一样。那么，为什么应该是这样的呢？外部函数引入的参数被内部函数引入的**同名**参数覆盖（mask）了，因此遵从静态作用域（必须的）的规则，内部的参数应该覆盖外部参数。但是，我们看看下面这个程序：
 
-```scheme
+```Racket
 (appC (fdC 'f1 'x
            (fdC 'f2 'y
                 (plusC (idC 'x) (idC 'y))))
@@ -231,7 +231,7 @@ __习题__
 
 求值得到：
 
-```scheme
+```Racket
 (funV 'f2 'y (plusC (idC 'x) (idC 'y)))
 ```
 
@@ -243,7 +243,7 @@ __思考题__
 
 为了看看到底有意思在哪，我们调用一下该函数：
 
-```scheme
+```Racket
 (appC (appC (fdC 'f1 'x
                  (fdC 'f2 'y
                       (plusC (idC 'x) (idC 'y))))
@@ -255,7 +255,7 @@ __思考题__
 
 但是，它不是应该通过函数`f1`的调用被绑定吗？清晰起见，我们切换为（假定的）Racket语法：
 
-```scheme
+```Racket
 ((define (f1 x)
    ((define (f2 y)
       (+ x y))
@@ -265,7 +265,7 @@ __思考题__
 
 在调用外层函数时，x应该被替换成5，结果是：
 
-```scheme
+```Racket
 ((define (f2 y)
    (+ 5 y))
  4)
@@ -285,7 +285,7 @@ __思考题__
 
 首先将函数值类型改为闭包结构体，而不仅仅是函数本体：
 
-```scheme
+```Racket
 <answer-type> ::=  ;返回值类型
 
     (define-type Value
@@ -295,7 +295,7 @@ __思考题__
 
 同时，我们可以修改函数类型，去除没用的函数名部分。由于历史原因，该构造被称为__lambda__：
 
-```scheme
+```Racket
 <fun-type> ::=  ;函数类型
 
     [lamC (arg : symbol) (body : ExprC)]
@@ -303,7 +303,7 @@ __思考题__
 
 现在，当解释器遇到函数时，需要记录下到目前为止进行过的所有替换：
 
-```scheme
+```Racket
 <fun-case> ::=  ;函数子句
 
     [lamC (a b) (closV a b env)]
@@ -313,7 +313,7 @@ __思考题__
 
 然后在调用函数时，需要使用这个保存下来的环境，而不是空白环境。
 
-```scheme
+```Racket
 <app-case> ::=  ;调用子句
 
     [appC (f a) (local ([define f-value (interp f env)])
@@ -325,7 +325,7 @@ __思考题__
 
 事实上这段代码还可以有另一个选择：使用函数调用处的环境：
 
-```scheme
+```Racket
 [appC (f a) (local ([define f-value (interp f env)])
               (interp (closV-body f-value)
                       (extend-env (bind (closV-arg f-value)
@@ -343,7 +343,7 @@ __思考题__
 
 我们已经看到，通过替换这种非常符合直觉的方式可以帮助理解如何实现`lambda`函数。然而，对于替换本身我们需要小心一些陷阱！考虑下面这个函数（这里使用Racket语法）：
 
-```scheme
+```Racket
 (lambda (f)
   (lambda (x)
     (f 10)))
@@ -351,7 +351,7 @@ __思考题__
 
 假设`f`被替换为lambda表达式`(lambda (y) (+ x y))`。注意这里有一个自由变量`x`，所以如果它被求值，我们应该会得到未绑定变量错误。但是使用替换模型，我们将得到：
 
-```scheme
+```Racket
 (lambda (x)
   ((lambda (y) (+ x y)) 10))
 ```
@@ -360,7 +360,7 @@ __思考题__
 
 这是由于我们的替换操作实现的太过简单。为了避免这种异常情况（这也是动态绑定的一种形式），我们需要实现**非捕获型的替换（capture-free substitution）**。大致来说它是这样工作的：我们**总是**将绑定标识符**重命名**为从未用过的（**新鲜的，fresh**）名字。比如说，我们给每个标识符加个数字后缀来保证不会出现重名：
 
-```scheme
+```Racket
 (lambda (f1)
   (lambda (x1)
     (f1 10)))
@@ -368,7 +368,7 @@ __思考题__
 
 （请注意，我们把f的绑定和被绑定出现都替换成了f1。）接下来对被替换的表达式也进行同样的重命名：
 
-```scheme
+```Racket
 (lambda (y1) (+ x y1))
 ```
 
@@ -376,7 +376,7 @@ __思考题__
 
 于是替换`f1`得到：
 
-```scheme
+```Racket
 (lambda (x1)
   ((lambda (y1) (+ x y1)) 10))
 ```
@@ -401,21 +401,21 @@ __习题__
 
 所以说，我们可以用函数来给一系列函数定义命名。例如，考虑Racket代码：
 
-```scheme
+```Racket
 (define (double x) (+ x x))
 (double 10)
 ```
 
 等价于：
 
-```scheme
+```Racket
 (define double (lambda (x) (+ x x)))
 (double 10)
 ```
 
 一种方法是直接内联（inline）double的定义。不过为了保留命名过程，我们让其等价于：
 
-```scheme
+```Racket
 ((lambda (double)
    (double 10))
  (lambda (x) (+ x x)))
@@ -423,7 +423,7 @@ __习题__
 
 这种模式——我们暂且称为“left-left-lambda”——实际上是种本地命名方式。它非常有用，以至于Racket为它提供了专门的语法：
 
-```scheme
+```Racket
 (let ([double (lambda (x) (+ x x))])
   (double 10))
 ```
@@ -432,7 +432,7 @@ __习题__
 
 下面是个稍微复杂点的例子：
 
-```scheme
+```Racket
 (define (double x) (+ x x))
 (define (quadruple x) (double (double x)))
 (quadruple 10)
@@ -440,7 +440,7 @@ __习题__
 
 这可以被改写成：
 
-```scheme
+```Racket
 (let ([double (lambda (x) (+ x x))])
   (let ([quadruple (lambda (x) (double (double x)))])
     (quadruple 10)))
@@ -448,7 +448,7 @@ __习题__
 
 一切正常。改变一下顺序就不行了：
 
-```scheme
+```Racket
 (let ([quadruple (lambda (x) (double (double x)))])
   (let ([double (lambda (x) (+ x x))])
     (quadruple 10)))
@@ -458,21 +458,21 @@ __习题__
 
 下面还有一个更为微妙的问题，和递归有关。考虑如下的简单无限循环程序：
 
-```scheme
+```Racket
 (define (loop-forever x) (loop-forever x))
 (loop-forever 10)
 ```
 
 转换成`let`：
 
-```scheme
+```Racket
 (let ([loop-forever (lambda (x) (loop-forever x))])
   (loop-forever 10))
 ```
 
 看上去好像没毛病，是吧？重写成`lambda`的形式：
 
-```scheme
+```Racket
 ((lambda (loop-forever)
    (loop-forever 10))
  (lambda (x) (loop-forever x)))

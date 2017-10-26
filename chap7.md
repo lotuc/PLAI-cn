@@ -1,109 +1,119 @@
-# 7 Function Anywhere
+# 7 任意位置的函数
 
-Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-3.html#node_chap_Temp_3)，[r5rs（中文）](http://www.math.pku.edu.cn/teachers/qiuzy/progtech/scheme/r5rscn.pdf)）中指出该语言如下的设计原则：
+Scheme语言报告修订版报告的概述（[r6rs 概述](http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-3.html#node_chap_Temp_3)，[r5rs（中文）](http://www.math.pku.edu.cn/teachers/qiuzy/progtech/scheme/r5rscn.pdf)）中指出如下的设计原则：
 
-> 程序语言的设计不应该是特性的简单堆砌，而应尽量通过设计去消除语言的弱点和缺陷以避免引入新的不必要的特性来改善这些弱点和缺陷。
+> 程序语言的设计不应该是特性的简单堆砌，而应消除语言的弱点和缺陷，使得剩下的特性显得必要。
 
-这是一个无须争辩的设计原则（当然有一些特性有很好的理由被引入一门语言，但是此原则迫使我们去认真思考引入这些特性的种种利弊，而不是把它们当作理所当然的）。下面我们试着遵从该原则来引入函数。
+这是一个无须争辩的设计原则。（当然有一些缺陷是迫不得已的，但是此原则迫使我们去认真思考引入这些缺陷的必要性，而不是把它们当作理所当然的。）下面我们试着遵从该原则来引入函数。
 
-在[章节-添加函数](https://zhuanlan.zhihu.com/p/24720187)中我们没有作太多思考就引入了函数，你可能会说我们是按照 DrRacket 的一个理想化模型引入的函数，即将函数的定义和使用进行分离。下面我们使用 Scheme 的设计原则来重新思考一下这种设计的必要性。
+在第五章中我们引入函数时并没有特别指明函数定义所在的位置。可以说我们是按照理想化的DrRacket 模型引入的函数，即将函数的定义和使用进行分离。下面我们使用Scheme的设计原则来重新思考一下这种设计的__必要性__。
 
-为什么函数的定义不可以作为一个表达式呢？我们现在实现的算术语言中有一个尴尬的问题：“函数的定义表示的是什么值？”，在现有设计中不能给出很好的答案。对于一个真正的语言来说，计算结果当然不可能只有数，所以我们也没必要给该算术语言作出这种限制；跳出这个框框，我们便可以给该出一个很好的回答：“函数值”。下面尝试一下如何实现。
+为什么函数的定义不可以也是一种表达式呢？我们现在实现的算术语言中有一个尴尬的问题：“函数的定义表示的是什么值？”，在现有设计中没有很好的答案。对于真正的语言来说，计算结果当然不可能只有数字，所以也没必要给我们的语言作出这种限制；跳出这个框框，便可以给该出一个很好的回答：“函数值”。让我们试试如何实现它。
 
-将函数作为值，应该怎么做呢？显然，函数和数不同类的值，你不能对其做加法运算。但是，有一件它显然能做的事：传入参数调用它！因此我们应该允许函数值出现在函数调用的函数那个地方。其行为——显然是调用该函数。按照该想法，我们的语言中应该允许下面的表达式作为合法程序（这里使用方括号方便阅读）：
+将函数作为值，能用它做什么呢？显然，函数和数是不同类型的值，你不能对函数做加法运算。但是，有一件它显然能做的事：传入参数调用它！因此我们应该允许函数值出现在函数调用那个地方。其行为，显然是调用该函数。因此，我们的语言中应该允许下面的表达式作为合法程序（这里使用方括号以方便阅读）：
 
 ```scheme
 (+ 2 ([define (f x) (* x 3)] 4))
 ```
 
-计算它得到 `(+ 2 (* 4 3))`，得到 `14`。（注意到没？这里使用了替换的计算模型。）
-
+计算它得到`(+ 2 (* 4 3))`，也就是`14`。（注意到没？这里使用了替换计算模型。）
 
 ## 7.1 函数作为表达式和值
 
 首先在我们的核心语言中添加函数定义：
 
 ```scheme
-(define-type ExprC
-  [numC (n : number)]
-  [idC (s : symbol)]
-  <fun-type> ;; 函数值
-  <app-type> ;; 函数调用
-  [plusC (l : ExprC) (r : ExprC)]
-  [multC (l : ExprC) (r : ExprC)]
-  )
+<expr-type> ::=  ;表达式类型
+
+    (define-type ExprC
+      [numC (n : number)]
+      [idC (s : symbol)]
+      <app-type>  ;调用类型
+      [plusC (l : ExprC) (r : ExprC)]
+      [multC (l : ExprC) (r : ExprC)]
+      <fun-type>)  ;函数类型
 ```
 
-现在先直接重用之前的函数定义：
+现在，我们简单把函数定义复制到表达式语言中，以后需要的话还可以修改这一点。这样做我们现在可以复用已有的测试案例。
 
 ```scheme
-;; fun-type
-  [fdC (name : symbol) (arg : symbol) (body : ExprC)]
+<fun-type-take-1> ::=  ;函数类型，第一次尝试
+
+    [fdC (name : symbol) (arg : symbol) (body : ExprC)]
 ```
 
-下面来确定函数定义是什么样的。函数的位置应该放什么呢？我们希望它可以为函数定义，而不是像之前那样只能是函数定义的名字。由于现在函数定义类型和其它表达式（ExprC）类型混在了一起，这里让函数的位置可以放任意表达式吧，但是我们需要记住我们其实只希望它为函数定义：
+接下来确定函数调用是什么样的。函数的位置应该放什么呢？我们希望它可以是函数定义，而不是像之前那样只能是定义好的函数名字。由于现在函数定义类型和其它表达式类型混在了一起，这里让函数的位置可以放任意表达式吧，但是需要记住我们其实只希望它为函数定义：
 
 ```scheme
-  [appC (fun : ExprC) (arg : ExprC)]
+<app-type> ::=  ;调用类型
+
+    [appC (fun : ExprC) (arg : ExprC)]
 ```
 
-有了这个定义后，我们不再需要通过名字查找函数了，所以我们的解释器也可以不用再传入函数定义列表。当然之后有需要我们还可以将预定义函数列表加回来，现在我们探索一下即时函数（immediate function）—— 在函数定义处调用函数。
+> 另一种可以考虑的做法是，把函数定义和其他类型的表达式区分开。也就是定义不同类型的表达式。我们在后文学习类型时会考虑这种做法。
 
-下面，修改一下解释器 `interp`。需要添加对函数定义的处理，该部分代码大致会是这样：
+有了这个定义后，我们不再需要通过名字查找函数了，所以我们的解释器也可以不用再传入函数定义列表。当然之后有需要我们还可以将预定义函数列表加回来，现在我们只探究__即时函数__——在函数调用处定义的函数。
+
+下面，修改一下解释器`interp`。需要添加一个子句来处理函数定义，该部分代码大致会是这样：
 
 ```scheme
   [fdC (n a b) expr]
 ```
 
-> 考虑一下：
->
+__思考题__
+
 > 解释器中添加了该语句会导致什么？
 
-显然，这是一个爆炸性的改变，解释器不再总是返回数了，于是出现类型错误。
+显然，这是一个爆炸性的改变：解释器不再总是返回数了，于是出现类型错误。
 
-在之前解释器实现过程中，也不时的需要注意其返回值类型，但并没有给我们造成太多困扰，现在，我们需要认真考虑返回值的类型，显然我们需要给返回值增加函数的构造：
-
-```scheme
-(define-type Value
-  [numV (n : number)]
-  [funV (name : symbol) (arg : symbol) (body : ExprC)]
-  )
-```
-
-我们使用后缀 `V` 表示值（value），如求值的结果。`funV` 部分正对应 `fdC`；`fdC` 为输入，`funV` 为输出。通过区分这两者，我们可以分别修正优化它们两个。
-
-下面我们尝试使用该输出类型重写解释器：
+在之前解释器实现过程中，也不时的需要注意其返回值类型，但并没专门给其定义数据类型。现在是时候需要这么做了：
 
 ```scheme
-(define (interp [expr : ExprC] [env : Env]) : Value
-  (type-case ExprC expr
-    <interp-body-hof>))
+<answer-type-take-1> ::=  ;返回值类型，第一次尝试
+
+    (define-type Value
+      [numV (n : number)]
+      [funV (name : symbol) (arg : symbol) (body : ExprC)])
 ```
 
-同样的，你需要对于环境的数据类型 `Binding` 和辅助函数 `lookup` 做响应修改。
+我们使用后缀`V`表示值（value），即求值的结果。`funV`部分正对应`fdC`；`fdC` 为输入，`funV` 为输出。通过区分这两者类型，我们可以分别修正它们两个。
 
-> 自己尝试一下。
-
-解释器主题代码结构还是老样子：
+下面我们尝试使用该输出类型重写解释器，从类型开始：
 
 ```scheme
-# <interp-body-hof>
-  [numC (n) (numV n)]
-  [idC (n) (lookup n env)]
-  <app-case>
-  <plus/mult-case>
-  <fun-case>
+<interp-hof> ::=  ;解释器，高阶函数
+
+    (define (interp [expr : ExprC] [env : Env]) : Value
+      (type-case ExprC expr
+        <interp-body-hof>))  ;解释器主体，高阶函数
 ```
 
-对于数，你显然要使用新的值类型构造对其包裹一下。 对于标识符，我们还是直接调用 `lookup` 函数从环境中取出其值。对于加法／乘法，需要进行简单的修改使其能正确的返回 `Value` 类型。
+这就要求我们同样修改`Binding`和辅助函数`lookup`的类型。
+
+__习题__
+
+> 修改`Binding`和辅助函数`lookup`。
 
 ```scheme
-# <plus/mult-case>
-  [plusC (l r) (num+ (interp l env) (interp r env))]
-  [multC (l r) (num* (interp l env) (interp r env))]
+<interp-body-hof> ::=  ;解释器主体，高阶函数
+
+    [numC (n) (numV n)]
+    [idC (n) (lookup n env)]
+    <app-case>  ;调用子句
+    <plus/mult-case>  ;加法/乘法子句
+    <fun-case>  ;函数子句
 ```
 
-其中辅助函数 `num+` 和 `num*` 显然是用于实现 `Value` 的加和乘操作的。很简单，那其中一个为例：
+对于数，显然要使用新的返回值类型构造对其包裹一下。对于标识符，一切不变。对于加法／乘法，需要进行简单的修改使其能正确的返回`Value`类型而不是简单的数字：
+
+```scheme
+<plus/mult-case> ::=  ;加法/乘法子句
+
+    [plusC (l r) (num+ (interp l env) (interp r env))]
+    [multC (l r) (num* (interp l env) (interp r env))]
+```
+
+辅助函数`num+`和`num*`我们以其中一个为例：
 
 ```scheme
 (define (num+ [l : Value] [r : Value]) : Value
@@ -111,178 +121,85 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
     [(and (numV? l) (numV? r))
      (numV (+ (numV-n l) (numV-n r)))]
     [else
-     (error 'num+ "one argument was not a number")]))
+     (error 'num+ "one argument was not a number")]))  ;有一个参数不是数字
 ```
 
-显然，当有一个参数值类型不为数时，应该抛出一个运行时错误，后面会有章节谈论类型这个主题。
+请留意，在实际做加法前，我们检查了参数的类型确定其为数字。后面会有章节继续谈论类型这个主题。
 
-还有两段代码要完成。上面说过，函数值 `funV` 来自 `funC`，按其定义得到：
+还有两段代码要完成。先是函数定义。上面说过，函数值就是其类型的数据：
 
 ```scheme
-# <fun-case>
-  [fdC (n a b) (funV n a b)]
+<fun-case-take-1> ::=  ;函数子句，第一次尝试
+
+    [fdC (n a b) (funV n a b)]
 ```
 
-于是，我们还剩下函数调用的代码。尽管我们不再需要从函数定义列表中查询函数定义，但是这里还是尽量保留之前函数调用的代码的结构：
+最后剩下函数调用的代码。尽管我们不再需要从函数定义列表中查询函数定义，但是这里还是尽量保留之前函数调用的代码的结构：
 
 ```scheme
-# <app-case>
-    [appC (f arg) (let ([fd f)])  ;; 注意这里
-                    (interp (fdC-body fd)
-                            (extend-env (bind (fdC-arg fd)
-                                              (interp arg env))
-                                        mt-env)
-                            fds))]
+<app-case-take-1> ::=  ;调用子句，第一次尝试
+
+    [appC (f a) (local ([define fd f])
+                  (interp (fdC-body fd)
+                          (extend-env (bind (fdC-arg fd)
+                                            (interp a env))
+                                      mt-env)))]
 ```
 
-这里我们直接引用了 `f` 作为函数定义，注意由于在函数应该出现的位置事实上可能出现任何表达式，我们最好编码检测它是否实是个函数。
+在原来是lookup查找的地方，我们直接引用了`f`作为函数定义。注意由于在函数应该出现的位置事实上可能出现任何表达式，我们最好编码检测它是否实是函数。
 
-> 这是什么意思呢？我们是要检查它是作为语法结构上的函数（即一个 `fdC` 构造），还是只是检查该表达式的计算结果是否是函数值（即 `funV`）呢？想象这两者的区别，找出一个具体的例子来展示区别。
+__思考题__
+
+> 这里“是”是什么意思呢？我们是要检查它是作为语法结构上的函数（即一个`fdC`构造），还是只是检查该表达式的计算结果是否是函数值（即`funV`）呢？这两种做法有什么区别？换一种说法，你能不能找出一个具体的例子来展示其区别？
 
 我们面临一个选择：
 
-1. 检查它在语法上是否是个 `fdC` 构造，如果不是，抛出异常。
-2. 对其进行求值，然后检查其返回值是否是函数，如果不是，抛出异常。
+1. 检查它在语法上是否是`fdC`构造，如果不是，抛出异常。
+2. 对其进行求值，然后检查其返回__值__是否是函数，如果不是，抛出异常。
 
-我们选择后者，它会使得我们的语言更为灵活（显然第二种情况可以覆盖第一种情况， `fdC` 求值的结果就是一个函数值）。于是，修改代码得到：
+我们选择后一种做法，它会使得我们的语言更为灵活。即使我们人类不一定需要这么做，但对于程序来说，第二种选择可以处理更多情况，比如程序生成代码。并且我们也会用到这个功能，就在7.5节去除语法糖的讨论中。于是，修改函数调用部分代码得到：
 
 ```scheme
-# <app-case>
-    [appC (f arg) (let ([fd (interp f env))])  ;; 注意这里
-                    (interp (fdC-body fd)
-                            (extend-env (bind (funV-arg fd) ;; 这里
-                                              (interp arg env))
-                                        mt-env)
-                            fds))]
+<app-case-take-2> ::=  ;调用子句，第二次尝试
+
+    [appC (f a) (local ([define fd (interp f env)])
+                  (interp (funV-body fd)
+                          (extend-env (bind (funV-arg fd)
+                                            (interp a env))
+                                      mt-env)))]
 ```
 
-当然你还要检查解释得到的值 `fd` 是否是函数再执行相应操作，这一步你应该自己去实现，不过这边我（译者）还是把代码放在这边方便阅读。
+__习题__
+
+> 修改代码实现两种不同方式的类型检查。
+
+信不信由你，到此为止，一个可运行的解释器又完成了。最后我们照旧给出两个测试案例：
 
 ```scheme
-# <app-case>
-    [appC (f arg) (let ([fd (interp f env)])
-                    (if (funV? fd)
-                        (interp (funV-body fd)
-                                (extend-env (bind (funV-arg fd)
-                                                  (interp arg env))
-                                            mt-env)
-                                )
-                        (error 'interp "Not a function")
-                        ))]
-```
-
-信或者不信，到此为止，一个可运行的解释器又完成了。
-
-对于那些想运行一下的朋友，最好的方式当然是看了之后自行修改以前的解释器然后把这个调通，但是这里还是把完整代码放在这边：
-
-```scheme
-#lang plai-typed
-
-(define-type ExprC
-  [numC (n : number)]
-  [idC (s : symbol)]
-  [fdC (name : symbol) (arg : symbol) (body : ExprC)]
-  [appC (fun : ExprC) (arg : ExprC)]
-  [plusC (l : ExprC) (r : ExprC)]
-  [multC (l : ExprC) (r : ExprC)])
-
-(define-type Value
-  [numV (n : number)]
-  [funV (name : symbol) (arg : symbol) (body : ExprC)])
-
-;; 定义环境相关数据结构与操作
-(define-type Binding
-  [bind (name : symbol) (val : Value)])
-(define-type-alias Env (listof Binding))
-(define mt-env empty)
-(define extend-env cons)
-
-;; 在环境 env 中查找标识符 n 绑定的值
-(define (lookup [n : symbol] [env : Env]) : Value
-  (cond
-    [(= 0 (length env)) (error 'lookup "Can't find binding")]
-    [else (let [(b (first env))]
-            (if (symbol=? n (bind-name b))
-                (bind-val b)
-                (lookup n (rest env))))]))
-
-(define (num+ [l : Value] [r : Value]) : Value
-  (cond
-    [(and (numV? l) (numV? r))
-     (numV (+ (numV-n l) (numV-n r)))]
-    [else (error 'num+ "one argument was not number")]))
-(define (num* [l : Value] [r : Value]) : Value
-  (cond
-    [(and (numV? l) (numV? r))
-     (numV (* (numV-n l) (numV-n r)))]
-    [else (error 'num+ "one argument was not number")]))
-
-;; 解释器多了一个参数,传入预定义的函数列表
-(define (interp [a : ExprC] [env : Env]) : Value
-  (type-case ExprC a
-    [numC (n) (numV n)]
-    [idC (n) (lookup n env)]
-    [fdC (n a b) (funV n a b)]
-    [appC (f arg) (let ([fd (interp f env)])
-                    (if (funV? fd)
-                        (interp (funV-body fd)
-                                (extend-env (bind (funV-arg fd)
-                                                  (interp arg env))
-                                            mt-env)
-                                )
-                        (error 'interp "Not a function")
-                        ))]
-
-    [plusC (l r) (num+ (interp l env) (interp r env))]
-    [multC (l r) (num* (interp l env) (interp r env))]))
-
 (test (interp (plusC (numC 10) (appC (fdC 'const5 '_ (numC 5)) (numC 10)))
               mt-env)
       (numV 15))
+ 
 (test/exn (interp (appC (fdC 'f1 'x (appC (fdC 'f2 'y (plusC (idC 'x) (idC 'y)))
                                           (numC 4)))
                         (numC 3))
                   mt-env)
-          "Can't find binding")
+          "name not found")
 ```
-
-最后添加了两个测试，当然这段代码没有纳入 `parser`，也很简单，这里附上译者的一个粗陋的版本：
-
-```scheme
-
-;; parser
-(define (parse [s : s-expression]) : ExprC
-  (cond
-    [(s-exp-number? s) (numC (s-exp->number s))]
-    [(s-exp-symbol? s) (idC (s-exp->symbol s))]
-    [(s-exp-list? s)
-     (let ([sl (s-exp->list s)])
-       (if (s-exp-symbol? (first sl))
-           (case (s-exp->symbol (first sl))
-             [(+) (plusC (parse (second sl)) (parse (third sl)))]
-             [(*) (multC (parse (second sl)) (parse (third sl)))]
-             [else (fdC (s-exp->symbol (first sl))
-                        (s-exp->symbol (second sl))
-                        (parse (third sl)))])
-           (appC (parse (first sl))
-                         (parse (second sl)))))]))
-```
-
-注意最后一个测试，其解释过程会抛出异常，下面一节来解决这个问题。
 
 ## 7.2 什么？嵌套？
 
-函数定义的函数体部分可以是任意表达式。而函数定义本身也是一个表达式。
-于是函数定义中可以包含一个函数定义···例如：
+函数定义的函数体部分可以是任意表达式。而函数定义本身也是表达式。于是函数定义中可以包含···函数定义。例如：
 
 ```scheme
-# <嵌套的-fdC>
-(fdC 'f1 'x
-     (fdC 'f2 'x
-          (plusC (idC 'x) (idC 'x))))
+<nested-fdC> ::=  ;嵌套的fdC
+
+    (fdC 'f1 'x
+         (fdC 'f2 'x
+              (plusC (idC 'x) (idC 'x))))
 ```
 
-对其求值还不是特别有意思：
+对它求值还不是特别有意思：
 
 ```scheme
 (funV 'f1 'x (fdC 'f2 'x (plusC (idC 'x) (idC 'x))))
@@ -291,7 +208,10 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
 当时如果我们调用上面的函数：
 
 ```scheme
-(appC <嵌套的-fdC> (numC 4))
+<applied-nested-fdC> ::=  ;调用嵌套的fdC
+
+    (appC <nested-fdC>
+          (numC 4))
 ```
 
 再求值，结果就有点意思了：
@@ -300,9 +220,7 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
 (funV 'f2 'x (plusC (idC 'x) (idC 'x)))
 ```
 
-这个结果就好像外部函数的调用对内部的函数没有任何影响一样。那么，为什么应该是这样的呢？
-外部函数引入的参数被内部函数引入的**同名**参数覆盖（masked）了，因此遵从静态作用域的规则，
-内部的参数应该覆盖外部参数。但是，我们看看下面这个程序：
+这个结果就好像外部函数的调用对内部的函数没有任何影响一样。那么，为什么应该是这样的呢？外部函数引入的参数被内部函数引入的**同名**参数覆盖（mask）了，因此遵从静态作用域（必须的）的规则，内部的参数应该覆盖外部参数。但是，我们看看下面这个程序：
 
 ```scheme
 (appC (fdC 'f1 'x
@@ -317,11 +235,13 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
 (funV 'f2 'y (plusC (idC 'x) (idC 'y)))
 ```
 
-嗯，非常有趣。
+嗯，有点意思。
 
-> 想想有趣的点在哪？
+__思考题__
 
-为了看看到底有趣在哪，我们调用一下该函数：
+> 想想有意思的点在哪？
+
+为了看看到底有意思在哪，我们调用一下该函数：
 
 ```scheme
 (appC (appC (fdC 'f1 'x
@@ -331,87 +251,97 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
       (numC 5))
 ```
 
-它将抛出异常告诉我们没找到标识符 `x` 绑定的值！
+它将抛出异常告诉我们没找到标识符`x`绑定的值！
 
-但是，显然它应该通过函数 `f1` 的调用被绑定。清晰起见，
-
-我们应该是某些地方做错了以至于没有捕捉到函数调用时的参数绑定。
-一个函数值需要**记住调用过程中执行的替换操作**。由于我们使用环境来表示这种替换，
-因此一个函数值需要包含一个记录了该替换的环境。于是我们得到了一个新的称为 **closure（闭包）**
-的结构：
-
-注意一下，在解释器的 `appC` 部分代码中，我们使用了 `funV-arg` 和 `funV-body`，
-但是没有使用 `funV-name`。想一下我们之前为什么需要名字这种东西，
-因为需要通过名字找到一些东西。但是这里我们并不需要查找什么，它只是作为一个描述性的存在了。
-即函数并不需要名字，就跟常数一样：我们每次使用 3 的时候并不需要一个名字，那么对于函数为什么要呢？
-函数具有其**内在**的匿名性，我们应该将其定义和命名分开来。
-
-（但是你可能说了，只在需要的地方定义然后使用函数的情况下这种论调当然没有问题。
-但是如果我们想在某个地方定义，然后在其它地方使用它，我们不还是需要名字的么？
-是的，正是，后面的“匿名之上的语法糖”中会说到这个主题）
-
-## 7.3 实现 closure
-
-首先将函数值类型改为我们要用的闭包类型：
+但是，它不是应该通过函数`f1`的调用被绑定吗？清晰起见，我们切换为（假定的）Racket语法：
 
 ```scheme
-# <answer-type>
-(define-type Value
-  [numV (n : number)]
-  [closV (arg : symbol) (body : ExprC) (env : Env)])
+((define (f1 x)
+   ((define (f2 y)
+      (+ x y))
+    4))
+ 5)
 ```
 
-同时，我们需要函数定义类型（`fdC`），由于历史原因，该构造被称为 `lambda`：
+在调用外层函数时，x应该被替换成5，结果是：
 
 ```scheme
-# <fun-type>
-  [lamC (arg : symbol) (body : ExprC)]
+((define (f2 y)
+   (+ 5 y))
+ 4)
 ```
 
-现在，当解释器遇到函数时，需要记住到目前为止进行过的所有替换：
+继续调用、替换得到`(+ 5 4)`也就是`9`，并没有出错。
+
+换一种说法，我们肯定是某个地方做错了以至于没有捕捉到函数调用时的参数替换。函数值需要**记住调用过程中执行的替换操作**。由于我们使用环境来表示这种替换，因此函数值需要包含记录了该替换的环境。这样得到的数据结构称为**闭包（closure）**：
+
+> 另一方面，如果我们使用替换模型，`x`会被替换成`(numV 4)`，函数体就变成`(plusC (numV 5) (idC ’y))`，而它并没有合适的类型。换一种说法，替换模型假设返回值的类型是合法语法。其实尊崇该假设也能学习很多高级编程概念，只是我们不打算往这个方向继续讨论。
+
+注意一下，在解释器的`appC`子句中用到了`funV-arg`和`funV-body`，但是没用到`funV-name`。想一下我们之前为什么需要名字这种东西？因为需要通过名字找到函数。但是这里我们通过解释器找到函数，函数名只是作为一个描述性的存在罢了。换一种说法，函数并不需要名字，就跟常数一样：我们每次使用3的时候并不需要给它命一个名字，那么对于函数为什么要呢？函数**本质上**是匿名的，我们也应该将其定义和命名分开来。
+
+（但是你可能会说，这种论点只在函数直接定义并使用的情况才成立。如果我们想在某个地方定义，然后在其它地方使用它，我们不还是需要名字的么？是的，正是，后面的7.5节“匿名之上的语法糖”中会说到这个主题）
+
+## 7.3 实现闭包
+
+首先将函数值类型改为闭包结构体，而不仅仅是函数本体：
 
 ```scheme
-  [lamC (a b) (closV a b env)]
+<answer-type> ::=  ;返回值类型
+
+    (define-type Value
+      [numV (n : number)]
+      [closV (arg : symbol) (body : ExprC) (env : Env)])
+```
+
+同时，我们可以修改函数类型，去除没用的函数名部分。由于历史原因，该构造被称为__lambda__：
+
+```scheme
+<fun-type> ::=  ;函数类型
+
+    [lamC (arg : symbol) (body : ExprC)]
+```
+
+现在，当解释器遇到函数时，需要记录下到目前为止进行过的所有替换：
+
+```scheme
+<fun-case> ::=  ;函数子句
+
+    [lamC (a b) (closV a b env)]
 ```
 
 > “Save the environment! Create a closure today!” —Cormac Flanagan
 
-然后在调用函数时，需要在 **closure** 的环境中添加参数与参数值的绑定。
+然后在调用函数时，需要使用这个保存下来的环境，而不是空白环境。
 
 ```scheme
-  [appC (f a) (let ([f-value (interp f env)])
-                (interp (closV-body f-value)
-                        (extend-env (bind (closV-arg f-value)
-                                          (interp a env))
-                                    (closV-env f-value))))]
+<app-case> ::=  ;调用子句
+
+    [appC (f a) (local ([define f-value (interp f env)])
+                  (interp (closV-body f-value)
+                          (extend-env (bind (closV-arg f-value)
+                                            (interp a env))
+                                      (closV-env f-value))))]
 ```
 
-事实上这段代码还可以有一个版本：
+事实上这段代码还可以有另一个选择：使用函数调用处的环境：
 
 ```scheme
-  [appC (f a) (let ([f-value (interp f env)])
-                (interp (closV-body f-value)
-                        (extend-env (bind (closV-arg f-value)
-                                          (interp a env))
-                                    env))] ;; 这里
+[appC (f a) (local ([define f-value (interp f env)])
+              (interp (closV-body f-value)
+                      (extend-env (bind (closV-arg f-value)
+                                        (interp a env))
+                                  env)))]
 ```
 
-即直接动态的扩展环境变量。
+__思考题__
 
-> 想想这会导致什么。
+> 如果我们使用动态的环境（即函数调用处的环境），会导致什么？
 
-考虑初始环境中没有任何绑定的情况有助于我们理清状况，这时如果在最上层定义一个函数，
-它对应的 `closure（闭包）` 没有闭合任何标识符（即没有任何标识符被绑定到了值。
-译者注，这个地方这么一解释，closure 就变得合情合理了，从 close 来的吧）。
-因此前一种实现是后一种的特殊情况。
+回过头来看，现在可以理解为何我们在解释函数体时使用空白环境了。如果函数是定义在程序顶层的，那么它就没有“包含”任何的标识符。因此我们之前的函数实现是现在这种的特殊情况。
 
-> 再想想这里的使用了这种使用方式难道不会导致前面章节中说过的动态绑定的各种缺点吗？
+## 7.4 再次聊聊替换
 
-
-## 7.4 再次聊到替换
-
-我们已经看到，通过替换这种非常符合直觉的方式如何实现了 `lambda` 函数。
-然而，对于替换本身我们需要担心一些陷阱。考虑下面这个函数（这里是 Racket 语法）：
+我们已经看到，通过替换这种非常符合直觉的方式可以帮助理解如何实现`lambda`函数。然而，对于替换本身我们需要小心一些陷阱！考虑下面这个函数（这里使用Racket语法）：
 
 ```scheme
 (lambda (f)
@@ -419,8 +349,7 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
     (f 10)))
 ```
 
-如果使用表达式 `(lambda (y) (+ x y))` 作为参数调用该函数，
-注意该函数中有一个自由变量 `x`，但是使用之前的替换函数，我们将得到：
+假设`f`被替换为lambda表达式`(lambda (y) (+ x y))`。注意这里有一个自由变量`x`，所以如果它被求值，我们应该会得到未绑定变量错误。但是使用替换模型，我们将得到：
 
 ```scheme
 (lambda (x)
@@ -429,10 +358,7 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
 
 自由变量消失了！
 
-这是由于我们的替换操作实现的太过天真。为了避免这种异常情况（这也是动态绑定的一种形式），
-我们需要实现一个非捕获型的替换函数（capture-free substitution）。
-它的实现大致描述一下就是我们总是将绑定的标识符重命名为从未用过的名字。想象一下，
-我们给每个标识符加个数字后缀来保证不会出现重名：
+这是由于我们的替换操作实现的太过简单。为了避免这种异常情况（这也是动态绑定的一种形式），我们需要实现**非捕获型的替换（capture-free substitution）**。大致来说它是这样工作的：我们**总是**将绑定标识符**重命名**为从未用过的（**新鲜的，fresh**）名字。比如说，我们给每个标识符加个数字后缀来保证不会出现重名：
 
 ```scheme
 (lambda (f1)
@@ -440,47 +366,40 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
     (f1 10)))
 ```
 
-以参数 `(lambda (y1) (+ x y1))` 进行调用，执行替换，得到：
+（请注意，我们把f的绑定和被绑定出现都替换成了f1。）接下来对被替换的表达式也进行同样的重命名：
+
+```scheme
+(lambda (y1) (+ x y1))
+```
+
+> 这里为什么不对作为`x`进行重命名呢？因为它可能是引用顶层的定义，要么我们也对顶层定义进行同样的重命名。这就是所谓的一致性重命名原则。对这个例子来说，这没啥区别。
+
+于是替换`f1`得到：
 
 ```scheme
 (lambda (x1)
   ((lambda (y1) (+ x y1)) 10))
 ```
 
-现在，`x` 仍然是自由变量！
+现在，`x`仍然是自由变量！这才是正确的替换方式。
 
-> 这里为什么不对作为参数的函数中的 `x` 进行重命名呢？
->
-> 因为它的值可能出现在最上层的环境中，即运行的初始环境中。
+等一等。怎么使用环境模型解释器处理这个例子，后果是啥？
 
-> 想一想怎么使用环境才能避免替换导致的捕获问题。
+__思考题__
 
-> 笔者：
->
-> 可以将这部分代码
->
-> ```scheme
-> (interp (closV-body f-value)
->     (extend-env (bind (closV-arg f-value)
->                 (interp a env))
->                 (closV-env f-value)))
-> ```
->
-> 改成
->
-> ```scheme
-> (let ([unusedId (create-unused-id)])
->     (interp ((substId (closV-arg f-value) unusedId closV-body) f-value)
->         (extend-env (bind (unusedId f-value)
->                     (interp a env))
->                     (closV-env f-value))))
-> ```
+> 试一下。
+
+试了你就知道，一切正确：程序报告有未绑定变量。环境模型实际上实现了非捕获型替换。
+
+__习题__
+
+> 使用环境是怎么避免替换中的捕获问题的？
 
 ## 7.5 匿名之上的语法糖
 
-回到函数命名问题，它对于实际编程来说有明显的价值。注意我们现在**已经**有命名的方法：通过函数的调用，参数的值和参数名构成了本地绑定。
+让我们回过头考虑函数命名问题，对于实际编程来说它有明显的价值。注意我们现在**已经**有命名的方法：通过函数的调用，参数的值（实参）和参数名（形参）构成了本地绑定关系。在函数体中，我们只需要用形参就可以引用实参了。
 
-例如考虑 Racket 代码：
+所以说，我们可以用函数来给一系列函数定义命名。例如，考虑Racket代码：
 
 ```scheme
 (define (double x) (+ x x))
@@ -494,7 +413,7 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
 (double 10)
 ```
 
-等价于：
+一种方法是直接内联（inline）double的定义。不过为了保留命名过程，我们让其等价于：
 
 ```scheme
 ((lambda (double)
@@ -502,14 +421,14 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
  (lambda (x) (+ x x)))
 ```
 
-这种模式——我们暂且称为 “left-left-lambda”——是一种本地命名方式。它非常有用，以至于 Racket 为它提供了专门的语法：
+这种模式——我们暂且称为“left-left-lambda”——实际上是种本地命名方式。它非常有用，以至于Racket为它提供了专门的语法：
 
 ```scheme
 (let ([double (lambda (x) (+ x x))])
   (double 10))
 ```
 
-`let` 可以通过定义成上面那种调用的语法糖实现。
+`let`可以通过定义成上面那种语法糖来实现。
 
 下面是个稍微复杂点的例子：
 
@@ -519,7 +438,7 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
 (quadruple 10)
 ```
 
-可以被改写成：
+这可以被改写成：
 
 ```scheme
 (let ([double (lambda (x) (+ x x))])
@@ -527,7 +446,7 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
     (quadruple 10)))
 ```
 
-改变一下顺序就不行了：
+一切正常。改变一下顺序就不行了：
 
 ```scheme
 (let ([quadruple (lambda (x) (double (double x)))])
@@ -535,23 +454,23 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
     (quadruple 10)))
 ```
 
-这是由于 `quadruple` 中“看不见” `double`。这里我们也能看到顶级绑定和本地绑定的区别：顶级作用域有一个“无限的作用域”。这是其强大的地方也是问题的来源。
+这是由于`quadruple`中“看不见”`double`。这里我们也能看到顶级绑定和本地绑定的区别：顶级作用域有一个“无限的作用域”。这是其强大的地方也是问题的来源。
 
-下面还有一个更为微妙的问题，和递归有关。考虑下面程序：
+下面还有一个更为微妙的问题，和递归有关。考虑如下的简单无限循环程序：
 
 ```scheme
 (define (loop-forever x) (loop-forever x))
 (loop-forever 10)
 ```
 
-转换成 `let`：
+转换成`let`：
 
 ```scheme
 (let ([loop-forever (lambda (x) (loop-forever x))])
   (loop-forever 10))
 ```
 
-看上去好像没毛病，是吧？重写成 `lambda` 的形式：
+看上去好像没毛病，是吧？重写成`lambda`的形式：
 
 ```scheme
 ((lambda (loop-forever)
@@ -559,6 +478,6 @@ Scheme 语言修订报告中概述（[r6rs 概述](http://www.r6rs.org/final/htm
  (lambda (x) (loop-forever x)))
 ```
 
-显然，最后一行中的 `loop-forever` 没有被绑定！
+显然，最后一行中的`loop-forever`没有被绑定！
 
-对于顶级绑定这个问题就不存在，该怎么实现呢？很快我们将揭开这层神秘的面纱。
+对于顶级绑定这个问题就不存在。该怎么理解呢？这需要我们理解递归的含义。很快我们将揭开这层神秘的面纱。

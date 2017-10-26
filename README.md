@@ -12,6 +12,7 @@
 6. 代码中出现的英文字符串，也在同一行后加中文注释，比如
 (error 'num+ "one argument was not a number")  ;有一个参数不是数字
 7. md中代码一律使用Racket标记（不使用scheme，会导致中括号显示出问题）
+8. 英文原文的斜体和粗体字，统一对应为中文的粗体字
 
 ![](imgs/PLAI-cover.jpg)
 

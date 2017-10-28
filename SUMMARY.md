@@ -7,7 +7,7 @@
 * [4. 初识语法糖](chap4.md)
 * [5. 添加函数](chap5.md)
 * [6. 从替换模型到环境模型](chap6.md)
-* [7. Function Anywhere](chap7.md)
+* [7. 任意位置的函数](chap7.md)
 * [8. 可变结构和变量](chap8.md)
 * [9.  递归与循环数据（Cyclic Data）](chap9.md)
 * [10. 对象](chap10.md)

@@ -62,7 +62,7 @@ _Typed PLAI_语言和传统的Racket最主要的不同是它是静态类型的�
   [yacc (height : number)])
 ```
 
-它做的事情类似于在Java中：创建一个抽象类`MisspelledAnimal`，它有两个实体子类：`caml`和`yacc`，它们的构造参数分别为`humps`和`height`。
+它做的事情类似于在Java中：创建抽象类`MisspelledAnimal`，它有两个实体子类：`caml`和`yacc`，它们的构造参数分别为`humps`和`height`。
 
 该语言中，我们通过下面方式创建实例：
 

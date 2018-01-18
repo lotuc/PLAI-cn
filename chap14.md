@@ -1199,7 +1199,7 @@ t1-3 t2-3 t3-3 t1-3 t2-3 t3-3 t1-3 t2-3 t3-3
            (thread-resumer 'tres))))]))
 ```
 
-用scheduler-loop-1和thread-1替换scheduler-loop-0和thread-0，重新运行前面的示例程序，我们就得到了想要的输出。
+用scheduler-loop-1和thread-1替换scheduler-loop-0和thread-0，重新运行前面的示例程序，就能得到正确的输出。
 
 ### 14.6.4 更好的Web编程指令
 

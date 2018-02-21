@@ -653,12 +653,12 @@ BTnd-r : BTnum -> BTnum
     > ``` Racket
     > (define-poly (filter t)
     >   (lambda ([f : (t -> boolean)] [l : (listof t)]) : (listof t)
-    >           (cond
-    >             [(empty? l) empty]
-    >             [(cons? l) (if (f (first l))
-    >                            [cons (first l)
-    >                                  ((filter t) f (rest l))]
-    >                            ((filter t) f (rest l)))]))
+    >     (cond
+    >       [(empty? l) empty]
+    >       [(cons? l) (if (f (first l))
+    >                      (cons (first l)
+    >                            ((filter t) f (rest l)))
+    >                      ((filter t) f (rest l)))])))
     > ```
 
     注意到递归的使用`filter`时，必须使用恰当的类型对其实例化。
@@ -675,11 +675,11 @@ BTnd-r : BTnum -> BTnum
     > (define-poly (filter2 t)
     >   (letrec ([fltr
     >             (lambda ([f : (t -> boolean)] [l : (listof t)]) : (listof t)
-    >                     (cond
-    >                       [(empty? l) empty]
-    >                       [(cons? l) (if (f (first l))
-    >                                      (cons (first l) (fltr f (rest l)))
-    >                                      (fltr f (rest l)))]))])
+    >               (cond
+    >                 [(empty? l) empty]
+    >                 [(cons? l) (if (f (first l))
+    >                                (cons (first l) (fltr f (rest l)))
+    >                                (fltr f (rest l)))]))])
     >     fltr))
     > ```
 

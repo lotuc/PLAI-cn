@@ -649,50 +649,50 @@ BTnd-r : BTnum -> BTnum
 然而这种方式有两个重大局限性：
 
 1. 来试试定义递归的多态函数，比如说`filter`。之前我们说过，每个多态值（例如`cons`和`empty`）都需要类型实例化，但是为了简洁起见我们将依赖静态类型语言实现这点，而仅专注于`filter`的类型参数。对应代码是：
-  
-  ``` Racket
-  (define-poly (filter t)
-    (lambda ([f : (t -> boolean)] [l : (listof t)]) : (listof t)
-            (cond
-              [(empty? l) empty]
-              [(cons? l) (if (f (first l))
-                             [cons (first l)
-                                   ((filter t) f (rest l))]
-                             ((filter t) f (rest l)))]))
-  ```
-  
-  注意到递归的使用`filter`时，必须使用恰当的类型对其实例化。
-  
-  上面的定义完全正确，只有一个问题，当我们尝试使用它时——如：
-  
-  ```Racket
-  (define filter_num (filter number))
-  ```
-  
-  DrRacket 将不会终止，更准确的说，是宏展开不会终止，因为它将不断的尝试创建`filter`**代码的副本**。不过如果用下面这种方式定义该函数，展开会终止——
-  
-  ``` Racket
-  (define-poly (filter2 t)
-    (letrec ([fltr
-              (lambda ([f : (t -> boolean)] [l : (listof t)]) : (listof t)
-                      (cond
-                        [(empty? l) empty]
-                        [(cons? l) (if (f (first l))
-                                       (cons (first l) (fltr f (rest l)))
-                                       (fltr f (rest l)))]))])
-      fltr))
-  ```
-  
-  但是这给开发人员徒增了不必要的痛苦。实际上，一些模版展开程序将会缓存之前的展开的值，避免对于相同的参数反复生成代码。（Racket 做不到这点，因为一般来说，宏表达式可以依赖可变变量和值，甚至可以执行输入输出，因此 Racket 无法保证同样的输入表达式总是产生相同输出。）
+
+    > ``` Racket
+    > (define-poly (filter t)
+    >   (lambda ([f : (t -> boolean)] [l : (listof t)]) : (listof t)
+    >           (cond
+    >             [(empty? l) empty]
+    >             [(cons? l) (if (f (first l))
+    >                            [cons (first l)
+    >                                  ((filter t) f (rest l))]
+    >                            ((filter t) f (rest l)))]))
+    > ```
+
+    注意到递归的使用`filter`时，必须使用恰当的类型对其实例化。
+
+    上面的定义完全正确，只有一个问题，当我们尝试使用它时——如：
+
+    > ```Racket
+    > (define filter_num (filter number))
+    > ```
+
+    DrRacket 将不会终止，更准确的说，是宏展开不会终止，因为它将不断的尝试创建`filter`**代码的副本**。不过如果用下面这种方式定义该函数，展开会终止——
+
+    > ``` Racket
+    > (define-poly (filter2 t)
+    >   (letrec ([fltr
+    >             (lambda ([f : (t -> boolean)] [l : (listof t)]) : (listof t)
+    >                     (cond
+    >                       [(empty? l) empty]
+    >                       [(cons? l) (if (f (first l))
+    >                                      (cons (first l) (fltr f (rest l)))
+    >                                      (fltr f (rest l)))]))])
+    >     fltr))
+    > ```
+
+    但是这给开发人员徒增了不必要的痛苦。实际上，一些模版展开程序将会缓存之前的展开的值，避免对于相同的参数反复生成代码。（Racket 做不到这点，因为一般来说，宏表达式可以依赖可变变量和值，甚至可以执行输入输出，因此 Racket 无法保证同样的输入表达式总是产生相同输出。）
 2. 考虑恒等函数的两个实例。我们无法比较`id_num`和`id_str`，因为它们类型不同，但即使它们类型相同，使用`eq?`比较它们也不同：
-  
-  ``` Racket
-  (test (eq? (id number) (id number)) #f)
-  ```
-  
-  这是因为对`id`每次实例化都会创建一份新的代码副本。即使使用了上面提到的优化，**同一种**类型对应代码只有一份副本，但是不同类型的对应代码体还是会被重新生成【注释】——但这也是没必要的！例如，`id`的实现的部分其实没任何东西依赖于参数的类型。实际上，`id`这一族无穷多个的函数可以共享同一个实现。简单的去语法糖策略实现不了这点。
-  
-  > 事实上，`C++`模版因代码膨胀的问题而臭名昭著，这是原因之一。
+
+    > ``` Racket
+    > (test (eq? (id number) (id number)) #f)
+    > ```
+
+    这是因为对`id`每次实例化都会创建一份新的代码副本。即使使用了上面提到的优化，**同一种**类型对应代码只有一份副本，但是不同类型的对应代码体还是会被重新生成【注释】——但这也是没必要的！例如，`id`的实现的部分其实没任何东西依赖于参数的类型。实际上，`id`这一族无穷多个的函数可以共享同一个实现。简单的去语法糖策略实现不了这点。
+
+    > 事实上，`C++`模版因代码膨胀的问题而臭名昭著，这是原因之一。
 
 换种说法，基于去语法糖的策略本质上是使用替换的实现方式，它有着和我们之前函数调用时使用替换的方式实现相同的问题。不过，其它情况下，替换策略能达成我们关于程序行为的期望；对于多态也是一样，正如我们将看到的一样。
 

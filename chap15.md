@@ -510,7 +510,8 @@ BTnd-r : BTnum -> BTnum
 
 ### 15.3.1 显式的参数多态
 
-下面哪些是相同的？
+__下面哪些是相同的？__
+
 * `List<String>`
 * `List<String>`
 * `(listof string)`

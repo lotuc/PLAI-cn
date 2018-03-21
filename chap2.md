@@ -26,7 +26,7 @@
 
 ## 2.3 语法解析得到的类型
 
-事实上，我刚才的描述并不准确。之前说`(read)`会返回链表等类型。在Racket中确实如此，但在Typed PLAI中，事情稍有不同，`(read)`返回值类型为s-expression（符号表达式的简写）。
+事实上，我刚才的描述并不准确。之前说`(read)`会返回链表等类型。在Racket中确实如此，但在Typed PLAI中，事情稍有不同，`(read)`返回值类型为`s-expression`（符号表达式的简写）。
 
 ```racket
 > (read)

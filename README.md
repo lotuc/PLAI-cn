@@ -20,10 +20,10 @@
 
 [zhihu - lotuc](https://zhuanlan.zhihu.com/lotuc)
 
-## 译者
-
 1. The translation has not been checked by the <a href="mailto:shriram@gmail.com" target="_top">original author</a>
 2. The correct, definitive version is at the [original link](http://cs.brown.edu/courses/cs173/2012/book/index.html).
+
+## 译者
 
 - [lotuc](https://github.com/lotuc)
 - [MrMathematica](https://github.com/mrmathematica)

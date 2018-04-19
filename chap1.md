@@ -123,7 +123,7 @@ _Typed PLAI_语言和传统Racket最主要的不同是它是静态类型的。�
 ```racket
 (define (good? [ma : MisspelledAnimal]) : boolean
   (cond
-    [(caml? ma) (>= caml-humps ma) 2]
+    [(caml? ma) (>= (caml-humps ma) 2)]
     [(yacc? ma) (> (yacc-height ma) 2.1)]))
 ```
 

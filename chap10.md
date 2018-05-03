@@ -6,7 +6,7 @@
 
 我们来把此概念的对象添加到自己的语言中。然后我们将不断改进和扩展它，从而探究关于对象系统设计的各种维度。首先展示一下怎么将对象加入到核心语言中，但是由于想要快速构建许多不同的想法，我们很快就会转向基于去语法糖的策略。使用哪种方式取决于你是否认为理解它们对理解你的语言的本质至关重要。判断这点的一种方法是，看你的去语法糖过程变得有多复杂，以及，在给核心语言添加一些关键特性后，去语法糖的复杂度能否大幅降低。
 
-> 我不能指望这里能讨论关于对象系统的一切，你可以阅读Éric Tanter的《[面对对象编程语言：应用和解释](http://users.dcc.uchile.cl/~etanter/ooplai/)》 来了解更多细节以及我们没有涉及到的主题。
+> 我不能指望这里能讨论关于对象系统的一切，你可以阅读Éric Tanter的《[Object-Oriented Programming Languages: Application and Interpretation](http://users.dcc.uchile.cl/~etanter/ooplai/)》（《[面对对象编程语言：应用和解释](https://mrmathematica.gitbooks.io/ooplai/content/)》） 来了解更多细节以及我们没有涉及到的主题。
 
 ## 10.1 不支持继承的对象
 

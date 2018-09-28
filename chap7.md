@@ -137,7 +137,7 @@ __练习__
 ```Racket
 <app-case-take-1> ::=  ;调用子句，第一次尝试
 
-    [appC (f a) (local ([define fd f])
+    [appC (f a) (let ([fd f])
                   (interp (fdC-body fd)
                           (extend-env (bind (fdC-arg fd)
                                             (interp a env))
@@ -159,7 +159,7 @@ __思考题__
 ```Racket
 <app-case-take-2> ::=  ;调用子句，第二次尝试
 
-    [appC (f a) (local ([define fd (interp f env)])
+    [appC (f a) (let ([fd (interp f env)])
                   (interp (funV-body fd)
                           (extend-env (bind (funV-arg fd)
                                             (interp a env))
@@ -175,7 +175,7 @@ __练习__
 (test (interp (plusC (numC 10) (appC (fdC 'const5 '_ (numC 5)) (numC 10)))
               mt-env)
       (numV 15))
- 
+
 (test/exn (interp (appC (fdC 'f1 'x (appC (fdC 'f2 'y (plusC (idC 'x) (idC 'y)))
                                           (numC 4)))
                         (numC 3))
@@ -311,7 +311,7 @@ __思考题__
 ```Racket
 <app-case> ::=  ;调用子句
 
-    [appC (f a) (local ([define f-value (interp f env)])
+    [appC (f a) (let ([f-value (interp f env)])
                   (interp (closV-body f-value)
                           (extend-env (bind (closV-arg f-value)
                                             (interp a env))

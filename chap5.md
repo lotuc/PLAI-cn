@@ -181,10 +181,11 @@ __练习__
 ```racket
 <appC-interp-case-take-1> ::=  ;解释之调用子句，第一次尝试
 
-    [appC (f a) (local ([define fd (get-fundef f fds)])
+    [appC (f a) (let ([fd (get-fundef f fds)])
                   (subst a
                          (fdC-arg fd)
-                         (fdC-body fd)))]```
+                         (fdC-body fd)))]
+```
 
 但是这是错的。
 
@@ -196,7 +197,7 @@ __思考题__
 ```racket
 <appC-interp-case> ::=  ;解释之调用子句
 
-    [appC (f a) (local ([define fd (get-fundef f fds)])
+    [appC (f a) (let ([fd (get-fundef f fds)])
                   (interp (subst a
                                  (fdC-arg fd)
                                  (fdC-body fd))

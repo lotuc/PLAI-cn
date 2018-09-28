@@ -1,5 +1,10 @@
 {
     "title": "Programming Languages: Application and Interpretation",
     "author": "lotuc; MrMathematica",
-    "plugins": ["katex"]
+    "plugins": ["katex", "ga"],
+    "pluginsConfig": {
+        "ga": {
+            "token": "UA-76420995-1"
+        }
+    }
 }

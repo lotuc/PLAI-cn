@@ -4,17 +4,21 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>3. 解释器初窥 · Programming Languages: Application and Interpretation</title>
+        <title> 3. 解释器初窥 · Programming Languages: Application and Interpretation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
-        <meta name="author" content="lotuc">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="lotuc; MrMathematica">
         
         
     
     <link rel="stylesheet" href="gitbook/style.css">
 
     
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-katex/katex.min.css">
+                
             
                 
                 <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
@@ -107,7 +111,7 @@
                 <a href="chap1.html">
             
                     
-                    1. 引言
+                     1. 引言
             
                 </a>
             
@@ -120,7 +124,7 @@
                 <a href="chap2.html">
             
                     
-                    2. 本书有关语法解析的一切
+                     2. 本书有关语法解析的一切
             
                 </a>
             
@@ -133,7 +137,7 @@
                 <a href="chap3.html">
             
                     
-                    3. 解释器初窥
+                     3. 解释器初窥
             
                 </a>
             
@@ -146,7 +150,7 @@
                 <a href="chap4.html">
             
                     
-                    4. 初试去语法糖
+                     4. 初试去语法糖
             
                 </a>
             
@@ -159,7 +163,7 @@
                 <a href="chap5.html">
             
                     
-                    5. 添加函数
+                     5. 添加函数
             
                 </a>
             
@@ -172,7 +176,7 @@
                 <a href="chap6.html">
             
                     
-                    6. 从替换模型到环境模型
+                     6. 从替换模型到环境模型
             
                 </a>
             
@@ -185,7 +189,7 @@
                 <a href="chap7.html">
             
                     
-                    7. 任意位置的函数
+                     7. 任意位置的函数
             
                 </a>
             
@@ -198,7 +202,7 @@
                 <a href="chap8.html">
             
                     
-                    8. 可变结构体和变量
+                     8. 可变结构体和变量
             
                 </a>
             
@@ -211,7 +215,7 @@
                 <a href="chap9.html">
             
                     
-                    9. 递归和循环：子程序与数据
+                     9. 递归和循环：子程序与数据
             
                 </a>
             
@@ -284,6 +288,45 @@
             
         </li>
     
+        <li class="chapter " data-level="1.16" data-path="chap15.html">
+            
+                <a href="chap15.html">
+            
+                    
+                    15. 静态地检查程序中的不变量：类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="chap16.html">
+            
+                <a href="chap16.html">
+            
+                    
+                    16. 动态地检查程序中的不变量：契约
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="chap17.html">
+            
+                <a href="chap17.html">
+            
+                    
+                    17. 其他调用语义
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -314,7 +357,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >3. 解释器初窥</a>
+        <a href="." > 3. 解释器初窥</a>
     </h1>
 </div>
 
@@ -422,7 +465,7 @@
 </blockquote>
 <p>&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x907F;&#x514D;&#x7B80;&#x5355;&#x7684;&#x501F;&#x7528;&#x5BBF;&#x4E3B;&#x8BED;&#x8A00;&#x7684;&#x8BED;&#x4E49;&#x3002;&#x540E;&#x9762;&#x6211;&#x4EEC;&#x8FD8;&#x4F1A;&#x8BA8;&#x8BBA;&#x8FD9;&#x4E2A;&#x8BDD;&#x9898;&#x3002;</p>
 <h2 id="34-&#x6269;&#x5C55;&#x6B64;&#x8BED;&#x8A00;">3.4 &#x6269;&#x5C55;&#x6B64;&#x8BED;&#x8A00;</h2>
-<p>&#x6211;&#x4EEC;&#x9009;&#x62E9;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x529F;&#x80FD;&#x975E;&#x5E38;&#x6709;&#x9650;&#xFF0C;&#x4E8E;&#x662F;&#x6709;&#x5F88;&#x591A;&#x79CD;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x6269;&#x5C55;&#x3002;&#x6709;&#x7684;&#x6269;&#x5C55;&#xFF0C;&#x6BD4;&#x5982;&#x6DFB;&#x52A0;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x548C;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x5FC5;&#x987B;&#x8981;&#x589E;&#x52A0;&#x89E3;&#x91CA;&#x5668;&#x6240;&#x652F;&#x6301;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF08;&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x6253;&#x7B97;&#x91C7;&#x7528;&#x54E5;&#x5FB7;&#x5C14;&#x8BA1;&#x6570;&#x6CD5;&#xFF09;&#x3002;&#x5176;&#x4ED6;&#x7684;&#x6269;&#x5C55;&#xFF0C;&#x6BD4;&#x5982;&#x589E;&#x52A0;&#x66F4;&#x591A;&#x7B97;&#x672F;&#x64CD;&#x4F5C;&#xFF0C;&#x5C31;&#x4E0D;&#x5FC5;&#x4FEE;&#x6539;&#x6838;&#x5FC3;&#x8BED;&#x8A00;&#x53CA;&#x5176;&#x89E3;&#x91CA;&#x5668;&#x3002;&#x6211;&#x4EEC;&#x4E0B;&#x4E00;&#x7AE0;&#x5C31;&#x8BA8;&#x8BBA;&#x6B64;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x9009;&#x62E9;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x529F;&#x80FD;&#x975E;&#x5E38;&#x6709;&#x9650;&#xFF0C;&#x4E8E;&#x662F;&#x6709;&#x5F88;&#x591A;&#x79CD;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x6269;&#x5C55;&#x3002;&#x6709;&#x7684;&#x6269;&#x5C55;&#xFF0C;&#x6BD4;&#x5982;&#x6DFB;&#x52A0;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x548C;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x5FC5;&#x987B;&#x8981;&#x589E;&#x52A0;&#x89E3;&#x91CA;&#x5668;&#x6240;&#x652F;&#x6301;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF08;&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x6253;&#x7B97;&#x91C7;&#x7528;&#x54E5;&#x5FB7;&#x5C14;&#x8BA1;&#x6570;&#x6CD5;&#xFF09;&#x3002;&#x5176;&#x4ED6;&#x7684;&#x6269;&#x5C55;&#xFF0C;&#x6BD4;&#x5982;&#x589E;&#x52A0;&#x66F4;&#x591A;&#x7B97;&#x672F;&#x64CD;&#x4F5C;&#xFF0C;&#x5C31;&#x4E0D;&#x5FC5;&#x4FEE;&#x6539;&#x6838;&#x5FC3;&#x8BED;&#x8A00;&#x53CA;&#x5176;&#x89E3;&#x91CA;&#x5668;&#x3002;&#x6211;&#x4EEC;<a href="chap4.html">&#x4E0B;&#x4E00;&#x7AE0;</a>&#x5C31;&#x8BA8;&#x8BBA;&#x6B64;&#x95EE;&#x9898;&#x3002;</p>
 
                                 
                                 </section>
@@ -450,12 +493,12 @@
 
             
                 
-                <a href="chap2.html" class="navigation navigation-prev " aria-label="Previous page: 2. 本书有关语法解析的一切">
+                <a href="chap2.html" class="navigation navigation-prev " aria-label="Previous page:  2. 本书有关语法解析的一切">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="chap4.html" class="navigation navigation-next " aria-label="Next page: 4. 初试去语法糖">
+                <a href="chap4.html" class="navigation navigation-next " aria-label="Next page:  4. 初试去语法糖">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -466,7 +509,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"3. 解释器初窥","level":"1.4","depth":1,"next":{"title":"4. 初试去语法糖","level":"1.5","depth":1,"path":"chap4.md","ref":"chap4.md","articles":[]},"previous":{"title":"2. 本书有关语法解析的一切","level":"1.3","depth":1,"path":"chap2.md","ref":"chap2.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap3.md","mtime":"2017-11-27T05:14:35.623Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-27T11:51:52.513Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":" 3. 解释器初窥","level":"1.4","depth":1,"next":{"title":" 4. 初试去语法糖","level":"1.5","depth":1,"path":"chap4.md","ref":"chap4.md","articles":[]},"previous":{"title":" 2. 本书有关语法解析的一切","level":"1.3","depth":1,"path":"chap2.md","ref":"chap2.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-76420995-1"},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc; MrMathematica","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap3.md","mtime":"2018-09-28T07:36:04.701Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-28T07:36:08.800Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
@@ -476,7 +519,7 @@
     <script src="gitbook/theme.js"></script>
     
         
-        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
         
     
         

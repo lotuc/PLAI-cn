@@ -7,14 +7,18 @@
         <title>11. 内存管理 · Programming Languages: Application and Interpretation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
-        <meta name="author" content="lotuc">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="lotuc; MrMathematica">
         
         
     
     <link rel="stylesheet" href="gitbook/style.css">
 
     
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-katex/katex.min.css">
+                
             
                 
                 <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
@@ -107,7 +111,7 @@
                 <a href="chap1.html">
             
                     
-                    1. 引言
+                     1. 引言
             
                 </a>
             
@@ -120,7 +124,7 @@
                 <a href="chap2.html">
             
                     
-                    2. 本书有关语法解析的一切
+                     2. 本书有关语法解析的一切
             
                 </a>
             
@@ -133,7 +137,7 @@
                 <a href="chap3.html">
             
                     
-                    3. 解释器初窥
+                     3. 解释器初窥
             
                 </a>
             
@@ -146,7 +150,7 @@
                 <a href="chap4.html">
             
                     
-                    4. 初试去语法糖
+                     4. 初试去语法糖
             
                 </a>
             
@@ -159,7 +163,7 @@
                 <a href="chap5.html">
             
                     
-                    5. 添加函数
+                     5. 添加函数
             
                 </a>
             
@@ -172,7 +176,7 @@
                 <a href="chap6.html">
             
                     
-                    6. 从替换模型到环境模型
+                     6. 从替换模型到环境模型
             
                 </a>
             
@@ -185,7 +189,7 @@
                 <a href="chap7.html">
             
                     
-                    7. 任意位置的函数
+                     7. 任意位置的函数
             
                 </a>
             
@@ -198,7 +202,7 @@
                 <a href="chap8.html">
             
                     
-                    8. 可变结构体和变量
+                     8. 可变结构体和变量
             
                 </a>
             
@@ -211,7 +215,7 @@
                 <a href="chap9.html">
             
                     
-                    9. 递归和循环：子程序与数据
+                     9. 递归和循环：子程序与数据
             
                 </a>
             
@@ -284,6 +288,45 @@
             
         </li>
     
+        <li class="chapter " data-level="1.16" data-path="chap15.html">
+            
+                <a href="chap15.html">
+            
+                    
+                    15. 静态地检查程序中的不变量：类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="chap16.html">
+            
+                <a href="chap16.html">
+            
+                    
+                    16. 动态地检查程序中的不变量：契约
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="chap17.html">
+            
+                <a href="chap17.html">
+            
+                    
+                    17. 其他调用语义
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -337,7 +380,7 @@
 </blockquote>
 <p>&#x7A7A;&#x95F4;&#x56DE;&#x6536;&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x5F88;&#x591A;&#xFF0C;&#x5927;&#x4F53;&#x53EF;&#x4EE5;&#x5206;&#x5230;&#x4E24;&#x4E2A;&#x9635;&#x8425;&#x4E2D;&#xFF1A;&#x4EBA;&#x5DE5;&#x548C;&#x81EA;&#x52A8;&#x3002;&#x4EBA;&#x5DE5;&#x7684;&#x65B9;&#x5F0F;&#x4F9D;&#x8D56;&#x4E8E;&#x5F00;&#x53D1;&#x8005;&#x80FD;&#x591F;&#x4E86;&#x89E3;&#x5185;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#xFF0C;&#x5E76;&#x6B63;&#x786E;&#x7684;&#x91CA;&#x653E;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x5185;&#x5B58;&#x3002;&#x4E00;&#x822C;&#x8BA4;&#x4E3A;&#xFF0C;&#x4EBA;&#x5E76;&#x4E0D;&#x64C5;&#x957F;&#x505A;&#x8FD9;&#x79CD;&#x4E8B;&#xFF08;&#x867D;&#x7136;&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4EBA;&#x7C7B;&#x62E5;&#x6709;&#x673A;&#x5668;&#x6240;&#x65E0;&#x6CD5;&#x83B7;&#x53D6;&#x7684;&#x77E5;&#x8BC6;&#xFF09;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x51E0;&#x5341;&#x5E74;&#x6765;&#xFF0C;&#x81EA;&#x52A8;&#x5316;&#x7684;&#x65B9;&#x6CD5;&#x8D8A;&#x6765;&#x8D8A;&#x666E;&#x53CA;&#x3002;</p>
 <h2 id="112-&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x662F;&#x6B63;&#x786E;&#x7684;&#xFF1F;">11.2 &#x4EC0;&#x4E48;&#x6837;&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x662F;&#x201C;&#x6B63;&#x786E;&#x7684;&#x201D;&#xFF1F;</h2>
-<p>&#x5783;&#x573E;&#x56DE;&#x6536;&#x65E2;&#x4E0D;&#x5E94;&#x8BE5;&#x592A;&#x65E9;&#x5730;&#x6536;&#x56DE;&#x7A7A;&#x95F4;&#xFF08;<strong>&#x53EF;&#x9760;&#x6027;</strong>&#xFF0C;soundness&#xFF09;&#x4E5F;&#x4E0D;&#x80FD;&#x592A;&#x665A;&#xFF08;<strong>&#x5B8C;&#x5907;&#x6027;</strong>&#xFF0C;completeness&#xFF09;&#x3002;&#x867D;&#x7136;&#x4E24;&#x8005;&#x90FD;&#x53EF;&#x4EE5;&#x88AB;&#x89C6;&#x4E3A;&#x7F3A;&#x9677;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4EEC;&#x7684;&#x5F71;&#x54CD;&#x5E76;&#x4E0D;&#x662F;&#x5BF9;&#x79F0;&#x7684;&#xFF1A;&#x53EF;&#x4EE5;&#x8BF4;&#xFF0C;&#x8FC7;&#x65E9;&#x6536;&#x56DE;&#x7CDF;&#x7CD5;&#x5F97;&#x591A;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#xFF0C;&#x5982;&#x679C;&#x8FC7;&#x65E9;&#x56DE;&#x6536;&#x4E86;&#x67D0;&#x4E2A;&#x8D2E;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x8BA1;&#x7B97;&#x5C06;&#x7EE7;&#x7EED;&#xFF0C;&#x5E76;&#x53EF;&#x80FD;&#x5C06;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x5199;&#x5165;&#x8BE5;&#x5730;&#x5740;&#xFF0C;&#x4ECE;&#x800C;&#x8BBF;&#x95EE;&#x5230;&#x65E0;&#x610F;&#x4E49;&#x7684;&#x6570;&#x636E;&#x3002;&#x5F80;&#x597D;&#x4E86;&#x8BF4;&#xFF0C;&#x8FD9;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x4E0D;&#x6B63;&#x786E;&#xFF0C;&#x6781;&#x7AEF;&#x60C5;&#x51B5;&#x4E0B;&#x540E;&#x679C;&#x66F4;&#x4E25;&#x91CD;&#xFF0C;&#x6BD4;&#x5982;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x5B89;&#x5168;&#x95EE;&#x9898;&#x3002;&#x53CD;&#x4E4B;&#xFF0C;&#x8FC7;&#x8FDF;&#x6536;&#x56DE;&#x4F1A;&#x5BFC;&#x81F4;&#x6027;&#x80FD;&#x635F;&#x5931;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x80FD;&#x6700;&#x7EC8;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x7EC8;&#x6B62;&#xFF0C;&#x5C3D;&#x7BA1;&#x6B64;&#x65F6;&#x7406;&#x8BBA;&#x4E0A;&#x5B58;&#x5728;&#x7406;&#x8BBA;&#x4E0A;&#x53EF;&#x7528;&#x7684;&#x5185;&#x5B58;&#x3002;&#x8FD9;&#x79CD;&#x6027;&#x80FD;&#x635F;&#x5931;&#x4EE5;&#x53CA;&#x7A0B;&#x5E8F;&#x8FC7;&#x65E9;&#x7EC8;&#x6B62;&#x5F88;&#x4EE4;&#x4EBA;&#x8BA8;&#x538C;&#xFF0C;&#x5728;&#x67D0;&#x4E9B;&#x5173;&#x952E;&#x4EFB;&#x52A1;&#x7CFB;&#x7EDF;&#x4E2D;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x91CD;&#x5927;&#x95EE;&#x9898;&#xFF0C;&#x4E0D;&#x8FC7;&#xFF0C;&#x81F3;&#x5C11;&#x7A0B;&#x5E8F;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x65E0;&#x610F;&#x4E49;&#x7684;&#x8FD0;&#x7B97;&#x3002;</p>
+<p>&#x5783;&#x573E;&#x56DE;&#x6536;&#x65E2;&#x4E0D;&#x5E94;&#x8BE5;&#x592A;&#x65E9;&#x5730;&#x6536;&#x56DE;&#x7A7A;&#x95F4;&#xFF08;<strong>&#x53EF;&#x9760;&#x6027;</strong>&#xFF0C;soundness&#xFF09;&#x4E5F;&#x4E0D;&#x80FD;&#x592A;&#x665A;&#xFF08;<strong>&#x5B8C;&#x5907;&#x6027;</strong>&#xFF0C;completeness&#xFF09;&#x3002;&#x867D;&#x7136;&#x4E24;&#x8005;&#x90FD;&#x53EF;&#x4EE5;&#x88AB;&#x89C6;&#x4E3A;&#x7F3A;&#x9677;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4EEC;&#x7684;&#x5F71;&#x54CD;&#x5E76;&#x4E0D;&#x662F;&#x5BF9;&#x79F0;&#x7684;&#xFF1A;&#x53EF;&#x4EE5;&#x8BF4;&#xFF0C;&#x8FC7;&#x65E9;&#x6536;&#x56DE;&#x7CDF;&#x7CD5;&#x5F97;&#x591A;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#xFF0C;&#x5982;&#x679C;&#x8FC7;&#x65E9;&#x56DE;&#x6536;&#x4E86;&#x67D0;&#x4E2A;&#x8D2E;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x8BA1;&#x7B97;&#x5C06;&#x7EE7;&#x7EED;&#xFF0C;&#x5E76;&#x53EF;&#x80FD;&#x5C06;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x5199;&#x5165;&#x8BE5;&#x5730;&#x5740;&#xFF0C;&#x4ECE;&#x800C;&#x8BBF;&#x95EE;&#x5230;&#x65E0;&#x610F;&#x4E49;&#x7684;&#x6570;&#x636E;&#x3002;&#x5F80;&#x597D;&#x4E86;&#x8BF4;&#xFF0C;&#x8FD9;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x4E0D;&#x6B63;&#x786E;&#xFF0C;&#x6781;&#x7AEF;&#x60C5;&#x51B5;&#x4E0B;&#x540E;&#x679C;&#x66F4;&#x4E25;&#x91CD;&#xFF0C;&#x6BD4;&#x5982;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x5B89;&#x5168;&#x95EE;&#x9898;&#x3002;&#x53CD;&#x4E4B;&#xFF0C;&#x8FC7;&#x8FDF;&#x6536;&#x56DE;&#x4F1A;&#x5BFC;&#x81F4;&#x6027;&#x80FD;&#x635F;&#x5931;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x80FD;&#x6700;&#x7EC8;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x7EC8;&#x6B62;&#xFF0C;&#x5C3D;&#x7BA1;&#x6B64;&#x65F6;&#x5B58;&#x5728;&#x7406;&#x8BBA;&#x4E0A;&#x53EF;&#x7528;&#x7684;&#x5185;&#x5B58;&#x3002;&#x8FD9;&#x79CD;&#x6027;&#x80FD;&#x635F;&#x5931;&#x4EE5;&#x53CA;&#x7A0B;&#x5E8F;&#x8FC7;&#x65E9;&#x7EC8;&#x6B62;&#x5F88;&#x4EE4;&#x4EBA;&#x8BA8;&#x538C;&#xFF0C;&#x5728;&#x67D0;&#x4E9B;&#x5173;&#x952E;&#x4EFB;&#x52A1;&#x7CFB;&#x7EDF;&#x4E2D;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x91CD;&#x5927;&#x95EE;&#x9898;&#xFF0C;&#x4E0D;&#x8FC7;&#xFF0C;&#x81F3;&#x5C11;&#x7A0B;&#x5E8F;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x65E0;&#x610F;&#x4E49;&#x7684;&#x8FD0;&#x7B97;&#x3002;</p>
 <p>&#x7406;&#x60F3;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x62E5;&#x6709;&#x6240;&#x6709;&#x7684;&#x8FD9;&#x4E09;&#x9879;&#xFF1A;&#x81EA;&#x52A8;&#x5316;&#xFF08;automation&#xFF09;&#xFF0C;&#x53EF;&#x9760;&#x6027;&#x548C;&#x5B8C;&#x5907;&#x6027;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x9762;&#x5BF9;&#x7684;&#x662F;&#x4E0D;&#x53EF;&#x517C;&#x5F97;&#x7684;&#x60C5;&#x5F62;&#xFF0C;&#x6700;&#x591A;&#x53EA;&#x80FD;&#x9009;&#x62E9;&#x4E24;&#x9879;&#x3002;&#x7406;&#x60F3;&#x7684;&#x4EBA;&#x7C7B;&#x80FD;&#x591F;&#x505A;&#x5230;&#x53EF;&#x9760;&#x6027;&#x548C;&#x5B8C;&#x5907;&#x6027;&#xFF0C;&#x4F46;&#x5B9E;&#x8DF5;&#x4E2D;&#x5B9E;&#x73B0;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x90FD;&#x5F88;&#x5C11;&#x89C1;&#x3002;&#x3010;&#x6CE8;&#x91CA;&#x3011;&#x8BA1;&#x7B97;&#x673A;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x81EA;&#x52A8;&#x5316;&#xFF0C;&#x540C;&#x65F6;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x53EF;&#x9760;&#x6027;&#x548C;&#x5B8C;&#x5907;&#x6027;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#xFF0C;&#x4F46;&#x53EF;&#x8BA1;&#x7B97;&#x6027;&#x8BBA;&#x8BC1;&#x8868;&#x660E;&#xFF0C;&#x81EA;&#x52A8;&#x5316;&#x7684;&#x8BA1;&#x7B97;&#x8FC7;&#x7A0B;&#x4E0D;&#x80FD;&#x540C;&#x65F6;&#x8FBE;&#x6210;&#x8FD9;&#x4E24;&#x8005;&#x3002;&#x5B9E;&#x8DF5;&#x4E2D;&#xFF0C;&#x81EA;&#x52A8;&#x5316;&#x6280;&#x672F;&#x4E00;&#x822C;&#x9009;&#x62E9;&#x5B9E;&#x73B0;&#x53EF;&#x9760;&#x6027;&#xFF0C;&#x51FA;&#x4E8E;&#x4EE5;&#x4E0B;&#x539F;&#x56E0;&#xFF1A;&#xFF08;a&#xFF09;&#x5B83;&#x9020;&#x6210;&#x7684;&#x635F;&#x5BB3;&#x6700;&#x5C0F;&#xFF1B;&#xFF08;b&#xFF09;&#x5B83;&#x76F8;&#x5BF9;&#x66F4;&#x5BB9;&#x6613;&#x5B9E;&#x73B0;&#xFF1B;&#xFF08;c&#xFF09;&#x5728;&#x6DFB;&#x52A0;&#x4E00;&#x4E9B;&#x4EBA;&#x5DE5;&#x5E2E;&#x52A9;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x63A5;&#x8FD1;&#x5B8C;&#x5907;&#x6027;&#x3002;</p>
 <blockquote>
 <p><strong>&#x4F60;</strong>&#x5F53;&#x7136;&#x662F;&#x5B8C;&#x7F8E;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x5458;&#x540C;&#x884C;&#x5462;&#xFF1F;&#x987A;&#x4FBF;&#x8BF4;&#x4E00;&#x4E0B;&#xFF0C;&#x7ECF;&#x6D4E;&#x5B66;&#x7406;&#x8BBA;&#x5728;&#x7B49;&#x4F60;&#x9A8C;&#x8BC1;&#x5462;&#x3002;</p>
@@ -345,7 +388,7 @@
 <h2 id="113-&#x4EBA;&#x5DE5;&#x56DE;&#x6536;">11.3 &#x4EBA;&#x5DE5;&#x56DE;&#x6536;</h2>
 <p>&#x4EBA;&#x5DE5;&#x7684;&#x6700;&#x5F7B;&#x5E95;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x5C06;&#x6240;&#x6709;&#x5185;&#x5B58;&#x56DE;&#x6536;&#x4EA4;&#x7531;&#x4EBA;&#x64CD;&#x4F5C;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;C&#x8BED;&#x8A00;&#x4E2D;&#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x4E2A;&#x57FA;&#x672C;&#x6307;&#x4EE4;&#xFF1A;<code>malloc</code>&#x7528;&#x4E8E;&#x5206;&#x914D;&#x5185;&#x5B58;&#xFF0C;<code>free</code>&#x7528;&#x4E8E;&#x91CA;&#x653E;&#x5185;&#x5B58;&#x3002;<code>malloc</code>&#x7684;&#x8F93;&#x5165;&#x662F;&#xFF08;&#x5185;&#x5B58;&#x7684;&#xFF09;&#x5927;&#x5C0F;&#xFF0C;&#x8FD4;&#x56DE;&#x662F;&#x5BF9;&#x8D2E;&#x5B58;&#x7684;&#x5F15;&#x7528;&#xFF1B;<code>free</code>&#x7684;&#x8F93;&#x5165;&#x662F;&#x8FD9;&#x79CD;&#x5F15;&#x7528;&#xFF0C;&#x91CA;&#x653E;&#x5176;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#x3002;</p>
 <blockquote>
-<pre><code>        &#x201C;&#x5728;&#x5F53;&#x4EE3;&#x6B27;&#x7F8E;&#x8BED;&#x8A00;&#xFF0C;&quot;Moloch&quot;&#x6469;&#x6D1B;&#x8FD9;&#x4E2A;&#x8BCD;&#x6709;&#x7279;&#x5B9A;&#x7684;&#x5F15;&#x7533;&#x4E49;&#xFF0C;&#x6307;&#x4EE3;&#x9700;&#x8981;&#x6781;&#x5927;&#x727A;&#x7272;&#x7684;&#x4EBA;&#x7269;&#x6216;&#x8005;&#x4E8B;&#x4E1A;&#x3002;&#x201D;&#x2014;&#x2014;&#x7EF4;&#x57FA;&#x767E;&#x79D1;&#xFF0C;&#x6469;&#x6D1B;&#x8BCD;&#x6761;
+<pre><code>        &#x201C;&#x5728;&#x5F53;&#x4EE3;&#x6B27;&#x7F8E;&#x8BED;&#x8A00;&#xFF0C;&quot;Moloch&quot;&#x6469;&#x6D1B;&#x8FD9;&#x4E2A;&#x8BCD;&#x6709;&#x7279;&#x5B9A;&#x7684;&#x5F15;&#x7533;&#x4E49;&#xFF0C;&#x6307;&#x4EE3;&#x9700;&#x8981;&#x6781;&#x5927;&#x727A;&#x7272;&#x7684;&#x4EBA;&#x7269;&#x6216;&#x8005;&#x4E8B;&#x4E1A;&#x3002;&#x201D;&#x2014;&#x2014;[&#x7EF4;&#x57FA;&#x767E;&#x79D1;&#xFF0C;&#x6469;&#x6D1B;&#x8BCD;&#x6761;](http://en.wikipedia.org/wiki/Moloch)
         &#x201C;&#x6211;&#x4E0D;&#x8BA4;&#x4E3A;&#x8FD9;&#x4E2A;&#x540D;&#x5B57;&#x542C;&#x8D77;&#x6765;&#x50CF;malloc&#x662F;&#x5DE7;&#x5408;&#x3002;&#x201D;&#x2014;&#x2014;Ian Barland
 </code></pre></blockquote>
 <h3 id="1131-&#x5B8C;&#x5168;&#x4EBA;&#x5DE5;&#x56DE;&#x6536;&#x7684;&#x4EE3;&#x4EF7;">11.3.1 &#x5B8C;&#x5168;&#x4EBA;&#x5DE5;&#x56DE;&#x6536;&#x7684;&#x4EE3;&#x4EF7;</h3>
@@ -486,7 +529,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"11. 内存管理","level":"1.12","depth":1,"next":{"title":"12. 表示层抉择","level":"1.13","depth":1,"path":"chap12.md","ref":"chap12.md","articles":[]},"previous":{"title":"10. 对象","level":"1.11","depth":1,"path":"chap10.md","ref":"chap10.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap11.md","mtime":"2017-11-27T05:14:35.619Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-27T11:51:52.513Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"11. 内存管理","level":"1.12","depth":1,"next":{"title":"12. 表示层抉择","level":"1.13","depth":1,"path":"chap12.md","ref":"chap12.md","articles":[]},"previous":{"title":"10. 对象","level":"1.11","depth":1,"path":"chap10.md","ref":"chap10.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-76420995-1"},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc; MrMathematica","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap11.md","mtime":"2018-09-28T07:36:04.697Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-28T07:36:08.800Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
@@ -496,7 +539,7 @@
     <script src="gitbook/theme.js"></script>
     
         
-        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
         
     
         

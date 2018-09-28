@@ -4,17 +4,21 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>5. 添加函数 · Programming Languages: Application and Interpretation</title>
+        <title> 5. 添加函数 · Programming Languages: Application and Interpretation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
-        <meta name="author" content="lotuc">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="lotuc; MrMathematica">
         
         
     
     <link rel="stylesheet" href="gitbook/style.css">
 
     
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-katex/katex.min.css">
+                
             
                 
                 <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
@@ -107,7 +111,7 @@
                 <a href="chap1.html">
             
                     
-                    1. 引言
+                     1. 引言
             
                 </a>
             
@@ -120,7 +124,7 @@
                 <a href="chap2.html">
             
                     
-                    2. 本书有关语法解析的一切
+                     2. 本书有关语法解析的一切
             
                 </a>
             
@@ -133,7 +137,7 @@
                 <a href="chap3.html">
             
                     
-                    3. 解释器初窥
+                     3. 解释器初窥
             
                 </a>
             
@@ -146,7 +150,7 @@
                 <a href="chap4.html">
             
                     
-                    4. 初试去语法糖
+                     4. 初试去语法糖
             
                 </a>
             
@@ -159,7 +163,7 @@
                 <a href="chap5.html">
             
                     
-                    5. 添加函数
+                     5. 添加函数
             
                 </a>
             
@@ -172,7 +176,7 @@
                 <a href="chap6.html">
             
                     
-                    6. 从替换模型到环境模型
+                     6. 从替换模型到环境模型
             
                 </a>
             
@@ -185,7 +189,7 @@
                 <a href="chap7.html">
             
                     
-                    7. 任意位置的函数
+                     7. 任意位置的函数
             
                 </a>
             
@@ -198,7 +202,7 @@
                 <a href="chap8.html">
             
                     
-                    8. 可变结构体和变量
+                     8. 可变结构体和变量
             
                 </a>
             
@@ -211,7 +215,7 @@
                 <a href="chap9.html">
             
                     
-                    9. 递归和循环：子程序与数据
+                     9. 递归和循环：子程序与数据
             
                 </a>
             
@@ -284,6 +288,45 @@
             
         </li>
     
+        <li class="chapter " data-level="1.16" data-path="chap15.html">
+            
+                <a href="chap15.html">
+            
+                    
+                    15. 静态地检查程序中的不变量：类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="chap16.html">
+            
+                <a href="chap16.html">
+            
+                    
+                    16. 动态地检查程序中的不变量：契约
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="chap17.html">
+            
+                <a href="chap17.html">
+            
+                    
+                    17. 其他调用语义
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -314,7 +357,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >5. 添加函数</a>
+        <a href="." > 5. 添加函数</a>
     </h1>
 </div>
 
@@ -396,18 +439,18 @@
 <li><code>(fdC &apos;quadruple &apos;x (appC &apos;double (appC &apos;double (idC &apos;x))))</code></li>
 <li><code>(fdC &apos;const5 &apos;x (numC 5))</code></li>
 </ul>
-<p>&#x4E0B;&#x9762;&#x8FD8;&#x9700;&#x8981;&#x9009;&#x62E9;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x96C6;&#x5408;&#x7684;&#x8868;&#x793A;&#x6CD5;&#x3002;&#x4F7F;&#x7528;&#x5217;&#x8868;&#x7C7B;&#x578B;&#x5C31;&#x86EE;&#x65B9;&#x4FBF;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x8FD8;&#x9700;&#x8981;&#x9009;&#x62E9;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x96C6;&#x5408;&#x7684;&#x8868;&#x793A;&#x6CD5;&#x3002;&#x4F7F;&#x7528;&#x94FE;&#x8868;&#x7C7B;&#x578B;&#x5C31;&#x86EE;&#x65B9;&#x4FBF;&#x3002;</p>
 <blockquote>
-<p>&#x5C0F;&#x5FC3;&#xFF01;&#x4F60;&#x6709;&#x6CA1;&#x6709;&#x6CE8;&#x610F;&#x5230;&#xFF0C;&#x4E4B;&#x524D;&#x6211;&#x4EEC;&#x8BF4;&#x8FD9;&#x662F;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;<strong>&#x96C6;&#x5408;</strong>&#xFF0C;&#x7136;&#x800C;&#x5B9E;&#x73B0;&#x5374;&#x9009;&#x7528;&#x4E86;<strong>&#x5217;&#x8868;</strong>&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x7528;&#x6709;&#x5E8F;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x53BB;&#x8868;&#x8FBE;&#x65E0;&#x5E8F;&#x7684;&#x6570;&#x636E;&#x3002;&#x90A3;&#x4E48;&#xFF0C;&#x6D4B;&#x8BD5;&#x65F6;&#xFF0C;&#x81F3;&#x5C11;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x8BD5;&#x7528;&#x5404;&#x79CD;&#x4E0D;&#x540C;&#x987A;&#x5E8F;&#x7684;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#xFF0C;&#x4EE5;&#x786E;&#x4FDD;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x4E0D;&#x5C0F;&#x5FC3;&#x5F15;&#x5165;&#x4E86;&#xFF08;&#x5F71;&#x54CD;&#x7ED3;&#x679C;&#x7684;&#xFF09;&#x987A;&#x5E8F;&#x3002;</p>
+<p>&#x5C0F;&#x5FC3;&#xFF01;&#x4F60;&#x6709;&#x6CA1;&#x6709;&#x6CE8;&#x610F;&#x5230;&#xFF0C;&#x4E4B;&#x524D;&#x6211;&#x4EEC;&#x8BF4;&#x8FD9;&#x662F;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;<strong>&#x96C6;&#x5408;</strong>&#xFF0C;&#x7136;&#x800C;&#x5B9E;&#x73B0;&#x5374;&#x9009;&#x7528;&#x4E86;<strong>&#x94FE;&#x8868;</strong>&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x7528;&#x6709;&#x5E8F;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x53BB;&#x8868;&#x8FBE;&#x65E0;&#x5E8F;&#x7684;&#x6570;&#x636E;&#x3002;&#x90A3;&#x4E48;&#xFF0C;&#x6D4B;&#x8BD5;&#x65F6;&#xFF0C;&#x81F3;&#x5C11;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x8BD5;&#x7528;&#x5404;&#x79CD;&#x4E0D;&#x540C;&#x987A;&#x5E8F;&#x7684;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#xFF0C;&#x4EE5;&#x786E;&#x4FDD;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x4E0D;&#x5C0F;&#x5FC3;&#x5F15;&#x5165;&#x4E86;&#xFF08;&#x5F71;&#x54CD;&#x7ED3;&#x679C;&#x7684;&#xFF09;&#x987A;&#x5E8F;&#x3002;</p>
 </blockquote>
 <h2 id="52-&#x5F00;&#x59CB;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;">5.2 &#x5F00;&#x59CB;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;</h2>
-<p>&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F00;&#x59CB;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;&#x4E86;&#x3002;&#x9996;&#x5148;&#x8003;&#x8651;&#x89E3;&#x91CA;&#x5668;&#x7684;&#x8F93;&#x5165;&#x662F;&#x4EC0;&#x4E48;&#x3002;&#x4E4B;&#x524D;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x5373;&#x53EF;&#xFF0C;&#x73B0;&#x5728;&#x5B83;&#x8FD8;&#x9700;&#x8981;&#x4F20;&#x5165;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;&#x5217;&#x8868;&#x3002;</p>
+<p>&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F00;&#x59CB;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;&#x4E86;&#x3002;&#x9996;&#x5148;&#x8003;&#x8651;&#x89E3;&#x91CA;&#x5668;&#x7684;&#x8F93;&#x5165;&#x662F;&#x4EC0;&#x4E48;&#x3002;&#x4E4B;&#x524D;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x5373;&#x53EF;&#xFF0C;&#x73B0;&#x5728;&#x5B83;&#x8FD8;&#x9700;&#x8981;&#x4F20;&#x5165;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;&#x8868;&#x3002;</p>
 <pre><code class="lang-racket">&lt;interp&gt; ::=  ;&#x89E3;&#x91CA;&#x5668;
 
     (define (interp [e : ExprC] [fds : (listof FunDefC)]) : number
       &lt;interp-body&gt;)  ;&#x89E3;&#x91CA;&#x5668;&#x4E3B;&#x4F53;
 </code></pre>
-<p>&#x7A0D;&#x5FAE;&#x56DE;&#x987E;&#x4E00;&#x4E0B;&#x6211;&#x4EEC;&#x524D;&#x9762;&#x5B9E;&#x73B0;&#x7684;&#x89E3;&#x91CA;&#x5668;&#xFF08;&#x7B2C;&#x4E09;&#x7AE0;&#xFF09;&#x3002;&#x9047;&#x5230;&#x6570;&#xFF0C;&#x663E;&#x7136;&#x8FD8;&#x662F;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x8BE5;&#x6570;&#x4F5C;&#x4E3A;&#x7ED3;&#x679C;&#xFF1B;&#x9047;&#x5230;&#x52A0;&#x6CD5;&#x548C;&#x4E58;&#x6CD5;&#xFF0C;&#x8FD8;&#x662F;&#x5E94;&#x8BE5;&#x4E00;&#x6837;&#x9012;&#x5F52;&#x7684;&#x6C42;&#x503C;&#x3002;&#x9012;&#x5F52;&#x65F6;&#x8BE5;&#x7528;&#x4EC0;&#x4E48;&#x4F5C;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5462;&#xFF1F;&#x7531;&#x4E8E;&#x6C42;&#x503C;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x65E2;&#x4E0D;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x4E5F;&#x4E0D;&#x9700;&#x8981;&#x79FB;&#x9664;&#x51FD;&#x6570;<strong>&#x5B9A;&#x4E49;</strong>&#xFF0C;&#x5373;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x96C6;&#x5408;&#x4FDD;&#x6301;&#x4E0D;&#x53D8;&#xFF0C;&#x5728;&#x9012;&#x5F52;&#x65F6;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5E94;&#x8BE5;&#x539F;&#x5C01;&#x4E0D;&#x52A8;&#x7684;&#x5F80;&#x4E0B;&#x4F20;&#x9012;&#x3002;</p>
+<p>&#x7A0D;&#x5FAE;&#x56DE;&#x987E;&#x4E00;&#x4E0B;&#x6211;&#x4EEC;&#x524D;&#x9762;&#x5B9E;&#x73B0;&#x7684;&#x89E3;&#x91CA;&#x5668;&#xFF08;<a href="chap3.html">&#x7B2C;&#x4E09;&#x7AE0;</a>&#xFF09;&#x3002;&#x9047;&#x5230;&#x6570;&#xFF0C;&#x663E;&#x7136;&#x8FD8;&#x662F;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x8BE5;&#x6570;&#x4F5C;&#x4E3A;&#x7ED3;&#x679C;&#xFF1B;&#x9047;&#x5230;&#x52A0;&#x6CD5;&#x548C;&#x4E58;&#x6CD5;&#xFF0C;&#x8FD8;&#x662F;&#x5E94;&#x8BE5;&#x4E00;&#x6837;&#x9012;&#x5F52;&#x7684;&#x6C42;&#x503C;&#x3002;&#x9012;&#x5F52;&#x65F6;&#x8BE5;&#x7528;&#x4EC0;&#x4E48;&#x4F5C;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5462;&#xFF1F;&#x7531;&#x4E8E;&#x6C42;&#x503C;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x65E2;&#x4E0D;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x4E5F;&#x4E0D;&#x9700;&#x8981;&#x79FB;&#x9664;&#x51FD;&#x6570;<strong>&#x5B9A;&#x4E49;</strong>&#xFF0C;&#x5373;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x96C6;&#x5408;&#x4FDD;&#x6301;&#x4E0D;&#x53D8;&#xFF0C;&#x5728;&#x9012;&#x5F52;&#x65F6;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5E94;&#x8BE5;&#x539F;&#x5C01;&#x4E0D;&#x52A8;&#x7684;&#x5F80;&#x4E0B;&#x4F20;&#x9012;&#x3002;</p>
 <pre><code class="lang-racket">&lt;interp-body&gt; ::=  ;&#x89E3;&#x91CA;&#x5668;&#x4E3B;&#x4F53;
 
     (type-case ExprC e
@@ -420,7 +463,7 @@
 <p>&#x63A5;&#x4E0B;&#x6765;&#x5B9E;&#x73B0;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;&#x9996;&#x5148;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4ECE;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x4E2D;&#x5BFB;&#x627E;&#x5BF9;&#x5E94;&#x7684;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5047;&#x8BBE;&#x5982;&#x4E0B;&#x7684;&#x5E2E;&#x52A9;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x6B64;&#x529F;&#x80FD;&#xFF1A;</p>
 <pre><code class="lang-racket">; get-fundef : symbol * (listof FunDefC) -&gt; FunDefC
 </code></pre>
-<p>&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x627E;&#x5230;&#x4E86;&#x51FD;&#x6570;&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x8981;&#x5BF9;&#x5176;&#x51FD;&#x6570;&#x4F53;&#x6C42;&#x503C;&#x3002;&#x8FD8;&#x8BB0;&#x5F97;&#x4E4B;&#x524D;&#x8BF4;&#x8FC7;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x8BE5;&#x600E;&#x4E48;&#x6C42;&#x503C;&#xFF1F;&#x641C;&#x7D22;&#x6807;&#x8BC6;&#x7B26;&#x5E76;&#x5C06;&#x5176;&#x66FF;&#x6362;&#x4E3A;&#x5B9E;&#x9645;&#x53C2;&#x6570;&#x3002;&#x8FD9;&#x4E2A;&#x641C;&#x7D22;&#x66FF;&#x6362;&#x8FC7;&#x7A0B;&#x8DB3;&#x591F;&#x91CD;&#x8981;&#xFF0C;&#x503C;&#x5F97;&#x82B1;&#x4E00;&#x5C0F;&#x8282;&#x8BA8;&#x8BBA;&#xFF0C;5.4&#x8282;&#x6211;&#x4EEC;&#x518D;&#x56DE;&#x8FC7;&#x6765;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;&#x3002;</p>
+<p>&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x627E;&#x5230;&#x4E86;&#x51FD;&#x6570;&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x8981;&#x5BF9;&#x5176;&#x51FD;&#x6570;&#x4F53;&#x6C42;&#x503C;&#x3002;&#x8FD8;&#x8BB0;&#x5F97;&#x4E4B;&#x524D;&#x8BF4;&#x8FC7;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x8BE5;&#x600E;&#x4E48;&#x6C42;&#x503C;&#xFF1F;&#x641C;&#x7D22;&#x6807;&#x8BC6;&#x7B26;&#x5E76;&#x5C06;&#x5176;&#x66FF;&#x6362;&#x4E3A;&#x5B9E;&#x9645;&#x53C2;&#x6570;&#x3002;&#x8FD9;&#x4E2A;&#x641C;&#x7D22;&#x66FF;&#x6362;&#x8FC7;&#x7A0B;&#x8DB3;&#x591F;&#x91CD;&#x8981;&#xFF0C;&#x503C;&#x5F97;&#x82B1;&#x4E00;&#x5C0F;&#x8282;&#x8BA8;&#x8BBA;&#xFF0C;<a href="#54-&#x7EE7;&#x7EED;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;">5.4&#x8282;</a>&#x6211;&#x4EEC;&#x518D;&#x56DE;&#x8FC7;&#x6765;&#x5B9E;&#x73B0;&#x89E3;&#x91CA;&#x5668;&#x3002;</p>
 <h2 id="53-&#x66FF;&#x6362;">5.3 &#x66FF;&#x6362;</h2>
 <p>&#x66FF;&#x6362;&#x662F;&#x5C06;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x8FD9;&#x91CC;&#x662F;&#x51FD;&#x6570;&#x4F53;&#xFF09;&#x4E2D;&#x67D0;&#x4E2A;&#x540D;&#x5B57;&#xFF08;&#x8FD9;&#x91CC;&#x662F;&#x5F62;&#x53C2;&#xFF09;&#x66FF;&#x6362;&#x6210;&#x53E6;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x8FD9;&#x91CC;&#x662F;&#x5B9E;&#x53C2;&#xFF09;&#x7684;&#x8FC7;&#x7A0B;&#x3002;&#x9996;&#x5148;&#x786E;&#x5B9A;&#x5176;&#x7C7B;&#x578B;&#xFF1A;</p>
 <pre><code class="lang-racket">; subst : ExprC * symbol * ExprC -&gt; ExprC
@@ -470,7 +513,7 @@
 <p>&#x641E;&#x5B9A;&#x4E86;&#x66FF;&#x6362;&#x7684;&#x5B9E;&#x73B0;&#xFF08;&#x6211;&#x4EEC;&#x8FD9;&#x4E48;&#x8BA4;&#x4E3A;&#xFF09;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x5B8C;&#x6210;&#x89E3;&#x91CA;&#x5668;&#x3002;&#x66FF;&#x6362;&#x8FD9;&#x6B65;&#x5E72;&#x4E86;&#x5F88;&#x591A;&#x4E8B;&#xFF0C;&#x597D;&#x5728;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x7684;&#x5F88;&#x591A;&#x7EC6;&#x8282;&#x90FD;&#x5728;&#x5176;&#x4E2D;&#x5B8C;&#x6210;&#x4E86;&#x3002;&#x5F88;&#x81EA;&#x7136;&#x7684;&#x60F3;&#x6CD5;&#x662F;&#xFF1A;</p>
 <pre><code class="lang-racket">&lt;appC-interp-case-take-1&gt; ::=  ;&#x89E3;&#x91CA;&#x4E4B;&#x8C03;&#x7528;&#x5B50;&#x53E5;&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;&#x5C1D;&#x8BD5;
 
-    [appC (f a) (local ([define fd (get-fundef f fds)])
+    [appC (f a) (let ([fd (get-fundef f fds)])
                   (subst a
                          (fdC-arg fd)
                          (fdC-body fd)))]
@@ -483,7 +526,7 @@
 <p>&#x4ECE;&#x7C7B;&#x578B;&#x89D2;&#x5EA6;&#x8003;&#x5BDF;&#xFF0C;&#x89E3;&#x91CA;&#x5668;&#x7684;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;&#x6570;&#x3002;&#x66FF;&#x6362;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x5462;&#xFF1F;&#x8868;&#x8FBE;&#x5F0F;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x5728;&#x66FF;&#x6362;<code>double</code>&#x7684;&#x51FD;&#x6570;&#x4F53;&#x662F;&#xFF0C;&#x53EF;&#x80FD;&#x5F97;&#x5230;&#x7684;&#x7ED3;&#x679C;&#x662F;<code>(+ 5 5)</code>&#x7684;&#x8868;&#x8FBE;&#x5F62;&#x5F0F;&#x3002;&#x8FD9;&#x5E76;&#x4E0D;&#x662F;&#x89E3;&#x91CA;&#x5668;&#x7684;&#x5408;&#x6CD5;&#x8FD4;&#x56DE;&#x503C;&#x3002;&#x9700;&#x8981;&#x8FDB;&#x4E00;&#x6B65;&#x5BF9;&#x5176;&#x6C42;&#x503C;&#x3002;&#x6240;&#x4EE5;&#x5E94;&#x8BE5;&#x8FD9;&#x4E48;&#x505A;&#xFF1A;</p>
 <pre><code class="lang-racket">&lt;appC-interp-case&gt; ::=  ;&#x89E3;&#x91CA;&#x4E4B;&#x8C03;&#x7528;&#x5B50;&#x53E5;
 
-    [appC (f a) (local ([define fd (get-fundef f fds)])
+    [appC (f a) (let ([fd (get-fundef f fds)])
                   (interp (subst a
                                  (fdC-arg fd)
                                  (fdC-body fd))
@@ -528,7 +571,7 @@
 <blockquote>
 <p>&#x4FEE;&#x6539;&#x89E3;&#x91CA;&#x5668;&#xFF0C;&#x7528;&#x7B54;&#x6848;&#x800C;&#x4E0D;&#x662F;&#x8868;&#x8FBE;&#x5F0F;&#x66FF;&#x6362;&#x6807;&#x8BC6;&#x7B26;&#x3002;</p>
 </blockquote>
-<p>&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#x6B63;&#x662F;&#x7A0B;&#x5E8F;&#x8BED;&#x8A00;&#x4E2D;&#x4E00;&#x4E2A;&#x57FA;&#x672C;&#x8BBE;&#x8BA1;&#x6289;&#x62E9;&#x3002;&#x5982;&#x679C;&#x5728;&#x66FF;&#x6362;&#x524D;&#x5C31;&#x628A;&#x53C2;&#x6570;&#x7684;&#x503C;&#x6C42;&#x597D;&#xFF0C;&#x8FD9;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x53CA;&#x65E9;</strong>&#xFF08;eager&#xFF09;&#x6C42;&#x503C; application&#xFF09;&#xFF1B;&#x5BF9;&#x5E94;&#x7684;&#x63A8;&#x8FDF;&#x6C42;&#x503C;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x60F0;&#x6027;</strong>&#xFF08;lazy&#xFF09;&#x6C42;&#x503C;&#x2014;&#x2014;&#x5B83;&#x672C;&#x8EAB;&#x53C8;&#x6709;&#x51E0;&#x79CD;&#x4E0D;&#x540C;&#x53D8;&#x5316;&#x3002;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x503E;&#x5411;&#x4E8E;&#x4F7F;&#x7528;&#x53CA;&#x65E9;&#x6C42;&#x503C;&#x8BED;&#x4E49;&#xFF0C;&#x56E0;&#x4E3A;&#x5927;&#x90E8;&#x5206;&#x4E3B;&#x6D41;&#x8BED;&#x8A00;&#x90FD;&#x91C7;&#x53D6;&#x6B64;&#x65B9;&#x5F0F;&#x3002;&#x540E;&#x9762;&#x4E5F;&#x4F1A;&#x518D;&#x4ECB;&#x7ECD;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x7684;&#x8BED;&#x4E49;&#x548C;&#x540E;&#x679C;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#x6B63;&#x662F;&#x7A0B;&#x5E8F;&#x8BED;&#x8A00;&#x4E2D;&#x4E00;&#x4E2A;&#x57FA;&#x672C;&#x8BBE;&#x8BA1;&#x6289;&#x62E9;&#x3002;&#x5982;&#x679C;&#x5728;&#x66FF;&#x6362;&#x524D;&#x5C31;&#x628A;&#x53C2;&#x6570;&#x7684;&#x503C;&#x6C42;&#x597D;&#xFF0C;&#x8FD9;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x53CA;&#x65E9;</strong>&#xFF08;eager&#xFF09;&#x6C42;&#x503C;&#xFF1B;&#x5BF9;&#x5E94;&#x7684;&#x63A8;&#x8FDF;&#x6C42;&#x503C;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x60F0;&#x6027;</strong>&#xFF08;lazy&#xFF09;&#x6C42;&#x503C;&#x2014;&#x2014;&#x5B83;&#x672C;&#x8EAB;&#x53C8;&#x6709;&#x51E0;&#x79CD;&#x4E0D;&#x540C;&#x53D8;&#x5316;&#x3002;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x503E;&#x5411;&#x4E8E;&#x4F7F;&#x7528;&#x53CA;&#x65E9;&#x6C42;&#x503C;&#x8BED;&#x4E49;&#xFF0C;&#x56E0;&#x4E3A;&#x5927;&#x90E8;&#x5206;&#x4E3B;&#x6D41;&#x8BED;&#x8A00;&#x90FD;&#x91C7;&#x53D6;&#x6B64;&#x65B9;&#x5F0F;&#x3002;&#x540E;&#x9762;&#x4E5F;&#x4F1A;&#x518D;&#x4ECB;&#x7ECD;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x7684;&#x8BED;&#x4E49;&#x548C;&#x540E;&#x679C;&#x3002;</p>
 
                                 
                                 </section>
@@ -556,12 +599,12 @@
 
             
                 
-                <a href="chap4.html" class="navigation navigation-prev " aria-label="Previous page: 4. 初试去语法糖">
+                <a href="chap4.html" class="navigation navigation-prev " aria-label="Previous page:  4. 初试去语法糖">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="chap6.html" class="navigation navigation-next " aria-label="Next page: 6. 从替换模型到环境模型">
+                <a href="chap6.html" class="navigation navigation-next " aria-label="Next page:  6. 从替换模型到环境模型">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -572,7 +615,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"5. 添加函数","level":"1.6","depth":1,"next":{"title":"6. 从替换模型到环境模型","level":"1.7","depth":1,"path":"chap6.md","ref":"chap6.md","articles":[]},"previous":{"title":"4. 初试去语法糖","level":"1.5","depth":1,"path":"chap4.md","ref":"chap4.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap5.md","mtime":"2017-11-27T05:14:35.624Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-27T11:51:52.513Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":" 5. 添加函数","level":"1.6","depth":1,"next":{"title":" 6. 从替换模型到环境模型","level":"1.7","depth":1,"path":"chap6.md","ref":"chap6.md","articles":[]},"previous":{"title":" 4. 初试去语法糖","level":"1.5","depth":1,"path":"chap4.md","ref":"chap4.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-76420995-1"},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc; MrMathematica","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap5.md","mtime":"2018-09-28T07:36:04.702Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-28T07:36:08.800Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
@@ -582,7 +625,7 @@
     <script src="gitbook/theme.js"></script>
     
         
-        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
         
     
         

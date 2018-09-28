@@ -4,17 +4,21 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>6. 从替换模型到环境模型 · Programming Languages: Application and Interpretation</title>
+        <title> 6. 从替换模型到环境模型 · Programming Languages: Application and Interpretation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
-        <meta name="author" content="lotuc">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="lotuc; MrMathematica">
         
         
     
     <link rel="stylesheet" href="gitbook/style.css">
 
     
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-katex/katex.min.css">
+                
             
                 
                 <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
@@ -107,7 +111,7 @@
                 <a href="chap1.html">
             
                     
-                    1. 引言
+                     1. 引言
             
                 </a>
             
@@ -120,7 +124,7 @@
                 <a href="chap2.html">
             
                     
-                    2. 本书有关语法解析的一切
+                     2. 本书有关语法解析的一切
             
                 </a>
             
@@ -133,7 +137,7 @@
                 <a href="chap3.html">
             
                     
-                    3. 解释器初窥
+                     3. 解释器初窥
             
                 </a>
             
@@ -146,7 +150,7 @@
                 <a href="chap4.html">
             
                     
-                    4. 初试去语法糖
+                     4. 初试去语法糖
             
                 </a>
             
@@ -159,7 +163,7 @@
                 <a href="chap5.html">
             
                     
-                    5. 添加函数
+                     5. 添加函数
             
                 </a>
             
@@ -172,7 +176,7 @@
                 <a href="chap6.html">
             
                     
-                    6. 从替换模型到环境模型
+                     6. 从替换模型到环境模型
             
                 </a>
             
@@ -185,7 +189,7 @@
                 <a href="chap7.html">
             
                     
-                    7. 任意位置的函数
+                     7. 任意位置的函数
             
                 </a>
             
@@ -198,7 +202,7 @@
                 <a href="chap8.html">
             
                     
-                    8. 可变结构体和变量
+                     8. 可变结构体和变量
             
                 </a>
             
@@ -211,7 +215,7 @@
                 <a href="chap9.html">
             
                     
-                    9. 递归和循环：子程序与数据
+                     9. 递归和循环：子程序与数据
             
                 </a>
             
@@ -284,6 +288,45 @@
             
         </li>
     
+        <li class="chapter " data-level="1.16" data-path="chap15.html">
+            
+                <a href="chap15.html">
+            
+                    
+                    15. 静态地检查程序中的不变量：类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="chap16.html">
+            
+                <a href="chap16.html">
+            
+                    
+                    16. 动态地检查程序中的不变量：契约
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="chap17.html">
+            
+                <a href="chap17.html">
+            
+                    
+                    17. 其他调用语义
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -314,7 +357,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >6. 从替换模型到环境模型</a>
+        <a href="." > 6. 从替换模型到环境模型</a>
     </h1>
 </div>
 
@@ -346,12 +389,12 @@
 <blockquote>
 <p>&#x8FD9;&#x91CC;&#x7684;&#x201C;&#x4E00;&#x81F4;&#x201D;&#x5230;&#x5E95;&#x662F;&#x4EC0;&#x4E48;&#x610F;&#x601D;&#x5462;&#xFF1F;&#x7279;&#x522B;&#x5730;&#xFF0C;&#x5F53;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x62A5;&#x9519;&#x65F6;&#x5462;&#xFF1F;</p>
 </blockquote>
-<p>&#x9996;&#x5148;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x5B9A;&#x4E49;&#x73AF;&#x5883;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;&#x73AF;&#x5883;&#x662F;&#x5C06;&#x540D;&#x5B57;&#x4E0E;&#x4EC0;&#x4E48;&#x7684;&#x7ED1;&#x5B9A;&#x7684;&#x5217;&#x8868;&#xFF1F;</p>
+<p>&#x9996;&#x5148;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x5B9A;&#x4E49;&#x73AF;&#x5883;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;&#x73AF;&#x5883;&#x662F;&#x5C06;&#x540D;&#x5B57;&#x4E0E;&#x4EC0;&#x4E48;&#x7684;&#x7ED1;&#x5B9A;&#x7684;&#x8868;&#xFF1F;</p>
 <p><strong>&#x601D;&#x8003;&#x9898;</strong></p>
 <blockquote>
 <p>&#x8FD9;&#x91CC;&#x5B9A;&#x4E49;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x65F6;&#xFF0C;&#x5F88;&#x81EA;&#x7136;&#x7684;&#x95EE;&#x9898;&#x5C31;&#x662F;&#xFF0C;&#x73AF;&#x5883;&#x4E2D;&#x5C06;&#x540D;&#x5B57;&#x6620;&#x5C04;&#x6210;&#x4E86;&#x4EC0;&#x4E48;&#x4E1C;&#x897F;&#x3002;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x95EE;&#x66F4;&#x597D;&#x66F4;&#x57FA;&#x672C;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x5982;&#x4F55;&#x5F97;&#x51FA;&#x8FD9;&#x4E2A;&#x5F88;&#x81EA;&#x7136;&#x95EE;&#x9898;&#x7684;&#x7B54;&#x6848;&#xFF1F;</p>
 </blockquote>
-<p>&#x8BB0;&#x4F4F;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x5F15;&#x5165;&#x73AF;&#x5883;&#x662F;&#x4E3A;&#x4E86;&#x63A8;&#x8FDF;&#x66FF;&#x6362;&#x8FC7;&#x7A0B;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x7B54;&#x6848;&#x5728;&#x66FF;&#x6362;&#x4E2D;&#x3002;&#x6211;&#x4EEC;&#x5728;<a href="chap5.html#&#x7B49;&#x7B49;&#xFF0C;&#x8FD8;&#x6CA1;&#x5B8C;&#x5462;&#xFF01;">&#x4E0A;&#x4E00;&#x7AE0;&#x6700;&#x540E;&#x4E00;&#x8282;</a>&#x4E2D;&#x8BA8;&#x8BBA;&#x8FC7;&#xFF0C;&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x76F4;&#x63A5;&#x5C06;&#x540D;&#x5B57;&#x66FF;&#x6362;&#x4E3A;&#x8BA1;&#x7B97;&#x7ED3;&#x679C;&#xFF0C;&#x5373;&#x5BF9;&#x5E94;&#x4E8E;&#x51FD;&#x6570;&#x7684;&#x53CA;&#x65E9;&#x6C42;&#x503C;&#x7B56;&#x7565;&#x3002;&#x56E0;&#x6B64;&#x540C;&#x6837;&#x7684;&#xFF0C;&#x73AF;&#x5883;&#x4E2D;&#x5E94;&#x8BE5;&#x5C06;&#x540D;&#x5B57;&#x6620;&#x5C04;&#x4E3A;&#x6C42;&#x503C;&#x7ED3;&#x679C;&#x3002;</p>
+<p>&#x8BB0;&#x4F4F;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x5F15;&#x5165;&#x73AF;&#x5883;&#x662F;&#x4E3A;&#x4E86;&#x63A8;&#x8FDF;&#x66FF;&#x6362;&#x8FC7;&#x7A0B;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x7B54;&#x6848;&#x5728;&#x66FF;&#x6362;&#x4E2D;&#x3002;&#x6211;&#x4EEC;&#x5728;<a href="chap5.html#55-&#x7B49;&#x7B49;&#x8FD8;&#x6CA1;&#x5B8C;&#x5462;">&#x4E0A;&#x4E00;&#x7AE0;&#x6700;&#x540E;&#x4E00;&#x8282;</a>&#x4E2D;&#x8BA8;&#x8BBA;&#x8FC7;&#xFF0C;&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x76F4;&#x63A5;&#x5C06;&#x540D;&#x5B57;&#x66FF;&#x6362;&#x4E3A;&#x8BA1;&#x7B97;&#x7ED3;&#x679C;&#xFF0C;&#x5373;&#x5BF9;&#x5E94;&#x4E8E;&#x51FD;&#x6570;&#x7684;&#x53CA;&#x65E9;&#x6C42;&#x503C;&#x7B56;&#x7565;&#x3002;&#x56E0;&#x6B64;&#x540C;&#x6837;&#x7684;&#xFF0C;&#x73AF;&#x5883;&#x4E2D;&#x5E94;&#x8BE5;&#x5C06;&#x540D;&#x5B57;&#x6620;&#x5C04;&#x4E3A;&#x6C42;&#x503C;&#x7ED3;&#x679C;&#x3002;</p>
 <pre><code class="lang-racket">(define-type Binding
   [bind (name : symbol) (val : number)])
 
@@ -388,7 +431,7 @@
 <p>&#x6700;&#x540E;&#xFF0C;&#x5904;&#x7406;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;&#x6CE8;&#x610F;&#x5230;&#x5728;&#x66FF;&#x6362;&#x6A21;&#x578B;&#x7684;&#x89E3;&#x91CA;&#x5668;&#x4E2D;&#xFF0C;&#x552F;&#x4E00;&#x521B;&#x5EFA;&#x65B0;&#x66FF;&#x6362;&#x7684;&#x90E8;&#x5206;&#x5C31;&#x662F;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;&#x56E0;&#x6B64;&#x8FD9;&#x4E2A;&#x5730;&#x65B9;&#x4F1A;&#x662F;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x7ED1;&#x5B9A;&#x7684;&#x5730;&#x65B9;&#x3002;&#x7B2C;&#x4E00;&#x6B65;&#xFF0C;&#x8DDF;&#x4E4B;&#x524D;&#x4E00;&#x6837;&#xFF0C;&#x63D0;&#x53D6;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#xFF1A;</p>
 <pre><code class="lang-racket">&lt;appC-case&gt; ::=  ;&#x8C03;&#x7528;&#x5B50;&#x53E5;
 
-    [appC (f a) (local ([define fd (get-fundef f fds)])
+    [appC (f a) (let ([fd (get-fundef f fds)])
                   &lt;appC-interp&gt;)]  ;&#x8C03;&#x7528;&#x7684;&#x89E3;&#x91CA;
 </code></pre>
 <p>&#x4E4B;&#x524D;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x5148;&#x8FDB;&#x884C;&#x66FF;&#x6362;&#xFF0C;&#x7136;&#x540E;&#x89E3;&#x91CA;&#x3002;&#x73B0;&#x5728;&#x5254;&#x9664;&#x6389;&#x66FF;&#x6362;&#x8FD9;&#x4E2A;&#x6B65;&#x9AA4;&#xFF0C;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x8BB0;&#x5F55;&#x4E0B;&#x8981;&#x66FF;&#x6362;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x7136;&#x540E;&#x76F4;&#x63A5;&#x8FDB;&#x5165;&#x89E3;&#x91CA;&#x6B65;&#x9AA4;&#xFF1A;</p>
@@ -545,12 +588,12 @@
 
             
                 
-                <a href="chap5.html" class="navigation navigation-prev " aria-label="Previous page: 5. 添加函数">
+                <a href="chap5.html" class="navigation navigation-prev " aria-label="Previous page:  5. 添加函数">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="chap7.html" class="navigation navigation-next " aria-label="Next page: 7. 任意位置的函数">
+                <a href="chap7.html" class="navigation navigation-next " aria-label="Next page:  7. 任意位置的函数">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -561,7 +604,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"6. 从替换模型到环境模型","level":"1.7","depth":1,"next":{"title":"7. 任意位置的函数","level":"1.8","depth":1,"path":"chap7.md","ref":"chap7.md","articles":[]},"previous":{"title":"5. 添加函数","level":"1.6","depth":1,"path":"chap5.md","ref":"chap5.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap6.md","mtime":"2017-11-27T05:14:35.624Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-27T11:51:52.513Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":" 6. 从替换模型到环境模型","level":"1.7","depth":1,"next":{"title":" 7. 任意位置的函数","level":"1.8","depth":1,"path":"chap7.md","ref":"chap7.md","articles":[]},"previous":{"title":" 5. 添加函数","level":"1.6","depth":1,"path":"chap5.md","ref":"chap5.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-76420995-1"},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc; MrMathematica","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap6.md","mtime":"2018-09-28T07:36:04.702Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-28T07:36:08.800Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
@@ -571,7 +614,7 @@
     <script src="gitbook/theme.js"></script>
     
         
-        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
         
     
         

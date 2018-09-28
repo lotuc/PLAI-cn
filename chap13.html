@@ -7,14 +7,18 @@
         <title>13. 语言中支持去语法糖 · Programming Languages: Application and Interpretation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
-        <meta name="author" content="lotuc">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="lotuc; MrMathematica">
         
         
     
     <link rel="stylesheet" href="gitbook/style.css">
 
     
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-katex/katex.min.css">
+                
             
                 
                 <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
@@ -107,7 +111,7 @@
                 <a href="chap1.html">
             
                     
-                    1. 引言
+                     1. 引言
             
                 </a>
             
@@ -120,7 +124,7 @@
                 <a href="chap2.html">
             
                     
-                    2. 本书有关语法解析的一切
+                     2. 本书有关语法解析的一切
             
                 </a>
             
@@ -133,7 +137,7 @@
                 <a href="chap3.html">
             
                     
-                    3. 解释器初窥
+                     3. 解释器初窥
             
                 </a>
             
@@ -146,7 +150,7 @@
                 <a href="chap4.html">
             
                     
-                    4. 初试去语法糖
+                     4. 初试去语法糖
             
                 </a>
             
@@ -159,7 +163,7 @@
                 <a href="chap5.html">
             
                     
-                    5. 添加函数
+                     5. 添加函数
             
                 </a>
             
@@ -172,7 +176,7 @@
                 <a href="chap6.html">
             
                     
-                    6. 从替换模型到环境模型
+                     6. 从替换模型到环境模型
             
                 </a>
             
@@ -185,7 +189,7 @@
                 <a href="chap7.html">
             
                     
-                    7. 任意位置的函数
+                     7. 任意位置的函数
             
                 </a>
             
@@ -198,7 +202,7 @@
                 <a href="chap8.html">
             
                     
-                    8. 可变结构体和变量
+                     8. 可变结构体和变量
             
                 </a>
             
@@ -211,7 +215,7 @@
                 <a href="chap9.html">
             
                     
-                    9. 递归和循环：子程序与数据
+                     9. 递归和循环：子程序与数据
             
                 </a>
             
@@ -277,6 +281,45 @@
             
                     
                     14. 控制指令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="chap15.html">
+            
+                <a href="chap15.html">
+            
+                    
+                    15. 静态地检查程序中的不变量：类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="chap16.html">
+            
+                <a href="chap16.html">
+            
+                    
+                    16. 动态地检查程序中的不变量：契约
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="chap17.html">
+            
+                <a href="chap17.html">
+            
+                    
+                    17. 其他调用语义
             
                 </a>
             
@@ -379,8 +422,8 @@
   for function argument in: 3
 </code></pre>
 <p>&#x8FD9;&#x5C31;&#x8868;&#x660E;&#xFF0C;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x7684;&#x8FC7;&#x7A0B;&#x5728;&#x5176;&#x529F;&#x80FD;&#x4E0A;&#x76F4;&#x622A;&#x4E86;&#x5F53;&#xFF1A;&#x5B83;&#x4E0D;&#x4F1A;&#x5C1D;&#x8BD5;&#x731C;&#x6D4B;&#x5565;&#x6216;&#x8005;&#x505A;&#x5565;&#x806A;&#x660E;&#x4E8B;&#xFF0C;&#x5C31;&#x662F;&#x7B80;&#x5355;&#x7684;&#x66FF;&#x6362;&#x91CD;&#x5199;&#x800C;&#x5DF2;&#x3002;&#x5176;&#x8F93;&#x51FA;&#x662F;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x8FD9;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x4E5F;&#x53EF;&#x4EE5;&#x88AB;&#x8FDB;&#x4E00;&#x6B65;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x3002;</p>
-<p>&#x524D;&#x6587;&#x4E2D;&#x63D0;&#x5230;&#x8FC7;&#xFF0C;&#x8FD9;&#x79CD;&#x7B80;&#x5355;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x91CD;&#x5199;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x672F;&#x8BED;<strong>&#x5B8F;</strong>&#xFF08;macro&#xFF09;&#x79F0;&#x547C;&#x3002;&#x4F20;&#x7EDF;&#x4E0A;&#x3002;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x5B8F;&#x5C55;&#x5F00;</strong>&#xFF08;macro expansion&#xFF09;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x4E2A;&#x672F;&#x8BED;&#x6709;&#x8BEF;&#x5BFC;&#x6027;&#xFF0C;&#x56E0;&#x4E3A;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x540E;&#x7684;&#x8F93;&#x51FA;&#x53EF;&#x4EE5;&#x6BD4;&#x8F93;&#x5165;&#x66F4;&#x5C0F;&#xFF08;&#x901A;&#x5E38;&#x8FD8;&#x662F;&#x66F4;&#x5927;&#x5566;&#xFF09;&#x3002;</p>
-<p>&#x5F53;&#x7136;&#xFF0C;&#x5728;Racket&#x4E2D;&#xFF0C;<code>let</code>&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x591A;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#xFF0C;&#x800C;&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;&#x4E00;&#x4E2A;&#x3002;&#x975E;&#x6B63;&#x5F0F;&#x7684;&#x5199;&#x4E0B;&#x8FD9;&#x79CD;&#x8BED;&#x6CD5;&#x7684;&#x63CF;&#x8FF0;&#x7684;&#x8BDD;&#xFF0C;&#x6BD4;&#x5982;&#x5728;&#x9ED1;&#x677F;&#x4E0A;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x80FD;&#x4F1A;&#x8FD9;&#x6837;&#x5199;&#xFF0C;<code>(let ([var val] ...) body) -&gt; ((lambda (var ...) body) val ...)</code>&#xFF0C;&#x5176;&#x4E2D;<code>...</code>&#x8868;&#x793A;&#x201C;&#x96F6;&#x6216;&#x66F4;&#x591A;&#x4E2A;&#x201D; &#xFF0C;&#x610F;&#x601D;&#x662F;&#xFF0C;&#x8F93;&#x51FA;&#x4E2D;&#x7684;<code>var ...</code>&#x8981;&#x5BF9;&#x5E94;&#x8F93;&#x5165;&#x4E2D;&#x7684;&#x591A;&#x4E2A;<code>var</code>&#x3002;&#x540C;&#x6837;&#xFF0C;&#x63CF;&#x8FF0;&#x5B83;&#x7684;Racekt&#x8BED;&#x6CD5;&#x957F;&#x7684;&#x5DEE;&#x4E0D;&#x591A;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x3002;</p>
+<p>&#x524D;&#x6587;&#x4E2D;&#x63D0;&#x5230;&#x8FC7;&#xFF0C;&#x8FD9;&#x79CD;&#x7B80;&#x5355;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x91CD;&#x5199;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x672F;&#x8BED;<strong>&#x5B8F;</strong>&#xFF08;macro&#xFF09;&#x79F0;&#x547C;&#x3002;&#x4F20;&#x7EDF;&#x4E0A;&#xFF0C;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x5B8F;&#x5C55;&#x5F00;</strong>&#xFF08;macro expansion&#xFF09;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x4E2A;&#x672F;&#x8BED;&#x6709;&#x8BEF;&#x5BFC;&#x6027;&#xFF0C;&#x56E0;&#x4E3A;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x540E;&#x7684;&#x8F93;&#x51FA;&#x53EF;&#x4EE5;&#x6BD4;&#x8F93;&#x5165;&#x66F4;&#x5C0F;&#xFF08;&#x901A;&#x5E38;&#x8FD8;&#x662F;&#x66F4;&#x5927;&#x5566;&#xFF09;&#x3002;</p>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x5728;Racket&#x4E2D;&#xFF0C;<code>let</code>&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x591A;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#xFF0C;&#x800C;&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;&#x4E00;&#x4E2A;&#x3002;&#x975E;&#x6B63;&#x5F0F;&#x7684;&#x5199;&#x4E0B;&#x8FD9;&#x79CD;&#x8BED;&#x6CD5;&#x7684;&#x63CF;&#x8FF0;&#x7684;&#x8BDD;&#xFF0C;&#x6BD4;&#x5982;&#x5728;&#x9ED1;&#x677F;&#x4E0A;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x80FD;&#x4F1A;&#x8FD9;&#x6837;&#x5199;&#xFF0C;<code>(let ([var val] ...) body) -&gt; ((lambda (var ...) body) val ...)</code>&#xFF0C;&#x5176;&#x4E2D;<code>...</code>&#x8868;&#x793A;&#x201C;&#x96F6;&#x6216;&#x66F4;&#x591A;&#x4E2A;&#x201D; &#xFF0C;&#x610F;&#x601D;&#x662F;&#xFF0C;&#x8F93;&#x51FA;&#x4E2D;&#x7684;<code>var ...</code>&#x8981;&#x5BF9;&#x5E94;&#x8F93;&#x5165;&#x4E2D;&#x7684;&#x591A;&#x4E2A;<code>var</code>&#x3002;&#x540C;&#x6837;&#xFF0C;&#x63CF;&#x8FF0;&#x5B83;&#x7684;Racekt&#x8BED;&#x6CD5;&#x957F;&#x7684;&#x5DEE;&#x4E0D;&#x591A;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#xFF1A;</p>
 <pre><code class="lang-Racket">(define-syntax my-let-2
   (syntax-rules ()
     [(my-let-2 ([var val] ...) body)
@@ -420,8 +463,7 @@
 </code></pre>
 <p>&#x5173;&#x952E;&#x662F;&#x591A;&#x51FA;&#x4E86;&#x51E0;&#x4E2A;&#x5B57;&#x7B26;&#xFF1A;<code>#&#x2019;</code>&#x3002;&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x8FD9;&#x662F;&#x4EC0;&#x4E48;&#x3002;</p>
 <p>&#x5728;<code>syntax-rules</code>&#x4E2D;&#xFF0C;&#x8F93;&#x51FA;&#x90E8;&#x5206;&#x5C31;&#x6307;&#x5B9A;&#x8F93;&#x51FA;&#x7684;&#x7ED3;&#x6784;&#x3002;&#x4E0E;&#x4E4B;&#x4E0D;&#x540C;&#xFF0C;<code>syntax-case</code>&#x63ED;&#x793A;&#x4E86;&#x8F6C;&#x6362;&#x8FC7;&#x7A0B;&#x51FD;&#x6570;&#x7684;&#x672C;&#x8D28;&#xFF0C;&#x56E0;&#x6B64;&#x5176;&#x8F93;&#x51FA;&#x90E8;&#x5206;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x4EFB;&#x610F;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x8BE5;&#x8868;&#x8FBE;&#x5F0F;&#x53EF;&#x4EE5;&#x6267;&#x884C;&#x4EFB;&#x4F55;&#x5B83;&#x60F3;&#x8981;&#x8FDB;&#x884C;&#x7684;&#x8BA1;&#x7B97;&#x3002;&#x8BE5;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x6C42;&#x503C;&#x7ED3;&#x679C;&#x5E94;&#x8BE5;&#x662F;&#x8BED;&#x6CD5;&#x3002;</p>
-<p>TODO: distinct type <a href="https://www.ibm.com/support/knowledgecenter/en/SSGU8G_12.1.0/com.ibm.sqlr.doc/ids_sqr_116.htm" target="_blank">https://www.ibm.com/support/knowledgecenter/en/SSGU8G_12.1.0/com.ibm.sqlr.doc/ids_sqr_116.htm</a>
-&#x8BED;&#x6CD5;&#x5C31;&#x662F;&#x4E00;&#x79CD;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF08;&#x548C;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x90FD;&#x4E0D;&#x540C;&#xFF09;&#x3002;&#x548C;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E00;&#x6837;&#xFF0C;&#x5B83;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x521B;&#x5EFA;&#x89C4;&#x5219;&#x3002;&#x5177;&#x4F53;&#x6765;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x5199;<code>#&#x2019;</code>&#x6765;&#x6784;&#x9020;&#x8BED;&#x6CD5;&#x503C;&#xFF1B;&#x4E4B;&#x540E;&#x7684;&#x90A3;&#x4E2A;s-expression&#x88AB;&#x5F53;&#x4F5C;&#x8BED;&#x6CD5;&#x503C;&#x3002;&#xFF08;&#x987A;&#x4FBF;&#x63D0;&#x4E00;&#x53E5;&#xFF0C;&#x4E0A;&#x9762;&#x5B8F;&#x5B9A;&#x4E49;&#x4E2D;&#x7684;<code>x</code>&#x7ED1;&#x5B9A;&#x7684;&#x4E5F;&#x662F;&#x8FD9;&#x79CD;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3002;&#xFF09;</p>
+<p>&#x8BED;&#x6CD5;&#x5176;&#x5B9E;&#x662F;&#x4E2A;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3002;&#x548C;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E00;&#x6837;&#xFF0C;&#x5B83;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x6784;&#x9020;&#x89C4;&#x5219;&#x3002;&#x5177;&#x4F53;&#x6765;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x5199;<code>#&#x2019;</code>&#x6765;&#x6784;&#x9020;&#x8BED;&#x6CD5;&#x503C;&#xFF1B;&#x4E4B;&#x540E;&#x7684;&#x90A3;&#x4E2A;s-expression&#x88AB;&#x5F53;&#x4F5C;&#x8BED;&#x6CD5;&#x503C;&#x3002;&#xFF08;&#x987A;&#x4FBF;&#x63D0;&#x4E00;&#x53E5;&#xFF0C;&#x4E0A;&#x9762;&#x5B8F;&#x5B9A;&#x4E49;&#x4E2D;&#x7684;<code>x</code>&#x7ED1;&#x5B9A;&#x7684;&#x4E5F;&#x662F;&#x8FD9;&#x79CD;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3002;&#xFF09;</p>
 <p>&#x8BED;&#x6CD5;&#x6784;&#x9020;&#x5668;<code>#&#x2019;</code>&#x6709;&#x79CD;&#x7279;&#x6B8A;&#x5C5E;&#x6027;&#x3002;&#x5728;&#x5B8F;&#x7684;&#x8F93;&#x51FA;&#x90E8;&#x5206;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x8F93;&#x5165;&#x4E2D;&#x51FA;&#x73B0;&#x7684;&#x8BED;&#x6CD5;&#x53D8;&#x91CF;&#x90FD;&#x88AB;&#x81EA;&#x52A8;&#x7ED1;&#x5B9A;&#x5E76;&#x66FF;&#x6362;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x6BD4;&#x65B9;&#x8BF4;&#xFF0C;&#x5F53;&#x5C55;&#x5F00;&#x51FD;&#x6570;&#x5728;&#x8F93;&#x51FA;&#x4E2D;&#x9047;&#x5230;var&#x65F6;&#xFF0C;&#x5B83;&#x4F1A;&#x5C06;var&#x66FF;&#x6362;&#x4E3A;&#x76F8;&#x5E94;&#x7684;&#x8F93;&#x5165;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</p>
 <p><strong>&#x601D;&#x8003;&#x9898;</strong></p>
 <blockquote>
@@ -486,7 +528,7 @@ my-or-1: bad syntax in: (my-or-1)
 <blockquote>
 <p>&#x4E3A;&#x4EC0;&#x4E48;&#x6B63;&#x786E;&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x662F;<code>#f</code>&#xFF1F;</p>
 </blockquote>
-<p>&#x5982;&#x4E0B;&#x6240;&#x793A;&#x52A0;&#x4E0A;&#x8FD9;&#x6761;&#x89C4;&#x5219;&#xFF0C;&#x8FD9;&#x8868;&#x660E;&#x5B8F;&#x53EF;&#x4EE5;&#x6709;&#x4E0D;&#x6B62;&#x4E00;&#x6761;&#x7684;&#x89C4;&#x5219;&#x3002;&#x5B8F;&#x7684;&#x89C4;&#x5219;&#x662F;&#x987A;&#x5E8F;&#x5339;&#x914D;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x628A;&#x6700;&#x5177;&#x4F53;&#x7684;&#x89C4;&#x5219;&#x653E;&#x5728;&#x6700;&#x524D;&#x9762;&#xFF0C;&#x4EE5;&#x514D;&#x5B83;&#x4EEC;&#x88AB;&#x66F4;&#x4E00;&#x822C;&#x7684;&#x89C4;&#x5219;&#x8986;&#x76D6;&#xFF08;&#x5C3D;&#x7BA1;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x4E24;&#x6761;&#x89C4;&#x5219;&#x5E76;&#x4E0D;&#x91CD;&#x53E0;&#xFF09;&#x3002;&#x6539;&#x8FDB;&#x540E;&#x7684;&#x5B8F;&#x662F;&#xFF1A;</p>
+<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x52A0;&#x4E0A;&#x8FD9;&#x6761;&#x89C4;&#x5219;&#xFF0C;&#x5C55;&#x793A;&#x4E0D;&#x6B62;&#x4E00;&#x6761;&#x89C4;&#x5219;&#x7684;&#x5B8F;&#x3002;&#x5B8F;&#x7684;&#x89C4;&#x5219;&#x662F;&#x987A;&#x5E8F;&#x5339;&#x914D;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x628A;&#x6700;&#x5177;&#x4F53;&#x7684;&#x89C4;&#x5219;&#x653E;&#x5728;&#x6700;&#x524D;&#x9762;&#xFF0C;&#x4EE5;&#x514D;&#x5B83;&#x4EEC;&#x88AB;&#x66F4;&#x4E00;&#x822C;&#x7684;&#x89C4;&#x5219;&#x8986;&#x76D6;&#xFF08;&#x5C3D;&#x7BA1;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x4E24;&#x6761;&#x89C4;&#x5219;&#x5E76;&#x4E0D;&#x91CD;&#x53E0;&#xFF09;&#x3002;&#x6539;&#x8FDB;&#x540E;&#x7684;&#x5B8F;&#x662F;&#xFF1A;</p>
 <pre><code class="lang-Racket">(define-syntax (my-or-2 x)
   (syntax-case x ()
     [(my-or-2)
@@ -670,7 +712,7 @@ my-or-1: bad syntax in: (my-or-1)
 <h2 id="137-&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;">13.7 &#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;</h2>
 <p>&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;Racket&#xFF0C;&#x8BB8;&#x591A;&#x73B0;&#x4EE3;&#x8BED;&#x8A00;&#x4E5F;&#x901A;&#x8FC7;&#x53BB;&#x8BED;&#x6CD5;&#x7CD6;&#x6765;&#x5B9A;&#x4E49;&#x64CD;&#x4F5C;&#x3002;&#x4F8B;&#x5982;&#x5728;Python&#x4E2D;&#xFF0C;for&#x8FED;&#x4EE3;&#x5C31;&#x662F;&#x8BED;&#x6CD5;&#x6A21;&#x5F0F;&#x3002;&#x7A0B;&#x5E8F;&#x5458;&#x5199;&#x4E0B;<code>for x in o</code>&#x65F6;&#xFF0C;&#x4ED6;</p>
 <ul>
-<li>&#x5F15;&#x5165;&#x4E86;&#x65B0;&#x6807;&#x8BC6;&#x7B26;&#xFF08;&#x79F0;&#x4E4B;&#x4E3A;i&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x8BF7;&#x4E0D;&#x8981;&#x8BA9;&#x5176;&#x7ED1;&#x5B9A;&#x7A0B;&#x5E8F;&#x5458;&#x5DF2;&#x7ECF;&#x5B9A;&#x4E49;&#x7684;&#x4EFB;&#x4F55;&#x5176;&#x4ED6;i&#xFF0C;&#x5373;&#xFF0C;&#x536B;&#x751F;&#x7684;&#x7ED1;&#x5B9A;i&#xFF01;&#xFF09;&#xFF0C;</li>
+<li>&#x5F15;&#x5165;&#x4E86;&#x65B0;&#x6807;&#x8BC6;&#x7B26;&#xFF08;&#x79F0;&#x4E4B;&#x4E3A;i&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x4E0D;&#x8981;&#x8BA9;&#x5176;&#x6355;&#x83B7;&#x4E86;&#x7A0B;&#x5E8F;&#x5458;&#x5B9A;&#x4E49;&#x7684;i&#xFF0C;&#x5373;&#xFF0C;&#x536B;&#x751F;&#x7684;&#x7ED1;&#x5B9A;i&#xFF01;&#xFF09;&#xFF0C;</li>
 <li>&#x5C06;&#x5176;&#x7ED1;&#x5B9A;&#x5230;&#x4ECE;o&#x83B7;&#x5F97;&#x7684;&#x8FED;&#x4EE3;&#x5668;&#xFF08;iterator&#xFF09;&#xFF0C;</li>
 <li>&#x521B;&#x5EFA;&#xFF08;&#x53EF;&#x80FD;&#xFF09;&#x65E0;&#x9650;&#x7684;while&#x5FAA;&#x73AF;&#xFF0C;&#x53CD;&#x590D;&#x8C03;&#x7528;i&#x7684;.next&#x65B9;&#x6CD5;&#xFF0C;&#x76F4;&#x5230;&#x8FED;&#x4EE3;&#x5668;&#x5F15;&#x53D1;StopIteration&#x5F02;&#x5E38;&#x3002;</li>
 </ul>
@@ -718,7 +760,7 @@ my-or-1: bad syntax in: (my-or-1)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"13. 语言中支持去语法糖","level":"1.14","depth":1,"next":{"title":"14. 控制指令","level":"1.15","depth":1,"path":"chap14.md","ref":"chap14.md","articles":[]},"previous":{"title":"12. 表示层抉择","level":"1.13","depth":1,"path":"chap12.md","ref":"chap12.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap13.md","mtime":"2017-12-05T13:28:53.046Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-27T11:51:52.513Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"13. 语言中支持去语法糖","level":"1.14","depth":1,"next":{"title":"14. 控制指令","level":"1.15","depth":1,"path":"chap14.md","ref":"chap14.md","articles":[]},"previous":{"title":"12. 表示层抉择","level":"1.13","depth":1,"path":"chap12.md","ref":"chap12.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-76420995-1"},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"lotuc; MrMathematica","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Programming Languages: Application and Interpretation","gitbook":"*"},"file":{"path":"chap13.md","mtime":"2018-09-28T07:36:04.698Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-28T07:36:08.800Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
@@ -728,7 +770,7 @@ my-or-1: bad syntax in: (my-or-1)
     <script src="gitbook/theme.js"></script>
     
         
-        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
         
     
         

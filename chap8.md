@@ -26,7 +26,7 @@ unbox : ((boxof 'a) -> 'a)
 set-box! : ((boxof 'a) 'a -> void)
 ```
 
-`box`接受一个值，将其包裹在可变容器中。`unbox`取出容器中的当前值。`set-box!`改变容器中的值，对于静态类型的语言来说，新值需要和旧值保持类型一致。如果对应到Java中的话，box大致等价于带类型参数的Java容器类，只有一个字段，外加getter和getter:`box`对应构造器，`unbox`对应`getter`，`set-box!`对应`setter`（由于只有一个字段，所以字段名也无所谓了）：
+`box`接受一个值，将其包裹在可变容器中。`unbox`取出容器中的当前值。`set-box!`改变容器中的值，对于静态类型的语言来说，新值需要和旧值保持类型一致。如果对应到Java中的话，box大致等价于带类型参数的Java容器类，只有一个字段，外加`getter`和`setter`:`box`对应构造器，`unbox`对应`getter`，`set-box!`对应`setter`（由于只有一个字段，所以字段名也无所谓了）：
 
 ```Java
 class Box<T> {

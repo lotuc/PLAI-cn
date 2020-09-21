@@ -16,7 +16,7 @@
 
 [PLAI 第二版](http://cs.brown.edu/courses/cs173/2012/book/index.html)
 
-[Gitbook - PLAI-cn](https://www.gitbook.com/book/lotuc/plai-cn)
+[Gitbook - PLAI-cn](https://lotuc.gitbooks.io/plai-cn/content/)
 
 [zhihu - lotuc](https://zhuanlan.zhihu.com/lotuc)
 

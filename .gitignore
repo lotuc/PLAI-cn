@@ -145,7 +145,7 @@ tramp
 # sftp configuration file
 sftp-config.json
 
-# gitbook
-_book
+# mkdocs
+site
 
 src

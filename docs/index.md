@@ -1,6 +1,26 @@
-# Summary
+# 索引
 
-- [封面](README.md)
+## 封面
+
+![](./imgs/PLAI-cover.jpg)
+
+1. The translation has not been checked by the
+   <a href="mailto:shriram@gmail.com" target="_top">original author</a>
+2. The correct, definitive version is at the
+   [original link](http://cs.brown.edu/courses/cs173/2012/book/index.html).
+
+第二版: [Programming Languages: Application and Interpretation - Second Edition](http://cs.brown.edu/courses/cs173/2012/book/index.html)
+
+## 译者
+
+- [lotuc](https://github.com/lotuc)
+- [MrMathematica](https://github.com/mrmathematica)
+
+本翻译版权属于两位译者
+
+## 目录
+
+- [封面](https://lotuc.github.io/PLAI-cn#plai-cn)
 - [ 1. 引言](chap1.md)
 - [ 2. 本书有关语法解析的一切](chap2.md)
 - [ 3. 解释器初窥](chap3.md)

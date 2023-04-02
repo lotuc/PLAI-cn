@@ -1,0 +1,727 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chap03/">
+      
+      
+        <link rel="next" href="../chap05/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>4 初试去语法糖 - Programming Languages: Application and Interpretation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-CRZZK8N4WE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-CRZZK8N4WE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-CRZZK8N4WE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programming Languages: Application and Interpretation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4 初试去语法糖
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programming Languages: Application and Interpretation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap02/" class="md-nav__link">
+        2 本书有关语法解析的一切
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap03/" class="md-nav__link">
+        3 解释器初窥
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          4 初试去语法糖
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        4 初试去语法糖
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 扩展：添加双目减法操作
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2 扩展：取负数操作
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap05/" class="md-nav__link">
+        5 添加函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap06/" class="md-nav__link">
+        6 从替换模型到环境模型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap07/" class="md-nav__link">
+        7 任意位置的函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap08/" class="md-nav__link">
+        8 可变结构体和变量
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap09/" class="md-nav__link">
+        9 递归和循环：子程序与数据
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap10/" class="md-nav__link">
+        10 对象
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11/" class="md-nav__link">
+        11 内存管理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap12/" class="md-nav__link">
+        12 表示层抉择
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap13/" class="md-nav__link">
+        13 语言中支持去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap14/" class="md-nav__link">
+        14 控制指令
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap15/" class="md-nav__link">
+        15 静态地检查程序中的不变量：类型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap16/" class="md-nav__link">
+        16 动态地检查程序中的不变量：契约
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap17/" class="md-nav__link">
+        17 其他调用语义
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 扩展：添加双目减法操作
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2 扩展：取负数操作
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="4">4 初试去语法糖</h1>
+<p>我们从非常斯巴达式的算术语言开始。下一步我们来看看，在现有语言框架下怎么支持更多
+算术操作。我们只加 2 种，以做示范。</p>
+<h2 id="41">4.1 扩展：添加双目减法操作</h2>
+<p>首先，我们来添加减法。由于我们的语言已经包含了数、加法和乘法，用这些操作足以定义
+减法了：</p>
+<pre><code class="language-text">a - b = a + -1 × b
+</code></pre>
+<p>好的，这很简单！但是我们要怎样将它变成可运行的代码呢。首先，我们面临一个决定，将
+减法操作符放在哪？将其像其它两个操作符一样处理，在现有的 ArithC 数据类型中添加一
+条规则？这种想法看上去很自然，也很诱人。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>修改 ArithC 这种做法有什么不好的地方呢？</p>
+</blockquote>
+<p>这会导致几个问题。首先，显然地，我们将需要修改所有处理 ArithC 的代码。就目前而言
+，还很简单，只涉及到了我们的解释器。但是如果在更为复杂的语言实现中，这会是个问题
+。其次，要添加的结构是可以用已实现的语法结构定义的，去修改已有数据结构的方式让人
+觉得代码不够模块化。最后一点，也是最微妙的一点，修改 ArithC 这种行为有<strong>概念上
+的</strong>错误。因为 ArithC 描述的是我们语言的核心部分。而减法（和其他类似添加特性）是
+用户交互的部分，属于表层语言。明智的做法是，将不同类型的概念放到不同的数据类型中
+，而不是把它们硬塞到一起。有时候这么做看上去有点笨拙，不过长远来看，它会让我们的
+程序更易于阅读易于维护。此外，你可能会将不同的功能扩展放在不同的层次上，这么做（
+将核心语法和表层语法区分开）正有利于这么做。</p>
+<p>因此，我们尝试定义新的数据类型来反应我们的表层语言语法结构：</p>
+<pre><code class="language-racket">(define-type ArithS  ;表层算术
+  [numS (n : number)]
+  [plusS (l : ArithS) (r : ArithS)]
+  [bminusS (l : ArithS) (r : ArithS)]
+  [multS (l : ArithS) (r : ArithS)])
+</code></pre>
+<p>它看起来和 ArithC 基本相同，遵从了相似的递归结构，唯一的区别就是加了一个子句。</p>
+<p>数据类型定了，接下来需要做两件事。第一是要修改语法解析器，让其返回 ArithS 类型数
+据（而不是 ArithC 类型）。第二是要实现去语法糖（desugar）函数，它需要能
+把<code>ArithS</code>值转换成<code>ArithC</code>值。</p>
+<p>先来实现去语法糖函数简单的部分：</p>
+<pre><code class="language-racket">&lt;desugar&gt; ::=  ;去语法糖
+
+    (define (desugar [as : ArithS]) : ArithC
+      (type-case ArithS as
+        [numS (n) (numC n)]
+        [plusS (l r) (plusC (desugar l)
+                            (desugar r))]
+        [multS (l r) (multC (desugar l)
+                            (desugar r))]
+        &lt;bminusS-case&gt;))  ;二元减法子句
+</code></pre>
+<p>把数学描述转化为代码：</p>
+<pre><code class="language-racket">&lt;bminusS-case&gt; ::=  ;二元减法子句
+
+    [bminusS (l r) (plusC (desugar l)
+                          (multC (numC -1) (desugar r)))]
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>️ 常见错误是忘了递归地对<code>l</code>和<code>r</code>进行 desugar 操作。忘了会发生什么？请自行尝试
+。</p>
+</blockquote>
+<h2 id="42">4.2 扩展：取负数操作</h2>
+<p>让我们来考虑另一种更有意思的扩展，取负数操作（unary negation）。这使得你需要对语
+法解析器进行一定修整，当读到<code>-</code>符号时，需要往前读以判断它是减法还是取负操作。但
+这不是有意思的部分！</p>
+<p>取负数操作可以有几种去语法糖的方法。很自然的我们会想到：</p>
+<pre><code class="language-text">-b = 0 - b
+</code></pre>
+<p>继续完成减法的去语法糖操作，我们得到：</p>
+<pre><code class="language-text">-b = 0 + -1 × b
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>你觉得这两种中哪个更好呢？为什么？</p>
+</blockquote>
+<p>大家可能希望使用第一种方式，因为它看起来更为简单。假设我们扩展了<code>ArithS</code>数据类型
+，添加取负数的表示法：</p>
+<pre><code class="language-racket">[uminusS (e : ArithS)]  ;一元减法表达式
+</code></pre>
+<p>对应去语法糖的实现也很直接：</p>
+<pre><code class="language-racket">[(uminusS (e) (desugar (bminusS (numS 0) e)))]
+</code></pre>
+<p>检查看看有没有类型错误。<code>e</code>是<code>ArithS</code>类型，所以它可以被当作参数传递给<code>bminusS</code>来
+进行去语法糖操作。所以这里要做的<strong>不是</strong>对 e 去语法糖，而是将其直接嵌入到生成的
+表达式中。在去语法糖的工具中，这种直接将某个输入项嵌入到另一个项中，然后递归调用
+去语法糖函数的做法很常见，被称之为<strong>宏（macro）</strong>。（在我们这个例子中，“宏”
+是<code>umiunsS</code>的定义。）</p>
+<p>然而该定义存在两个问题：</p>
+<p>1.　第一个问题是，该递归是<strong>生成的（generative）</strong>，这需要我们得对其进行特别关注
+。【注释】我们可能会希望使用下面这种方式来重写它：</p>
+<pre><code class="language-racket">[uminusS (e) (bminusS (numS 0) (desugar e))]
+</code></pre>
+<p>它确实消除了生成性（generativity）。</p>
+<blockquote>
+<p>如果你没听过生成递归，可以阅
+读<a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/part_five.html">《程序设计方法》（又译《如何设计程序》）一书第五部分</a>。
+简单来说在生成递归中，子问题是输入的计算结果，而不是输入的子成分。我们这个例子
+还是很简单的，这里的“计算”就是<code>bminusS</code>构造函数。</p>
+</blockquote>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>很不幸的是，上面的转换有问题，试着找出问题吧。找不出的话，运行一下试试。</p>
+</blockquote>
+<p>第二个问题是，它依赖于<code>bminusS</code>的意义；如果<code>bminusS</code>的意义发生变化，<code>uminusS</code>的
+意义也就发生了变化，即使我们并没打算改变<code>uminusS</code>的意义。作为对比，另一种更鲁棒
+的做法是，定义函数，其输入是两个项，输出是第一个项加上<code>-1</code>乘以第二个项的表示法，
+然后用该函数来定义<code>uminusS</code>和<code>bminusS</code>。</p>
+<p>你可能会说，减法的意义不可能发生改变，这么做有啥意义呢？事情并不总是这样的。确实
+减法的<strong>意义</strong>不太可能改变；但是另一方面，它的<strong>实现</strong>可能会改变。例如，开发者决
+定为减法操作打印日志。采用前一种做法（宏展开），所有取负数操作就也会打出日志；而
+采用后一种做法就不会。</p>
+<p>很幸运，这个例子我们还有更简单的选择：</p>
+<pre><code class="language-text">-b = -1 × b
+</code></pre>
+<p>这种展开方式完全可行，而且还是结构递归。我们花这些篇幅讨论各种不同展开方式的原因
+是，告诉你各种选择和其带来的问题，毕竟现实中你不会总是那么幸运。</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../js/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1041 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chap12/">
+      
+      
+        <link rel="next" href="../chap14/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>13 语言中支持去语法糖 - Programming Languages: Application and Interpretation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-CRZZK8N4WE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-CRZZK8N4WE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-CRZZK8N4WE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#13" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programming Languages: Application and Interpretation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              13 语言中支持去语法糖
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programming Languages: Application and Interpretation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap02/" class="md-nav__link">
+        2 本书有关语法解析的一切
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap03/" class="md-nav__link">
+        3 解释器初窥
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap04/" class="md-nav__link">
+        4 初试去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap05/" class="md-nav__link">
+        5 添加函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap06/" class="md-nav__link">
+        6 从替换模型到环境模型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap07/" class="md-nav__link">
+        7 任意位置的函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap08/" class="md-nav__link">
+        8 可变结构体和变量
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap09/" class="md-nav__link">
+        9 递归和循环：子程序与数据
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap10/" class="md-nav__link">
+        10 对象
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11/" class="md-nav__link">
+        11 内存管理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap12/" class="md-nav__link">
+        12 表示层抉择
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          13 语言中支持去语法糖
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        13 语言中支持去语法糖
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    13.1 第一个例子
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap14/" class="md-nav__link">
+        14 控制指令
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap15/" class="md-nav__link">
+        15 静态地检查程序中的不变量：类型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap16/" class="md-nav__link">
+        16 动态地检查程序中的不变量：契约
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap17/" class="md-nav__link">
+        17 其他调用语义
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    13.1 第一个例子
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="13">13 语言中支持去语法糖</h1>
+<p>关于去语法糖（desugaring），之前很多讨论都谈到、用到了，但是我们目前的去语法糖机
+制是薄弱的。实际上我们用两种不同的方式来使用去语法糖。一方面，我们用它来<strong>缩
+小</strong>语言：输入是一个大语言，去语法糖后得到其核心。另一方面，我们也用它来<strong>扩
+展</strong>语言：给定现有语言，为其添加新的功能。这表明，去语法糖是非常有用的功能。它是
+如此之有用，我们该思考一下如下两个问题：</p>
+<ul>
+<li>我们创建语言的目的是简化常见任务的创建，那么，设计一种支持去语法糖的语言，它会
+  长什么样子呢？请注意，这里的“样子”不仅仅指语法，也包括语言的行为特性。</li>
+<li>通用语言常常被用作去语法糖的目标，那为什么他们不<strong>内建</strong>去语法糖的能力呢？比如
+  说，扩展某个基本语言，添加上一个问题的答案所描述的语言。</li>
+</ul>
+<p>本章我们将通过研究 Racket 提供的解决方案同时探索这两个问题。</p>
+<h2 id="131">13.1 第一个例子</h2>
+<blockquote>
+<p>DrRacket 有个非常有用的工具叫做 Macro Stepper（宏步进器），它能逐步逐步地显示
+程序的展开。你应该对本章中的所有例子尝试 Macro Stepper。不过现在，你应该用</p>
+<h1 id="lang-plai-lang-plai-typed">lang plai 而不是#lang plai-typed 来运行。</h1>
+</blockquote>
+<p>回忆一下，前文我们添加<code>let</code>时，是将其当作<code>lambda</code>的语法糖的。它的模式是：</p>
+<pre><code class="language-Racket">(let (var val) body)
+</code></pre>
+<p>被转换为</p>
+<pre><code class="language-Racket">((lambda (var) body) val)
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>如果这听起来不太熟悉，那么现在是时候回忆一下它是怎么运作的了。</p>
+</blockquote>
+<p>描述这个转换最简单的方法就是直接把它写出来，比如：</p>
+<pre><code class="language-Racket">(let (var val) body)
+-&gt;
+((lambda (var) body) val)
+</code></pre>
+<p>事实上，这差不多正是 Racket 语法允许你做的。</p>
+<blockquote>
+<p>我们将其命名为<code>my-let</code>而不是<code>let</code>，因为后者在 Racket 中已经有定义了。</p>
+</blockquote>
+<pre><code class="language-Racket">(define-syntax my-let-1  ;定义语法
+  (syntax-rules ()       ;语法规则
+    [(my-let-1 (var val) body)
+     ((lambda (var) body) val)]))
+</code></pre>
+<p><code>syntax-rules</code>告诉 Racket，只要看到的某个表达式在左括号之后跟的是<code>my-let-1</code>，就
+应该检查它是否遵循模式<code>(my-let-1 (var val) body)</code>。这
+里<code>var</code>，<code>val</code>和<code>body</code>是<strong>语法变量</strong>：它们是代表代码的变量，可以匹配该位置的任意
+表达式。如果表达式和模式匹配，那么语法变量就绑定为对应的表达式，并且在右边（的表
+达式中）可用。</p>
+<blockquote>
+<p>您可能已经注意到一些额外的语法，如<code>()</code>。 我们稍后再解释。</p>
+</blockquote>
+<p>右边（的表达式）——在这里是<code>((lambda (var) body) val)</code>——就是最后的输出。每个语法
+变量都被替换（注意我们的老朋友，替换）其对应的输入部分。这个替换过程非常简单，不
+会做过多的处理。因此，如果我们尝试这么用</p>
+<pre><code class="language-Racket">(my-let-1 (3 4) 5)
+</code></pre>
+<p>第一步 Racket 不会抱怨 3 出现在标识符的位置；相反，它会照常处理，去语法糖得</p>
+<pre><code class="language-Racket">((lambda (3) 5) 4)
+</code></pre>
+<p>下一步会产生错误：</p>
+<pre><code class="language-Racket">lambda: expected either &lt;id&gt; or `[&lt;id&gt; : &lt;type&gt;]'
+  for function argument in: 3
+</code></pre>
+<p>这就表明，去语法糖的过程在其功能上直截了当：它不会尝试猜测啥或者做啥聪明事，就是
+简单的替换重写而已。其输出是表达式，这个表达式也可以被进一步去语法糖。</p>
+<p>前文中提到过，这种简单的表达式重写通常使用术语<strong>宏</strong>（macro）称呼。传统上，这种
+类型的去语法糖被称为<strong>宏展开</strong>（macro expansion），不过这个术语有误导性，因为去
+语法糖后的输出可以比输入更小（通常还是更大啦）。</p>
+<p>当然，在 Racket 中，<code>let</code>可以绑定多个标识符，而不仅仅是一个。非正式的写下这种语
+法的描述的话，比如在黑板上，我们可能会这样写
+，<code>(let ([var val] ...) body) -&gt; ((lambda (var ...) body) val ...)</code>，其中<code>...</code>表
+示“零或更多个” ，意思是，输出中的<code>var ...</code>要对应输入中的多个<code>var</code>。同样，描述它
+的 Racekt 语法长的差不多就是这样：</p>
+<pre><code class="language-Racket">(define-syntax my-let-2
+  (syntax-rules ()
+    [(my-let-2 ([var val] ...) body)
+     ((lambda (var ...) body) val ...)]))
+</code></pre>
+<p>请注意<code>...</code>符号的能力：输入中“对”的序列在输出中变成序列对了；换句话说，Racket 将
+输入序列“解开”了。与之相对，同样的符号也可以用来组合序列。</p>
+<h2 id="132">13.2 用函数实现语法变换器</h2>
+<p>之前我们看到，my-let-1 并不会试图确保标识符位置中的语法是真正的（即语法上的）标
+识符。用 syntax-rules 机制我们没法弥补这一点，不过使用更强大的机制，称为
+syntax-case，就可以做到。由于 syntax-case 还有很多其他有用的功能，我们分步来介绍
+它。</p>
+<p>首先要理解的是，宏实际上是一种<strong>函数</strong>。但是，它并不是从常见的运行时值到（其他）
+运行时值的函数，而是<strong>从语法到语法</strong>的函数。这种函数执行的目的是<strong>创建要被执行的
+程序</strong>。注意这里我们说的是<strong>要被</strong>执行的程序：程序的实际执行可能会晚得多（甚至根
+本不执行）。看看去语法糖的过程，这点就很清楚了，很显然它是（一种）语法到（另一种
+）语法的函数。两个方面可能导致混淆：</p>
+<ul>
+<li><code>syntax-rules</code>的表示中并没有明确的参数名或者函数头部，可能没有明确表明这是一个
+  转换函数（不过重写规则的格式有暗示这个事实）。</li>
+<li>去语法糖指的是，有个（完整的）函数完成了整个过程。这里，我们实际写的是一系列小
+  函数，每个函数处理一种新的语法结构（比如 my-let-1），这些小函数被某个看不见的
+  函数组合起来，完成整个重写过程。（比如说，我们并没有说明，某个宏展开后的输出是
+  否还会进一步被展开——不过简单试一下就知道，事实确实如此。）</li>
+</ul>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>编写一个或多个宏，以确定宏的输出会被进一步展开。</p>
+</blockquote>
+<p>还有个微妙之处。宏的外观和 Racket 代码非常类似，并没有指明它“生活在另一个世界”。
+想象宏定义使用的是完全不同的语言——这种语言只处理语法——写就很有助于我们建立抽象。
+然而，这种简化并不成立。现实中，程序变换器——也被称为<strong>编译器</strong>（compiler）——也是
+完整的程序，它们也需要普通程序所需要的全部功能。也就是说我们还需要创立一种平行语
+言，专门处理程序。这是浪费和毫无意义的；因此，Racket 自身就支持语法转换所需的全
+部功能。</p>
+<p>背景说完了，接下来开始介绍<code>syntax-case</code>。首先我们用它重写 my-let-1（重写时使用名
+字 my-let-3）。第一步还是先写定义的头部；注意到参数被明确写出：</p>
+<pre><code class="language-Racket">&lt;sc-macro-eg&gt; ::=  ;syntax-case宏，示例
+
+    (define-syntax (my-let-3 x)
+      &lt;sc-macro-eg-body&gt;)
+</code></pre>
+<p><code>x</code>被绑定到整个<code>(my-let-3 ...)</code>表达式</p>
+<p>你可能想到了，<code>define-syntax</code>只是告诉 Racket 你要定义新的宏。它不会指定你想要实
+现的方式，你可以自由地使用任何方便的机制。之前我们用了<code>syntax-rules</code>；现在我们要
+用<code>syntax-case</code>。对于<code>syntax-case</code>，它需要显式的被告知要进行模式匹配的表达式：</p>
+<pre><code class="language-Racket">&lt;sc-macro-eg-body&gt; ::=
+
+    (syntax-case x ()
+      &lt;sc-macro-eg-rule&gt;)
+</code></pre>
+<p>现在可以写我们想要表达的重写规则了。之前的重写规则有两个部分：输入结构和对应的输
+出。这里也一样。前者（输入匹配）和以前一样，但后者（输出）略有不同：</p>
+<pre><code class="language-Racket">&lt;sc-macro-eg-rule&gt; ::=
+
+    [(my-let-3 (var val) body)
+     #'((lambda (var) body) val)]
+</code></pre>
+<p>关键是多出了几个字符：<code>#’</code>。让我们来看看这是什么。</p>
+<p>在<code>syntax-rules</code>中，输出部分就指定输出的结构。与之不同，<code>syntax-case</code>揭示了转换
+过程函数的本质，因此其输出部分实际上是任意表达式，该表达式可以执行任何它想要进行
+的计算。该表达式的求值结果应该是语法。</p>
+<p>语法其实是个数据类型。和其他数据类型一样，它有自己的构造规则。具体来说，我们通过
+写<code>#’</code>来构造语法值；之后的那个 s-expression 被当作语法值。（顺便提一句，上面宏定
+义中的<code>x</code>绑定的也是这种数据类型。）</p>
+<p>语法构造器<code>#’</code>有种特殊属性。在宏的输出部分中，所有输入中出现的语法变量都被自动绑
+定并替换。因此，比方说，当展开函数在输出中遇到 var 时，它会将 var 替换为相应的输
+入表达式。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>在上述宏定义中去掉<code>#’</code>试试看。后果如何？</p>
+</blockquote>
+<p>到目前为止，syntax-case 似乎只是更为复杂的 syntax-rules：唯一稍微好些的地方是，
+它更清楚地描述了展开过程的函数本质，同时明确了输出的类型，但其他方面则更加笨拙。
+但是，我们将会看到，它还提供了强大的功能。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>事实上，syntax-rules 可以被表述为基于 syntax-case 的<strong>宏</strong>。请定义这个宏。</p>
+</blockquote>
+<h2 id="133">13.3 防护装置</h2>
+<p>现在我们可以回过来考虑到最初引致 syntax-case 的问题：确保 my-let-3 的绑定位置在
+语法上是标识符。为此，您需要知道 syntax-case 的一个新特性：每一条重写规则可以包
+含两个部分（如同前面的例子），也可以包含三个部分。如果有三个部分，<strong>中间</strong>那个被
+视为<strong>防护装置</strong>（guard）:它是一个判断，仅当其计算值为真时，展开才会进行，否则就
+报告语法错误。在这个例子中，有用的判断函数是<code>identifier?</code>，它能判定某个语法对象
+是否是标识符（即变量）。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>写出防护装置，并写出包含防护（装置）的（重写）规则。</p>
+</blockquote>
+<p>希望你发现了其中的微妙之处：<code>identifier?</code>的参数是语法类型的。要传给它的是绑定到
+var 的实际语法片段。回想一下，var 是在语法空间中绑定的，而<code>#’</code>会替换其中的绑定变
+量。因此，这里防护装置的正确写法是：</p>
+<pre><code class="language-Racket">(identifier? #'var)
+</code></pre>
+<p>有了这些信息，我们现在可以写出整个规则：</p>
+<pre><code class="language-Racket">&lt;sc-macro-eg-guarded-rule&gt; ::=
+
+    [(my-let-3 (var val) body)
+     (identifier? #'var)
+     #'((lambda (var) body) val)]
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>现在有了带防护的规则定义，尝试使用宏，在绑定位置使用非标识符，看看会发生什么。</p>
+</blockquote>
+<h2 id="134-or">13.4 Or：简单但是包含很多特性的宏</h2>
+<p>考虑<code>or</code>，它实现或操作。使用前缀语法的话，自然的做法是允许<code>or</code>有任意数目的子项。
+我们把<code>or</code>展开为嵌套的条件（表达式），以此判断表达式的真假。</p>
+<h3 id="1341">13.4.1 第一次尝试</h3>
+<p>试试这样的 or：</p>
+<pre><code class="language-Racket">(define-syntax (my-or-1 x)
+  (syntax-case x ()
+    [(my-or-1 e0 e1 ...)
+     #'(if e0
+           e0
+           (my-or-1 e1 ...))]))
+</code></pre>
+<p>它说，我们可以提供任何数量的子项（待会儿再解释这点）。（宏）展开将其重写为条件表
+达式，其中的条件是第一个子项；如果该项为真值，就返回这个值（待会再讨论这点！），
+否则就返回其余项的或。</p>
+<p>我们来试一个简单的例子。这应该计算为真，但是：</p>
+<pre><code class="language-Racket">&gt; (my-or-1 #f #t)
+my-or-1: bad syntax in: (my-or-1)
+</code></pre>
+<p>发生了什么？这个表达式变成了</p>
+<pre><code class="language-Racket">(if #f
+    #f
+    (my-or-1 #t))
+</code></pre>
+<p>继续展开</p>
+<pre><code class="language-Racket">(if #f
+    #f
+    (if #t
+        #t
+        (my-or-1)))
+</code></pre>
+<p>对此我们没有定义。这是因为，模式<code>e0 e1 ...</code>表示<strong>一个或更多</strong>子项，但是我们忽略
+了没有子项的情况。</p>
+<p>没有子项时<strong>应该</strong>怎么办？或运算的单位元是假值。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>为什么正确的默认值是<code>#f</code>？</p>
+</blockquote>
+<p>我们可以通过加上这条规则，展示不止一条规则的宏。宏的规则是顺序匹配的，所以我们必
+须把最具体的规则放在最前面，以免它们被更一般的规则覆盖（尽管在这个例子中，两条规
+则并不重叠）。改进后的宏是：</p>
+<pre><code class="language-Racket">(define-syntax (my-or-2 x)
+  (syntax-case x ()
+    [(my-or-2)
+     #'#f]
+    [(my-or-2 e0 e1 ...)
+     #'(if e0
+           e0
+           (my-or-2 e1 ...))]))
+</code></pre>
+<p>现在宏可以和预期一样展开了。虽然没有必要，但是我们加上一条规则，处理只有一个子项
+的情况：</p>
+<pre><code class="language-Racket">(define-syntax (my-or-3 x)
+  (syntax-case x ()
+    [(my-or-3)
+     #'#f]
+    [(my-or-3 e)
+     #'e]
+    [(my-or-3 e0 e1 ...)
+     #'(if e0
+           e0
+           (my-or-3 e1 ...))]))
+</code></pre>
+<p>这使展开的输出更加简约，对后文中我们的讨论是有帮助的。</p>
+<blockquote>
+<p>注意到在这个版本的宏中，规则<strong>不</strong>再是互不重叠的了：第三条规则（一个或多个子项
+）包含了第二条（一个子项）。因此，第二条规则与第三条不能互换，这是至关重要的。</p>
+</blockquote>
+<h3 id="1342">13.4.2 防护装置的求值</h3>
+<p>之前说这个宏的展开符合我们的预期，是吧？试试这个例子：</p>
+<pre><code class="language-Racket">(let ([init #f])
+  (my-or-3 (begin (set! init (not init))
+                  init)
+           #f))
+</code></pre>
+<p>请注意，or 返回的是第一个“真值”的值，以便程序员在进一步的计算中使用它。因此，这
+个例子返回 init 的值。我们期望它是什么？因为我们已经翻转了 init 的价值，自然而然
+的，我们期望它返回<code>#t</code>。但是计算得到的是<code>#f</code>！</p>
+<blockquote>
+<p>这里的问题不在<code>set!</code>。比如说，如果我们在这里不放赋值，而是放上打印输出，那么打
+印输出就会发生两次。</p>
+</blockquote>
+<p>要理解为何如此，我们必须检查展开后的代码：</p>
+<pre><code class="language-Racket">(let ([init #f])
+  (if (begin (set! init (not init))
+             init)
+      (begin (set! init (not init))
+             init)
+      #f))
+</code></pre>
+<p>啊哈！因为我们把输出模式写成了</p>
+<pre><code class="language-Racket">#'(if e0
+      e0
+      ...)
+</code></pre>
+<p>当我们第一次写下它时，看起来完全没有问题，而这正表明了编写宏（或，其他的程序转换
+系统）时的一个非常重要的原则：<strong>不要复制代码</strong>！在我们的设定中，语法变量永远不应
+被重复；如果你需要重复某个语法变量，以至于它所代表的代码会被多次执行，请确保已经
+考虑到了这么做的后果。或者，如果只需要该表达式的<strong>值</strong>，那么绑定一下，接下来使用
+绑定标识符的名字就好。示例如下：</p>
+<pre><code class="language-Racket">(define-syntax (my-or-4 x)
+  (syntax-case x ()
+    [(my-or-4)
+     #'#f]
+    [(my-or-4 e)
+     #'e]
+    [(my-or-4 e0 e1 ...)
+     #'(let ([v e0])
+         (if v
+             v
+             (my-or-4 e1 ...)))]))
+</code></pre>
+<p>这个引入绑定的模式会导致潜在的新问题：你可能会对不必要的表达式求值。事实上，它还
+会导致第二个、更微妙的问题：即使该表达式需要被求值，你可能在错误的上下文中对其求
+值了！因此，你必须仔细推敲表达式<strong>是否</strong>要被求值，如果是的话，只在正确的地方求一
+次值，然后存贮其值以供后续使用。</p>
+<p>用<code>my-or-4</code>重复之前包含<code>set!</code>的例子，结果是<code>#t</code>，符合我们的预期。</p>
+<h3 id="1343">13.4.3 卫生</h3>
+<p>希望你现在觉得没啥问题了。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>还有啥问题？</p>
+</blockquote>
+<p>考虑这个宏<code>(let ([v #t]) (my-or-4 #f v))</code>。我们希望其计算的结果是啥？显然
+是<code>#t</code>：第一个分支是 <code>#f</code>，但第二个分支是<code>v</code>，<code>v</code>绑定到<code>#t</code>。但是观察展开后：</p>
+<pre><code class="language-Racket">(let ([v #t])
+  (let ([v #f])
+    (if v
+        v
+        v)))
+</code></pre>
+<p>直接运行该表达式，结果为<code>#f</code>。但是，<code>(let ([v #t]) (my-or-4 #f v))</code>求值得<code>#t</code>。
+换种说法，这个宏似乎神奇地得到了正确的值：在宏中使用的标识符名称似乎与宏引入的标
+识符无关！当它发生在<strong>函数</strong>中时，并不令人惊讶；宏展开过程也享有这种特性，它被称
+为<strong>卫生</strong>（hygiene）。</p>
+<p>理解卫生的一种方法是，它相当于自动将所有绑定标识符改名。也就是说，程序的展开如下
+：</p>
+<pre><code class="language-Racket">(let ([v #t])
+  (or #f v))
+</code></pre>
+<p>变成</p>
+<pre><code class="language-Racket">(let ([v1 #t])
+  (or #f v1))
+</code></pre>
+<p>（注意到 v 一致的重命名为 v1），接下来变成</p>
+<pre><code class="language-Racket">(let ([v1 #t])
+  (let ([v #f])
+       v
+       v1))
+</code></pre>
+<p>重命名后变成</p>
+<pre><code class="language-Racket">(let ([v1 #t])
+  (let ([v2 #f])
+       v2
+       v1))
+</code></pre>
+<p>此时展开结束。注意上述每一个程序，如果直接运行的话，都会产生正确的结果。</p>
+<h2 id="135">13.5 标识符捕获</h2>
+<p>卫生宏解决了语法糖的创造者常常会面对的重要痛点。然而，在少数情况下，开发人员需要
+故意违反卫生原则。回过来考虑对象，对于这个输入程序：</p>
+<pre><code class="language-Racket">(define os-1
+  (object/self-1
+   [first (x) (msg self 'second (+ x 1))]
+   [second (x) (+ x 1)]))
+</code></pre>
+<p>（对应的）宏应该是什么样的？试试这样：</p>
+<pre><code class="language-Racket">(define-syntax object/self-1
+  (syntax-rules ()
+    [(object [mtd-name (var) val] ...)
+     (let ([self (lambda (msg-name)
+                   (lambda (v) (error 'object &quot;nothing here&quot;)))])
+       (begin
+         (set! self
+               (lambda (msg)
+                 (case msg
+                   [(mtd-name) (lambda (var) val)]
+                   ...)))
+         self))]))
+</code></pre>
+<p>不幸的是，这个宏会产生以下错误：</p>
+<pre><code class="language-Racket">self: unbound identifier in module in: self
+;self: 未绑定的标识符
+</code></pre>
+<p>错误指向的是 first 方法体中的 self。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>给出卫生展开的步骤，理解为何报错是我们预期的结果。</p>
+</blockquote>
+<p>在正面解决该问题之前，让我们考虑输入项的一种变体，使绑定显式化：</p>
+<pre><code class="language-Racket">(define os-2
+  (object/self-2 self
+   [first (x) (msg self 'second (+ x 1))]
+   [second (x) (+ x 1)]))
+</code></pre>
+<p>对应的宏只需要稍加修改：</p>
+<pre><code class="language-Racket">(define-syntax object/self-2
+  (syntax-rules ()
+    [(object self [mtd-name (var) val] ...)
+     (let ([self (lambda (msg-name)
+                   (lambda (v) (error 'object &quot;nothing here&quot;)))])
+       (begin
+         (set! self
+               (lambda (msg)
+                 (case msg
+                   [(mtd-name) (lambda (var) val)]
+                 ...)))
+         self))]))
+</code></pre>
+<p>这个宏展开正确。</p>
+<p><strong>习题</strong></p>
+<blockquote>
+<p>给出这个版本的展开步骤，看看不同在哪里。</p>
+</blockquote>
+<p>洞察其中的区别：<strong>如果进入绑定位置的标识符是由宏的用户提供的话</strong>，那么就没有问题
+了。因此，我们想要<strong>假装</strong>引入的标识符是由用户编写的。函数<code>datum-&gt;syntax</code>接收两
+个参数，第一个参数是语法，它将第二个参数——s-expression——转换为语法，假装其是第一
+个参数的一部分（在我们的例子中，就是宏的原始形式，它被绑定为 x）。为了将其结果引
+入到用于展开的环境中，我们使用<code>with-syntax</code>在环境中进行绑定：</p>
+<pre><code class="language-Racket">(define-syntax (object/self-3 x)
+  (syntax-case x ()
+    [(object [mtd-name (var) val] ...)
+     (with-syntax ([self (datum-&gt;syntax x 'self)])
+       #'(let ([self (lambda (msg-name)
+                       (lambda (v) (error 'object &quot;nothing here&quot;)))])
+           (begin
+             (set! self
+                   (lambda (msg-name)
+                     (case msg-name
+                       [(mtd-name) (lambda (var) val)]
+                       ...)))
+             self)))]))
+</code></pre>
+<p>于是我们可以隐式的使用 self 了：</p>
+<pre><code class="language-Racket">(define os-3
+  (object/self-3
+   [first (x) (msg self 'second (+ x 1))]
+   [second (x) (+ x 1)]))
+</code></pre>
+<h2 id="136">13.6 对编译器设计的影响</h2>
+<p>在一个语言的定义中使用宏对所有其工具都有影响，特别是编译器。作为例子，考
+虑<code>let</code>。<code>let</code>的优点是，它可以被高效的编译，只需要扩展当前环境就行了。相比之下，
+将<code>let</code>展开成函数调用会导致更昂贵的操作：创建闭包，再将其应用于参数，实际上获得
+的效果是一样的，但是花费更多时间（通常还要更多空间）。</p>
+<p>这似乎是反对使用宏的论据。不过，聪明的编译器会发现这个模式老是出现，并会在其内部
+将左括号左括号 lambda 转换回<code>let</code>的等价形式。这么做有两个好处。第一个好处是，语
+言设计者可以自由地使用宏来获得更小的核心语言，而不必与执行成本进行权衡。</p>
+<p>第二个好处更微妙。因为编译器能识别这个模式，<strong>其他的</strong>宏也可以利用它并获得相同的
+优化；它们不再需要扭曲自己的输出，如果自然的输出恰好是左括号左括号 lambda，将其
+再转化成 let（否则就必须这么做）。比如说，在编写某些模式匹配（的宏）的时候，左括
+号左括号 lambda 模式就会自然的出现，而想要将其转换为 let 的话就必须多做一步——现
+在不必要了。</p>
+<h2 id="137">13.7 其他语言中的去语法糖</h2>
+<p>不仅仅是 Racket，许多现代语言也通过去语法糖来定义操作。例如在 Python 中，for 迭
+代就是语法模式。程序员写下<code>for x in o</code>时，他</p>
+<ul>
+<li>引入了新标识符（称之为 i，但是，不要让其捕获了程序员定义的 i，即，卫生的绑定
+  i！），</li>
+<li>将其绑定到从 o 获得的迭代器（iterator），</li>
+<li>创建（可能）无限的 while 循环，反复调用 i 的.next 方法，直到迭代器引发
+  StopIteration 异常。</li>
+</ul>
+<p>现代编程语言中有许多这样的模式。</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../js/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

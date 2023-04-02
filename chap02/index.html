@@ -1,0 +1,786 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chap01/">
+      
+      
+        <link rel="next" href="../chap03/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>2 本书有关语法解析的一切 - Programming Languages: Application and Interpretation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-CRZZK8N4WE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-CRZZK8N4WE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-CRZZK8N4WE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programming Languages: Application and Interpretation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 本书有关语法解析的一切
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programming Languages: Application and Interpretation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2 本书有关语法解析的一切
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2 本书有关语法解析的一切
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 轻量级的，内建的语法解析器的前半部分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 快捷方式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 语法解析得到的类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    2.4 完整的语法解析器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5 尾声
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap03/" class="md-nav__link">
+        3 解释器初窥
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap04/" class="md-nav__link">
+        4 初试去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap05/" class="md-nav__link">
+        5 添加函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap06/" class="md-nav__link">
+        6 从替换模型到环境模型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap07/" class="md-nav__link">
+        7 任意位置的函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap08/" class="md-nav__link">
+        8 可变结构体和变量
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap09/" class="md-nav__link">
+        9 递归和循环：子程序与数据
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap10/" class="md-nav__link">
+        10 对象
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11/" class="md-nav__link">
+        11 内存管理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap12/" class="md-nav__link">
+        12 表示层抉择
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap13/" class="md-nav__link">
+        13 语言中支持去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap14/" class="md-nav__link">
+        14 控制指令
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap15/" class="md-nav__link">
+        15 静态地检查程序中的不变量：类型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap16/" class="md-nav__link">
+        16 动态地检查程序中的不变量：契约
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap17/" class="md-nav__link">
+        17 其他调用语义
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 轻量级的，内建的语法解析器的前半部分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 快捷方式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 语法解析得到的类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    2.4 完整的语法解析器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5 尾声
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="2">2 本书有关语法解析的一切</h1>
+<p>语法解析（parsing）是将输入字符流转换成结构化内部表示的过程。常见的内部表示是树
+，程序可以递归地处理树这种数据结构。例如，给定输入流：</p>
+<pre><code class="language-text">23 + 5 - 6
+</code></pre>
+<p>我们可以将其转换成根节点为加法，左边节点表示数<code>23</code>，右边节点是用树表示<code>5-6</code>的树
+。<strong>语法解析器（parser）</strong>是用于实现这种转换的程序。</p>
+<p>语法解析本身是个比较复杂，且由于歧义的存在，还远没有被解决的问题。例如上面的例子
+，你还可以将其转换成根节点为减法，子树为加法的树。我们还需要考虑加法操作符的是否
+符合交换性（左右参数是否能互换）等问题。要解析功能完整的语言（暂且不提自然语言）
+，要考虑的问题只会更多更复杂。</p>
+<h2 id="21">2.1 轻量级的，内建的语法解析器的前半部分</h2>
+<p>这些问题使得语法解析本身适合当作单独的主题来讲，也确实有很多书本、课程和工具专注
+于该方面。从我们的角度来说，语法解析是种令人分心的东西，因为我们想学习的是编程语
+言的<strong>除去</strong>语法解析的各个部分。因此，我们使用 Racket 一个有用的功能来将输入流转
+换成树：<code>read</code>。<code>read</code>和该语言的括号语法形式紧密关联，它将括号形式的字符流转换成
+内部树形式。例如，运行<code>(read)</code>然后输入——</p>
+<pre><code class="language-text">(+ 23 (- 5 6))
+</code></pre>
+<p>——会产出一链表，其第一个元素是符号<code>'+</code>，第二个元素是数<code>23</code>，第三个元素是链表；该
+链表其第一个元素是符号<code>'-</code>，第二个元素是数<code>5</code>，第三个元素是数<code>6</code>。</p>
+<h2 id="22">2.2 快捷方式</h2>
+<p>你应该知道，程序都会需要详尽的测试，而每次测试都需要手工输入会很麻烦。幸运的是，
+你可能猜得到，括号表达式可以在 Racket 中用<strong>引号</strong>来表达，也就是你刚才看到
+的<code>'&lt;expr&gt;</code>形式——其效果和运行<code>(read)</code>然后输入<code>&lt;expr&gt;</code>一样。</p>
+<h2 id="23">2.3 语法解析得到的类型</h2>
+<p>事实上，我刚才的描述并不准确。之前说<code>(read)</code>会返回链表等类型。在 Racket 中确实如
+此，但在 Typed PLAI 中，事情稍有不同，<code>(read)</code>返回值类型为<code>s-expression</code>（符号表
+达式的简写）。</p>
+<pre><code class="language-racket">&gt; (read)
+- s-expression
+[type in (+ 23 (- 5 6))]
+'(+ 23 (- 5 6))
+</code></pre>
+<p>Racket 包含了强大的 s-expression 系统，其语法还甚至可以表达带循环的结构。不过我
+们只会用到其中的一部分。</p>
+<p>在静态类型的语言中，s-expression 被认为是和其他类型（例如数、链表）都不同的数据
+。在计算机内部，s-expression 是一种递归数据类型，其基本构造是原子值——例如数、字
+符串、符号，组合形式可以是表、向量等。因此，原子值（数、字符串、符号等）即是其自
+由类型，也是一种 s-expression。这就造成了输入的歧义，我们后文讨论。</p>
+<p>Typed PLAI 采取一种简单的方式来处理这种歧义：当直接输入时，原子结构就是它本身的
+类型；当输入为大结构的一部分时——包括 read 或者引用——它们就是 s-expression 类型。
+你可以通过类型转换将其转换为基本类型。例如：</p>
+<pre><code class="language-racket">&gt; '+
+- symbol
+'+
+&gt; (define l '(+ 1 2))
+&gt; l
+- s-expression
+'(+ 1 2)
+&gt; (first l)
+. typecheck failed: (listof '_a) vs s-expression in:
+  first
+  (quote (+ 1 2))
+  l
+  first
+&gt; (define f (first (s-exp-&gt;list l)))
+&gt; f
+- s-expression
+'+
+</code></pre>
+<p>这方面和 Java 程序的类型转换类似。我们后文再学习类型转换。</p>
+<p>请注意，表结构的第一个元素的类型并不是符号：表形式的 s-expression 是由
+s-expressions 组成的表。因此，</p>
+<pre><code class="language-racket">&gt; (symbol-&gt;string f)
+. typecheck failed: symbol vs s-expression in:
+  symbol-&gt;string
+  f
+  symbol-&gt;string
+  f
+  first
+  (first (s-exp-&gt;list l))
+  s-exp-&gt;list
+</code></pre>
+<p>类型转换：</p>
+<pre><code class="language-racket">&gt; (symbol-&gt;string (s-exp-&gt;symbol f))
+- string
+&quot;+&quot;
+</code></pre>
+<p>必须对 s-expressions 进行类型转换确实是个麻烦事，但是某种程度的麻烦是不可避免的
+：因为我们的目的是把<strong>没有类型的</strong>输入，通过严谨的<strong>类型</strong>分析，转化为<strong>有类
+型</strong>的。所以有些关于输入的假设必须明文给出。</p>
+<p>好在我们只在语法解析中使用 s-expressions，而我们的目的是<strong>尽快处理完语法解析</strong>！
+所以，这一点只会帮助我们尽快摆脱语法解析。</p>
+<h2 id="24">2.4 完整的语法解析器</h2>
+<p>原则上<code>read</code>就是完整的语法解析器。不过其输出过于一般化：结构体中并不包含其意向的
+注释信息。所以我们倾向于使用更具体的表达方式，类似于前文中“表达加法”和“表达数”的
+那种。</p>
+<p>首先，我们必须引入一种数据类型来表示这类关系。后文
+（<a href="./chap3.md#31-算术表达式的表示">3.1 节</a>）会详细讨论为啥采用这种数据类型，还有
+我们如何得出该数据类型。现在请先假设它是给定的：</p>
+<pre><code>(define-type ArithC
+  [numC (n : number)]
+  [plusC (l : ArithC) (r : ArithC)]
+  [multC (l : ArithC) (r : ArithC)])
+</code></pre>
+<p>现在我们需要能将 s-expression 解析成该数据类型的函数。这就是语法解析器的另一半：</p>
+<pre><code class="language-racket">(define (parse [s : s-expression])
+  (cond
+    [(s-exp-number? s) (numC (s-exp-&gt;number s))]
+    [(s-exp-list? s)
+     (let ([sl (s-exp-&gt;list s)])
+       (case (s-exp-&gt;symbol (first sl))
+         [(+) (plusC (parse (second sl)) (parse (third sl)))]
+         [(*) (multC (parse (second sl)) (parse (third sl)))]
+         [else (error 'parse &quot;invalid list input&quot;)]))]  ;无效的表输入
+    [else (error 'parse &quot;invalid input&quot;)]))  ;无效的输入
+</code></pre>
+<p>简单运行如下：</p>
+<pre><code class="language-racket">&gt; (parse '(+ (* 1 2) (+ 2 3)))
+- ArithC
+(plusC
+ (multC (numC 1) (numC 2))
+ (plusC (numC 2) (numC 3)))
+</code></pre>
+<p>恭喜！你完成了首个<strong>程序的表示</strong>。从今往后我们就只需要处理用递归的树结构表示的程
+序了，再也不用担心各种不同的语法，还有如何把语法转换为树形结构了。我们终于可以开
+始学习编程语言了！</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>如果传给语法解析器的参数忘了加引号，后果是啥？为什么？</p>
+</blockquote>
+<h2 id="25">2.5 尾声</h2>
+<p>Racket 的语法继承自 Scheme 和 Lisp，不乏争议。不过请观察它给我们带来的深层次好处
+：对传统语法进行解析会很复杂，而解析这种语法则简单明了，不管是从字符流到
+s-expressions 的解析，还是从 s-expressions 进一步到语法树的解析。</p>
+<p>这种语法的好处就是其多用途性。需要的代码少，而且可以方便的插入各种应用场景。所以
+很多基于 Lisp 的语言其语义各不相同，但都保留了历史继承而来的这种语法。</p>
+<p>当然，我们也可以采用 XML，它更好用；或者 JSON，它和 s-expression 有着本质的不同
+！</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../js/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

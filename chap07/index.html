@@ -1,0 +1,1046 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chap06/">
+      
+      
+        <link rel="next" href="../chap08/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>7 任意位置的函数 - Programming Languages: Application and Interpretation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-CRZZK8N4WE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-CRZZK8N4WE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-CRZZK8N4WE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#7" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programming Languages: Application and Interpretation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7 任意位置的函数
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programming Languages: Application and Interpretation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap02/" class="md-nav__link">
+        2 本书有关语法解析的一切
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap03/" class="md-nav__link">
+        3 解释器初窥
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap04/" class="md-nav__link">
+        4 初试去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap05/" class="md-nav__link">
+        5 添加函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap06/" class="md-nav__link">
+        6 从替换模型到环境模型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          7 任意位置的函数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        7 任意位置的函数
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    7.1 函数作为表达式和值
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    7.2 什么？嵌套？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    7.3 实现闭包
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    7.4 再次聊聊替换
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#75" class="md-nav__link">
+    7.5 匿名之上的语法糖
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap08/" class="md-nav__link">
+        8 可变结构体和变量
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap09/" class="md-nav__link">
+        9 递归和循环：子程序与数据
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap10/" class="md-nav__link">
+        10 对象
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11/" class="md-nav__link">
+        11 内存管理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap12/" class="md-nav__link">
+        12 表示层抉择
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap13/" class="md-nav__link">
+        13 语言中支持去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap14/" class="md-nav__link">
+        14 控制指令
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap15/" class="md-nav__link">
+        15 静态地检查程序中的不变量：类型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap16/" class="md-nav__link">
+        16 动态地检查程序中的不变量：契约
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap17/" class="md-nav__link">
+        17 其他调用语义
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    7.1 函数作为表达式和值
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    7.2 什么？嵌套？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    7.3 实现闭包
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    7.4 再次聊聊替换
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#75" class="md-nav__link">
+    7.5 匿名之上的语法糖
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="7">7 任意位置的函数</h1>
+<p>Scheme 语言报告修订版报告的概述
+（<a href="http://www.r6rs.org/final/html/r6rs/r6rs-Z-H-3.html#node_chap_Temp_3">r6rs 概述</a>，<a href="http://www.math.pku.edu.cn/teachers/qiuzy/progtech/scheme/r5rscn.pdf">r5rs（中文）</a>）
+中指出如下的设计原则：</p>
+<blockquote>
+<p>程序语言的设计不应该是特性的简单堆砌，而应消除使多余特性显得必要的弱点和缺陷。</p>
+</blockquote>
+<p>这是个无须争辩的设计原则。（当然有些缺陷是迫不得已的，但是此原则迫使我们去认真思
+考引入这些缺陷的必要性，而不是把它们当作理所当然的。）下面我们试着遵从该原则来引
+入函数。</p>
+<p>在<a href="./chap5.md">第五章</a>中我们引入函数时并没有特别指明函数定义所在的位置。可以说我
+们是按照理想化的 DrRacket 模型引入的函数，即将函数的定义和使用分离。下面我们使用
+Scheme 的设计原则来重新思考一下这种设计的<strong>必要性</strong>。</p>
+<p>为什么函数的定义不可以也是一种表达式呢？我们现在实现的算术语言中有个尴尬的问题
+：“函数的定义表示的是什么值？”，在现有设计中没有很好的答案。对于真正的语言来说，
+计算结果当然不可能只有数，所以也没必要给我们的语言作出这种限制；跳出这个框框，便
+可以给出很好的回答：“函数值”。让我们试试如何实现它。</p>
+<p>将函数作为值，能用它做什么呢？显然，函数和数是不同类型的值，你不能对函数做加法运
+算。但是，有件它显然能做的事：传入参数调用它！因此我们应该允许函数值出现在函数调
+用那个位置。其行为，显然是调用该函数。因此，我们的语言中应该允许如下的表达式作为
+合法程序（这里使用方括号以方便阅读）：</p>
+<pre><code class="language-Racket">(+ 2 ([define (f x) (* x 3)] 4))
+</code></pre>
+<p>计算它得到<code>(+ 2 (* 4 3))</code>，也就是<code>14</code>。（注意到没？这里使用了替换计算模型。）</p>
+<h2 id="71">7.1 函数作为表达式和值</h2>
+<p>首先在我们的核心语言中添加函数定义：</p>
+<pre><code class="language-Racket">&lt;expr-type&gt; ::=  ;表达式类型
+
+    (define-type ExprC
+      [numC (n : number)]
+      [idC (s : symbol)]
+      &lt;app-type&gt;  ;调用类型
+      [plusC (l : ExprC) (r : ExprC)]
+      [multC (l : ExprC) (r : ExprC)]
+      &lt;fun-type&gt;)  ;函数类型
+</code></pre>
+<p>现在，我们简单把函数定义复制到表达式语言中，以后需要的话还可以修改这一点。这样做
+我们现在可以复用已有的测试案例。</p>
+<pre><code class="language-Racket">&lt;fun-type-take-1&gt; ::=  ;函数类型，第一次尝试
+
+    [fdC (name : symbol) (arg : symbol) (body : ExprC)]
+</code></pre>
+<p>接下来确定函数调用是什么样的。函数的位置应该放什么呢？我们希望它可以是函数定义，
+而不是像之前那样只能是定义好的函数的名字。由于现在函数定义类型和其它表达式类型混
+在了一起，这里让函数的位置可以放任意表达式吧，但是需要记住我们其实只希望它为函数
+定义：</p>
+<pre><code class="language-Racket">&lt;app-type&gt; ::=  ;调用类型
+
+    [appC (fun : ExprC) (arg : ExprC)]
+</code></pre>
+<blockquote>
+<p>另一种可以考虑的做法是，把函数定义和其他类型的表达式区分开。也就是定义不同类型
+的表达式。我们在后文学习类型时会考虑这种做法。</p>
+</blockquote>
+<p>有了这个定义后，我们不再需要通过名字查找函数了，所以我们的解释器也可以不用再传入
+函数定义链表。当然之后有需要我们还可以将预定义函数链表加回来，现在我们只探究<strong>即
+时函数</strong>——在函数调用处定义的函数。</p>
+<p>接下来修改解释器<code>interp</code>。需要添加子句来处理函数定义，该部分代码大致会是这样：</p>
+<pre><code class="language-Racket">  [fdC (n a b) expr]
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>解释器中添加了该语句会导致什么？</p>
+</blockquote>
+<p>显然，这是爆炸性的改变：解释器不再总是返回数了，于是出现类型错误。</p>
+<p>在之前解释器实现过程中，也不时的需要注意其返回值类型，但并没专门给其定义数据类型
+。现在是时候需要这么做了：</p>
+<pre><code class="language-Racket">&lt;answer-type-take-1&gt; ::=  ;返回值类型，第一次尝试
+
+    (define-type Value
+      [numV (n : number)]
+      [funV (name : symbol) (arg : symbol) (body : ExprC)])
+</code></pre>
+<p>我们使用后缀<code>V</code>表示值（value），即求值的结果。<code>funV</code>部分正对应<code>fdC</code>；<code>fdC</code>为输入
+，<code>funV</code>为输出。通过区分这两者类型，我们可以分别修正它们两个。</p>
+<p>下面我们尝试使用该输出类型重写解释器，从类型开始：</p>
+<pre><code class="language-Racket">&lt;interp-hof&gt; ::=  ;解释器，高阶函数
+
+    (define (interp [expr : ExprC] [env : Env]) : Value
+      (type-case ExprC expr
+        &lt;interp-body-hof&gt;))  ;解释器主体，高阶函数
+</code></pre>
+<p>这就要求我们同样修改<code>Binding</code>和辅助函数<code>lookup</code>的类型。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>修改<code>Binding</code>和辅助函数<code>lookup</code>。</p>
+</blockquote>
+<pre><code class="language-Racket">&lt;interp-body-hof&gt; ::=  ;解释器主体，高阶函数
+
+    [numC (n) (numV n)]
+    [idC (n) (lookup n env)]
+    &lt;app-case&gt;  ;调用子句
+    &lt;plus/mult-case&gt;  ;加法/乘法子句
+    &lt;fun-case&gt;  ;函数子句
+</code></pre>
+<p>对于数，显然要使用新的返回值类型构造器对其包裹一下。对于标识符，一切不变。对于加
+法／乘法，需要进行简单的修改使其能正确的返回<code>Value</code>类型而不是简单的数：</p>
+<pre><code class="language-Racket">&lt;plus/mult-case&gt; ::=  ;加法/乘法子句
+
+    [plusC (l r) (num+ (interp l env) (interp r env))]
+    [multC (l r) (num* (interp l env) (interp r env))]
+</code></pre>
+<p>辅助函数<code>num+</code>和<code>num*</code>我们以其中一个为例：</p>
+<pre><code class="language-Racket">(define (num+ [l : Value] [r : Value]) : Value
+  (cond
+    [(and (numV? l) (numV? r))
+     (numV (+ (numV-n l) (numV-n r)))]
+    [else
+     (error 'num+ &quot;one argument was not a number&quot;)]))  ;有参数不是数
+</code></pre>
+<p>请留意，在实际做加法前，我们检查了参数的类型确定其为数。后面会有章节继续谈论类型
+这个主题。</p>
+<p>还有两段代码要完成。先是函数定义。上面说过，函数值就是其类型的数据：</p>
+<pre><code class="language-Racket">&lt;fun-case-take-1&gt; ::=  ;函数子句，第一次尝试
+
+    [fdC (n a b) (funV n a b)]
+</code></pre>
+<p>最后剩下函数调用的代码。尽管我们不再需要从函数定义链表中查询函数定义，但是这里还
+是尽量保留之前函数调用的代码的结构：</p>
+<pre><code class="language-Racket">&lt;app-case-take-1&gt; ::=  ;调用子句，第一次尝试
+
+    [appC (f a) (let ([fd f])
+                  (interp (fdC-body fd)
+                          (extend-env (bind (fdC-arg fd)
+                                            (interp a env))
+                                      mt-env)))]
+</code></pre>
+<p>在原来是 lookup 查找的地方，我们直接引用了<code>f</code>作为函数定义。注意由于在函数应该出
+现的位置事实上可能出现任何表达式，我们最好编码检测它是否实是函数。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>这里“是”是什么意思呢？我们是要检查它是作为语法结构上的函数（即<code>fdC</code>构造），还
+是只是检查该表达式的计算结果是否是函数值（即<code>funV</code>）呢？这两种做法有什么区别？
+换一种说法，你能不能找出具体的例子来展示其区别？</p>
+</blockquote>
+<p>我们面临选择：</p>
+<ol>
+<li>检查它在语法上是否是<code>fdC</code>构造，如果不是，抛出异常。</li>
+<li>对其进行求值，然后检查其返回<strong>值</strong>是否是函数，如果不是，抛出异常。</li>
+</ol>
+<p>我们选择后一种做法，它会使得我们的语言更为灵活。即使我们人类不一定需要这么做，但
+对于程序来说，第二种选择可以处理更多情况，比如程序生成代码。并且我们也会用到这个
+功能，就在<a href="#75-匿名之上的语法糖">匿名之上的语法糖</a>的讨论中。于是，修改函数调用部
+分代码得到：</p>
+<pre><code class="language-Racket">&lt;app-case-take-2&gt; ::=  ;调用子句，第二次尝试
+
+    [appC (f a) (let ([fd (interp f env)])
+                  (interp (funV-body fd)
+                          (extend-env (bind (funV-arg fd)
+                                            (interp a env))
+                                      mt-env)))]
+</code></pre>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>修改代码实现两种不同方式的类型检查。</p>
+</blockquote>
+<p>信不信由你，到此为止，一个可运行的解释器又完成了。最后我们照旧给出两个测试案例：</p>
+<pre><code class="language-Racket">(test (interp (plusC (numC 10) (appC (fdC 'const5 '_ (numC 5)) (numC 10)))
+              mt-env)
+      (numV 15))
+
+(test/exn (interp (appC (fdC 'f1 'x (appC (fdC 'f2 'y (plusC (idC 'x) (idC 'y)))
+                                          (numC 4)))
+                        (numC 3))
+                  mt-env)
+          &quot;name not found&quot;)
+</code></pre>
+<h2 id="72">7.2 什么？嵌套？</h2>
+<p>函数定义的函数体部分可以是任意表达式。而函数定义本身也是表达式。于是函数定义中可
+以包含···函数定义。例如：</p>
+<pre><code class="language-Racket">&lt;nested-fdC&gt; ::=  ;嵌套的fdC
+
+    (fdC 'f1 'x
+         (fdC 'f2 'x
+              (plusC (idC 'x) (idC 'x))))
+</code></pre>
+<p>对它求值还不是特别有意思：</p>
+<pre><code class="language-Racket">(funV 'f1 'x (fdC 'f2 'x (plusC (idC 'x) (idC 'x))))
+</code></pre>
+<p>当时如果我们调用上面的函数：</p>
+<pre><code class="language-Racket">&lt;applied-nested-fdC&gt; ::=  ;调用嵌套的fdC
+
+    (appC &lt;nested-fdC&gt;
+          (numC 4))
+</code></pre>
+<p>再求值，结果就有点意思了：</p>
+<pre><code class="language-Racket">(funV 'f2 'x (plusC (idC 'x) (idC 'x)))
+</code></pre>
+<p>这个结果就好像外部函数的调用对内部的函数没有任何影响一样。那么，为什么应该是这样
+的呢？外部函数引入的参数被内部函数引入的<strong>同名</strong>参数覆盖（mask）了，因此遵从静态
+作用域（必须的）的规则，内部的参数应该覆盖外部参数。但是，我们看看下面这个程序：</p>
+<pre><code class="language-Racket">(appC (fdC 'f1 'x
+           (fdC 'f2 'y
+                (plusC (idC 'x) (idC 'y))))
+      (numC 4))
+</code></pre>
+<p>求值得到：</p>
+<pre><code class="language-Racket">(funV 'f2 'y (plusC (idC 'x) (idC 'y)))
+</code></pre>
+<p>嗯，有点意思。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>想想有意思的点在哪？</p>
+</blockquote>
+<p>为了看看到底有意思在哪，我们调用一下该函数：</p>
+<pre><code class="language-Racket">(appC (appC (fdC 'f1 'x
+                 (fdC 'f2 'y
+                      (plusC (idC 'x) (idC 'y))))
+            (numC 4))
+      (numC 5))
+</code></pre>
+<p>它将抛出异常告诉我们没找到标识符<code>x</code>绑定的值！</p>
+<p>但是，它不是应该通过函数<code>f1</code>的调用被绑定吗？清晰起见，我们切换为（假定的）Racket
+语法：</p>
+<pre><code class="language-Racket">((define (f1 x)
+   ((define (f2 y)
+      (+ x y))
+    4))
+ 5)
+</code></pre>
+<p>在调用外层函数时，x 应该被替换成 5，结果是：</p>
+<pre><code class="language-Racket">((define (f2 y)
+   (+ 5 y))
+ 4)
+</code></pre>
+<p>继续调用、替换得到<code>(+ 5 4)</code>也就是<code>9</code>，并没有出错。</p>
+<p>换一种说法，我们肯定是某个地方做错了以至于没有捕捉到函数调用时的参数替换。【注释
+】函数值需要<strong>记住调用过程中执行的替换操作</strong>。由于我们使用环境来表示这种替换，因
+此函数值需要包含记录了该替换的环境。这样得到的数据结构称为<strong>闭包（closure）</strong>：</p>
+<blockquote>
+<p>另一方面，如果我们使用替换模型，<code>x</code>会被替换成<code>(numV 4)</code>，函数体就变
+成<code>(plusC (numV 5) (idC ’y))</code>，而它并没有合适的类型。换一种说法，替换模型假设
+返回值的类型是合法语法。其实尊崇该假设也能学习很多高级编程概念，只是我们不打算
+往这个方向继续讨论。</p>
+</blockquote>
+<p>注意一下，在解释器的<code>appC</code>子句中用到了<code>funV-arg</code>和<code>funV-body</code>，但是没用
+到<code>funV-name</code>。想一下我们之前为什么需要名字这种东西？因为需要通过名字找到函数。
+但是这里我们通过解释器找到函数，函数名只是作为描述性的存在罢了。换一种说法，函数
+并不需要名字，就跟常数一样：我们每次使用 3 的时候并不需要给它命名，那么对于函数
+为什么要呢？函数<strong>本质上</strong>是匿名的，我们也应该将其定义和命名分开来。</p>
+<p>（但是你可能会说，这种论点只在函数直接定义并使用的情况才成立。如果我们想在某个地
+方定义，然后在其它地方使用它，我们不还是需要名字的么？是的，正是，后面
+的<a href="#75-匿名之上的语法糖">匿名之上的语法糖</a>中会说到这个主题）</p>
+<h2 id="73">7.3 实现闭包</h2>
+<p>首先将函数值类型改为闭包结构体，而不仅仅是函数本体：</p>
+<pre><code class="language-Racket">&lt;answer-type&gt; ::=  ;返回值类型
+
+    (define-type Value
+      [numV (n : number)]
+      [closV (arg : symbol) (body : ExprC) (env : Env)])
+</code></pre>
+<p>同时，我们可以修改函数类型，去除没用的函数名部分。由于历史原因，该构造被称
+为<strong>lambda</strong>：</p>
+<pre><code class="language-Racket">&lt;fun-type&gt; ::=  ;函数类型
+
+    [lamC (arg : symbol) (body : ExprC)]
+</code></pre>
+<p>现在，当解释器遇到函数时，需要记录下到目前为止进行过的所有替换：【注释】</p>
+<pre><code class="language-Racket">&lt;fun-case&gt; ::=  ;函数子句
+
+    [lamC (a b) (closV a b env)]
+</code></pre>
+<blockquote>
+<p>“Save the environment! Create a closure today!” —Cormac Flanagan</p>
+</blockquote>
+<p>然后在调用函数时，需要使用这个保存下来的环境，而不是空白环境。</p>
+<pre><code class="language-Racket">&lt;app-case&gt; ::=  ;调用子句
+
+    [appC (f a) (let ([f-value (interp f env)])
+                  (interp (closV-body f-value)
+                          (extend-env (bind (closV-arg f-value)
+                                            (interp a env))
+                                      (closV-env f-value))))]
+</code></pre>
+<p>事实上这段代码还可以有另一个选择：使用函数调用处的环境：</p>
+<pre><code class="language-Racket">[appC (f a) (local ([define f-value (interp f env)])
+              (interp (closV-body f-value)
+                      (extend-env (bind (closV-arg f-value)
+                                        (interp a env))
+                                  env)))]
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>如果我们使用动态的环境（即函数调用处的环境），会导致什么？</p>
+</blockquote>
+<p>回过头来看，现在可以理解为何我们在解释函数体时使用空白环境了。如果函数是定义在程
+序顶层的，那么它就没有“包含”任何的标识符。因此我们之前的函数实现是现在这种的特殊
+情况。</p>
+<h2 id="74">7.4 再次聊聊替换</h2>
+<p>我们已经看到，通过替换这种非常符合直觉的方式可以帮助理解如何实现<code>lambda</code>函数。然
+而，对于替换本身我们需要小心一些陷阱！考虑下面这个函数（这里使用 Racket 语法）：</p>
+<pre><code class="language-Racket">(lambda (f)
+  (lambda (x)
+    (f 10)))
+</code></pre>
+<p>假设<code>f</code>被替换为 lambda 表达式<code>(lambda (y) (+ x y))</code>。注意这里有个自由变量<code>x</code>，所
+以如果它被求值，我们应该会得到未绑定变量错误。但是使用替换模型，我们将得到：</p>
+<pre><code class="language-Racket">(lambda (x)
+  ((lambda (y) (+ x y)) 10))
+</code></pre>
+<p>自由变量消失了！</p>
+<p>这是由于我们的替换操作实现的太过简单。为了避免这种异常情况（这也是动态绑定的一种
+形式），我们需要实现<strong>非捕获型的替换（capture-free substitution）</strong>。大致来说它
+是这样工作的：我们<strong>总是</strong>将绑定标识符<strong>重命名</strong>为从未用过的（<strong>新鲜的
+，fresh</strong>）名字。比如说，我们给每个标识符加个数字后缀来保证不会出现重名：</p>
+<pre><code class="language-Racket">(lambda (f1)
+  (lambda (x1)
+    (f1 10)))
+</code></pre>
+<p>（请注意，我们把 f 的绑定和被绑定出现都替换成了 f1。）接下来对被替换的表达式也进
+行同样的重命名：</p>
+<pre><code class="language-Racket">(lambda (y1) (+ x y1))
+</code></pre>
+<p>于是替换<code>f1</code>得到：【注释】</p>
+<pre><code class="language-Racket">(lambda (x1)
+  ((lambda (y1) (+ x y1)) 10))
+</code></pre>
+<blockquote>
+<p>这里为什么不对作为<code>x</code>进行重命名呢？因为它可能是引用全局的定义，要么我们也对全
+局定义进行同样的重命名。这就是所谓的一致性重命名原则。对这个例子来说，这没啥区
+别。</p>
+</blockquote>
+<p>现在，<code>x</code>仍然是自由变量！这才是正确的替换方式。</p>
+<p>等一等。怎么使用环境模型解释器处理这个例子，后果是啥？</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>试一下。</p>
+</blockquote>
+<p>试了你就知道，一切正确：程序报告有未绑定变量。环境模型实际上实现了非捕获型替换。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>使用环境是怎么避免替换中的捕获问题的？</p>
+</blockquote>
+<h2 id="75">7.5 匿名之上的语法糖</h2>
+<p>让我们回过头考虑函数命名问题，对于实际编程来说它有明显的价值。注意我们现在<strong>已
+经</strong>有命名东西的方法：通过函数的调用，参数的值和参数名构成了局部绑定关系。在函数
+体中，我们只需要用形参就可以引用实参了。</p>
+<p>所以说，我们可以用函数来给一系列函数定义命名。例如，考虑 Racket 代码：</p>
+<pre><code class="language-Racket">(define (double x) (+ x x))
+(double 10)
+</code></pre>
+<p>等价于：</p>
+<pre><code class="language-Racket">(define double (lambda (x) (+ x x)))
+(double 10)
+</code></pre>
+<p>一种方法是直接内联（inline）double 的定义。不过为了保留命名过程，我们让其等价于
+：</p>
+<pre><code class="language-Racket">((lambda (double)
+   (double 10))
+ (lambda (x) (+ x x)))
+</code></pre>
+<p>这种模式——我们暂且称为“left-left-lambda”——实际上是种局部命名方式。它非常有用，以
+至于 Racket 为它提供了专门的语法：</p>
+<pre><code class="language-Racket">(let ([double (lambda (x) (+ x x))])
+  (double 10))
+</code></pre>
+<p><code>let</code>可以通过定义成上面那种语法糖来实现。</p>
+<p>下面是个稍微复杂点的例子：</p>
+<pre><code class="language-Racket">(define (double x) (+ x x))
+(define (quadruple x) (double (double x)))
+(quadruple 10)
+</code></pre>
+<p>这可以被改写成：</p>
+<pre><code class="language-Racket">(let ([double (lambda (x) (+ x x))])
+  (let ([quadruple (lambda (x) (double (double x)))])
+    (quadruple 10)))
+</code></pre>
+<p>一切正常。改变一下顺序就不行了：</p>
+<pre><code class="language-Racket">(let ([quadruple (lambda (x) (double (double x)))])
+  (let ([double (lambda (x) (+ x x))])
+    (quadruple 10)))
+</code></pre>
+<p>这是由于<code>quadruple</code>中“看不见”<code>double</code>。这里我们也能看到全局绑定和局部绑定的区别
+：位于顶层的全局绑定有“无限的作用域”。这是其强大的地方也是问题的来源。</p>
+<p>下面还有个更为微妙的问题，和递归有关。考虑如下的简单无限循环程序：</p>
+<pre><code class="language-Racket">(define (loop-forever x) (loop-forever x))
+(loop-forever 10)
+</code></pre>
+<p>转换成<code>let</code>：</p>
+<pre><code class="language-Racket">(let ([loop-forever (lambda (x) (loop-forever x))])
+  (loop-forever 10))
+</code></pre>
+<p>看上去好像没毛病，是吧？重写成<code>lambda</code>的形式：</p>
+<pre><code class="language-Racket">((lambda (loop-forever)
+   (loop-forever 10))
+ (lambda (x) (loop-forever x)))
+</code></pre>
+<p>显然，最后一行中的<code>loop-forever</code>没有被绑定！</p>
+<p>对于全局绑定这个问题就不存在。该怎么理解呢？这需要我们理解递归的含义。很快我们将
+揭开这层神秘的面纱。</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../js/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

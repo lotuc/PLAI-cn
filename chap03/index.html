@@ -9,22 +9,24 @@
       
       
       
+        <link rel="prev" href="../chap02/">
       
-        <link rel="next" href="chap01/">
       
-      <link rel="icon" href="assets/images/favicon.png">
+        <link rel="next" href="../chap04/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
     
     
       
-        <title>Programming Languages: Application and Interpretation</title>
+        <title>3 解释器初窥 - Programming Languages: Application and Interpretation</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -40,7 +42,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -77,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#3" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +95,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              索引
+              3 解释器初窥
             
           </span>
         </div>
@@ -158,7 +160,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -187,6 +189,51 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap02/" class="md-nav__link">
+        2 本书有关语法解析的一切
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -199,12 +246,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          索引
+          3 解释器初窥
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
-        索引
+      <a href="./" class="md-nav__link md-nav__link--active">
+        3 解释器初窥
       </a>
       
         
@@ -223,22 +270,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    封面
+  <a href="#31" class="md-nav__link">
+    3.1 算术表达式的表示
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    译者
+  <a href="#32" class="md-nav__link">
+    3.2 写个解释器
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    目录
+  <a href="#33" class="md-nav__link">
+    3.3 你注意到了吗？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    3.4 扩展此语言
   </a>
   
 </li>
@@ -259,52 +313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap01/" class="md-nav__link">
-        1 引言
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="chap02/" class="md-nav__link">
-        2 本书有关语法解析的一切
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="chap03/" class="md-nav__link">
-        3 解释器初窥
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="chap04/" class="md-nav__link">
+      <a href="../chap04/" class="md-nav__link">
         4 初试去语法糖
       </a>
     </li>
@@ -319,7 +328,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap05/" class="md-nav__link">
+      <a href="../chap05/" class="md-nav__link">
         5 添加函数
       </a>
     </li>
@@ -334,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap06/" class="md-nav__link">
+      <a href="../chap06/" class="md-nav__link">
         6 从替换模型到环境模型
       </a>
     </li>
@@ -349,7 +358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap07/" class="md-nav__link">
+      <a href="../chap07/" class="md-nav__link">
         7 任意位置的函数
       </a>
     </li>
@@ -364,7 +373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap08/" class="md-nav__link">
+      <a href="../chap08/" class="md-nav__link">
         8 可变结构体和变量
       </a>
     </li>
@@ -379,7 +388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap09/" class="md-nav__link">
+      <a href="../chap09/" class="md-nav__link">
         9 递归和循环：子程序与数据
       </a>
     </li>
@@ -394,7 +403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap10/" class="md-nav__link">
+      <a href="../chap10/" class="md-nav__link">
         10 对象
       </a>
     </li>
@@ -409,7 +418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap11/" class="md-nav__link">
+      <a href="../chap11/" class="md-nav__link">
         11 内存管理
       </a>
     </li>
@@ -424,7 +433,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap12/" class="md-nav__link">
+      <a href="../chap12/" class="md-nav__link">
         12 表示层抉择
       </a>
     </li>
@@ -439,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap13/" class="md-nav__link">
+      <a href="../chap13/" class="md-nav__link">
         13 语言中支持去语法糖
       </a>
     </li>
@@ -454,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap14/" class="md-nav__link">
+      <a href="../chap14/" class="md-nav__link">
         14 控制指令
       </a>
     </li>
@@ -469,7 +478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap15/" class="md-nav__link">
+      <a href="../chap15/" class="md-nav__link">
         15 静态地检查程序中的不变量：类型
       </a>
     </li>
@@ -484,7 +493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap16/" class="md-nav__link">
+      <a href="../chap16/" class="md-nav__link">
         16 动态地检查程序中的不变量：契约
       </a>
     </li>
@@ -499,7 +508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chap17/" class="md-nav__link">
+      <a href="../chap17/" class="md-nav__link">
         17 其他调用语义
       </a>
     </li>
@@ -533,22 +542,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    封面
+  <a href="#31" class="md-nav__link">
+    3.1 算术表达式的表示
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    译者
+  <a href="#32" class="md-nav__link">
+    3.2 写个解释器
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    目录
+  <a href="#33" class="md-nav__link">
+    3.3 你注意到了吗？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    3.4 扩展此语言
   </a>
   
 </li>
@@ -571,43 +587,133 @@
   
 
 
-<h1 id="_1">索引</h1>
-<h2 id="_2">封面</h2>
-<p><img alt="" src="imgs/PLAI-cover.jpg" /></p>
-<ol>
-<li>The translation has not been checked by the
-   <a href="mailto:shriram@gmail.com" target="_top">original author</a></li>
-<li>The correct, definitive version is at the
-   <a href="http://cs.brown.edu/courses/cs173/2012/book/index.html">original link</a>.</li>
-</ol>
-<p>第二版: <a href="http://cs.brown.edu/courses/cs173/2012/book/index.html">Programming Languages: Application and Interpretation - Second Edition</a></p>
-<h2 id="_3">译者</h2>
+<h1 id="3">3 解释器初窥</h1>
+<p>现在有了程序的表示方法，我们有很多方式可以用来操纵它们。我们可能想把程序打印的漂
+亮点（pretty-print），将其转换成其它格式的代码（编译），查看其是否符合特定属性（
+校验），等等。现在，我们专注于考虑得到其对应的值——计算（evaluation）——将程序规约
+成值。</p>
+<p>让我们来为我们的算术语言写个<strong>解释器</strong>形式的求值器。选择算术运算是出于下面三个主
+要原因：（a）你已经知道怎么计算加减乘除了，我们可以专注于其实现；（b）基本上每门
+语言都会包含算术运算，所以我们可以从它开始进行语言的扩展；（c）该问题大小合适，
+足以展示我们要学习的很多要点。</p>
+<h2 id="31">3.1 算术表达式的表示</h2>
+<p>我们首先需要统一算术表达式的表示法。我们只打算支持两个运算符——加法和乘法——以及基
+本的数。需要一种东西来表达算术<strong>表达式</strong>。算术表达式的嵌套规则是啥呢？表达式可以
+任意地嵌套。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>为什么我们不把除法也包括进来呢？这么做对前文总结会产生什么影响？</p>
+</blockquote>
+<p>这里不包括除法的原因是，我们暂时不打算讨论什么表达式是合法的。显然 1 除以 2 是合
+法的，但是 1 除以 0 就有争议了。1 除以（1 减去 1）就更有争议了。目前我们无需陷入
+这种矛盾，以后再讨论。</p>
+<p>于是我们可以使用如下的表达式：</p>
+<pre><code class="language-racket">(define-type ArithC  ;具体算术
+  [numC (n : number)]
+  [plusC (l : ArithC) (r : ArithC)]
+  [multC (l : ArithC) (r : ArithC)])
+</code></pre>
+<h2 id="32">3.2 写个解释器</h2>
+<p>下面开始写该算术语言的解释器。首先我们考虑一下该解释器的类型：它的输入显然
+是<code>ArithC</code>值，返回值的类型呢？当然是数啦。即我们的解释器是输入为<code>ArithC</code>输出为数
+的函数。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>为该解释器写一些测试案例。</p>
+</blockquote>
+<p>由于输入类型是递归定义的数据类型，很自然的解释器也应该递归地处理输入。程序模板如
+下：【注释】</p>
+<pre><code class="language-racket">(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+             [numC (n) n]
+             [plusC (l r) ...]
+             [multC (l r) ...]))
+</code></pre>
+<blockquote>
+<p>《程序设计方法》一书（又译《如何设计程序》）详细介绍了模板这一概念。</p>
+</blockquote>
+<p>你很可能想当然的直接写出如下的代码：</p>
+<pre><code class="language-racket">(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+             [numC (n) n]
+             [plusC (l r) (+ l r)]
+             [multC (l r) (* l r)]))
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>你能找到其中的错误吗？</p>
+</blockquote>
+<p>首先，我们先补充模板代码：</p>
+<pre><code class="language-racket">(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+             [numC (n) n]
+             [plusC (l r) ... (interp l) ... (interp r) ...]
+             [multC (l r) ... (interp l) ... (interp r) ...]))
+</code></pre>
+<p>填充必要部分得到解释器：</p>
+<pre><code class="language-racket">(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+             [numC (n) n]
+             [plusC (l r) (+ (interp l) (interp r))]
+             [multC (l r) (* (interp l) (interp r))]))
+</code></pre>
+<p>这样，我们就完成了第一个解释器！我知道有点虎头蛇尾，但是我保证，它会变得越来越复
+杂。</p>
+<h2 id="33">3.3 你注意到了吗？</h2>
+<p>有件事情我没和你讲清楚：</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>在这个语言中，加法和乘法的“意义”是啥？</p>
+</blockquote>
+<p>太抽象了，不是吗？让我们把它变得更具体一些。计算机中有很多种不同的加法：</p>
 <ul>
-<li><a href="https://github.com/lotuc">lotuc</a></li>
-<li><a href="https://github.com/mrmathematica">MrMathematica</a></li>
+<li>
+<p>首先，有很多种不同的数：固定长度（例如，32 位）整数，带符号固定长度（例如，31
+  位外加 1 个符号位）整数，任意精度整数；在有些语言中，有理数；各种不同格式的固
+  定位数浮点数；在有些语言中，复数；如此等等。在确定数类型之后，加法可能只支持其
+  中的一部分组合。</p>
+</li>
+<li>
+<p>其次，某些语言支持某些（其他）数据类型的加法，比如矩阵加法。</p>
+</li>
+<li>
+<p>再次，某些语言支持字符串“相加”。这里引号表示我们并没有进行数学上相加的操作，而
+  是用语法上用+符号表示操作。有的语言用这表示字符串拼接；也有语言在这种情况下返
+  回数（比如把字符串所表示的数相加）。</p>
+</li>
 </ul>
-<p>本翻译版权属于两位译者</p>
-<h2 id="_4">目录</h2>
+<p>这些都是加法所代表的不同含义。<strong>语义</strong>是把语法（例如+）映射到含义（例如，以上列
+举的部分或者所有）。</p>
+<p><strong>于是游戏来了：以下哪些是相同的？</strong></p>
 <ul>
-<li><a href="https://lotuc.github.io/PLAI-cn#plai-cn">封面</a></li>
-<li><a href="chap1.md"> 1. 引言</a></li>
-<li><a href="chap2.md"> 2. 本书有关语法解析的一切</a></li>
-<li><a href="chap3.md"> 3. 解释器初窥</a></li>
-<li><a href="chap4.md"> 4. 初试去语法糖</a></li>
-<li><a href="chap5.md"> 5. 添加函数</a></li>
-<li><a href="chap6.md"> 6. 从替换模型到环境模型</a></li>
-<li><a href="chap7.md"> 7. 任意位置的函数</a></li>
-<li><a href="chap8.md"> 8. 可变结构体和变量</a></li>
-<li><a href="chap9.md"> 9. 递归和循环：子程序与数据</a></li>
-<li><a href="chap10/">10. 对象</a></li>
-<li><a href="chap11/">11. 内存管理</a></li>
-<li><a href="chap12/">12. 表示层抉择</a></li>
-<li><a href="chap13/">13. 语言中支持去语法糖</a></li>
-<li><a href="chap14/">14. 控制指令</a></li>
-<li><a href="chap15/">15. 静态地检查程序中的不变量：类型</a></li>
-<li><a href="chap16/">16. 动态地检查程序中的不变量：契约</a></li>
-<li><a href="chap17/">17. 其他调用语义</a></li>
+<li>
+<p>1 + 2</p>
+</li>
+<li>
+<p>1 + 2</p>
+</li>
+<li>
+<p>’1’ + ’2’</p>
+</li>
+<li>
+<p>’1’ + ’2’</p>
+</li>
 </ul>
+<p>回到之前的问题，我们用的语义是啥？我们直接使用了 Racket 所提供的语义，因为程序直
+接把+映射到了 Racket 的+上。其实这也不一定是对的：比如说，如果 Racket 的<code>+</code>也支
+持字符串，那么我们这里提供的操作就限制+只能用在数上（事实上 Racket 的<code>+</code>并不支持
+字符串）。</p>
+<p>如果我们想要不同的语义，需要显式的实现出来。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>需要哪些修改，这里的加法能支持带符号 32 位数的算术?</p>
+</blockquote>
+<p>一般来说，我们需要避免简单的借用宿主语言的语义。后面我们还会讨论这个话题。</p>
+<h2 id="34">3.4 扩展此语言</h2>
+<p>我们选择的第一个语言功能非常有限，于是有很多种方式可以将其扩展。有的扩展，比如添
+加数据结构和函数，就必须要增加解释器所支持的数据类型（假设我们并不打算采用哥德尔
+计数法）。其他的扩展，比如增加更多算术操作，就不必修改核心语言及其解释器。我
+们<a href="./chap4.md">下一章</a>就讨论此问题。</p>
 
 
   
@@ -647,12 +753,12 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
       
-        <script src="js/mathjax.js"></script>
+        <script src="../js/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

@@ -1,0 +1,1513 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chap09/">
+      
+      
+        <link rel="next" href="../chap11/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>10 对象 - Programming Languages: Application and Interpretation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-CRZZK8N4WE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-CRZZK8N4WE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-CRZZK8N4WE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#10" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programming Languages: Application and Interpretation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              10 对象
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programming Languages: Application and Interpretation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap02/" class="md-nav__link">
+        2 本书有关语法解析的一切
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap03/" class="md-nav__link">
+        3 解释器初窥
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap04/" class="md-nav__link">
+        4 初试去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap05/" class="md-nav__link">
+        5 添加函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap06/" class="md-nav__link">
+        6 从替换模型到环境模型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap07/" class="md-nav__link">
+        7 任意位置的函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap08/" class="md-nav__link">
+        8 可变结构体和变量
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap09/" class="md-nav__link">
+        9 递归和循环：子程序与数据
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          10 对象
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        10 对象
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    10.1 不支持继承的对象
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 不支持继承的对象">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1011" class="md-nav__link">
+    10.1.1 核心语言中的对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1012" class="md-nav__link">
+    10.1.2 通过去语法糖实现对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1013" class="md-nav__link">
+    10.1.3 对象作为名称集合
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1014" class="md-nav__link">
+    10.1.4 构造器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1015" class="md-nav__link">
+    10.1.5 状态
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1016" class="md-nav__link">
+    10.1.6 私有成员
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1017" class="md-nav__link">
+    10.1.7 静态成员
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1018" class="md-nav__link">
+    10.1.8 带自引用的对象
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1.8 带自引用的对象">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10181" class="md-nav__link">
+    10.1.8.1 使用赋值实现自引用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10182" class="md-nav__link">
+    10.1.8.2 不用赋值实现自引用
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1019" class="md-nav__link">
+    10.1.9 动态分发
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    10.2 成员访问的设计空间
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-else" class="md-nav__link">
+    10.3 还有点啥（else 中放什么）？
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 还有点啥（else 中放什么）？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1031" class="md-nav__link">
+    10.3.1 类
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1032" class="md-nav__link">
+    10.3.2 原型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1033" class="md-nav__link">
+    10.3.3 多重继承
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1034-super" class="md-nav__link">
+    10.3.4 （高超的）Super
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1035-mixin-trait" class="md-nav__link">
+    10.3.5 Mixin 和 Trait
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11/" class="md-nav__link">
+        11 内存管理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap12/" class="md-nav__link">
+        12 表示层抉择
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap13/" class="md-nav__link">
+        13 语言中支持去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap14/" class="md-nav__link">
+        14 控制指令
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap15/" class="md-nav__link">
+        15 静态地检查程序中的不变量：类型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap16/" class="md-nav__link">
+        16 动态地检查程序中的不变量：契约
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap17/" class="md-nav__link">
+        17 其他调用语义
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    10.1 不支持继承的对象
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 不支持继承的对象">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1011" class="md-nav__link">
+    10.1.1 核心语言中的对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1012" class="md-nav__link">
+    10.1.2 通过去语法糖实现对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1013" class="md-nav__link">
+    10.1.3 对象作为名称集合
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1014" class="md-nav__link">
+    10.1.4 构造器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1015" class="md-nav__link">
+    10.1.5 状态
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1016" class="md-nav__link">
+    10.1.6 私有成员
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1017" class="md-nav__link">
+    10.1.7 静态成员
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1018" class="md-nav__link">
+    10.1.8 带自引用的对象
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1.8 带自引用的对象">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10181" class="md-nav__link">
+    10.1.8.1 使用赋值实现自引用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10182" class="md-nav__link">
+    10.1.8.2 不用赋值实现自引用
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1019" class="md-nav__link">
+    10.1.9 动态分发
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    10.2 成员访问的设计空间
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-else" class="md-nav__link">
+    10.3 还有点啥（else 中放什么）？
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 还有点啥（else 中放什么）？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1031" class="md-nav__link">
+    10.3.1 类
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1032" class="md-nav__link">
+    10.3.2 原型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1033" class="md-nav__link">
+    10.3.3 多重继承
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1034-super" class="md-nav__link">
+    10.3.4 （高超的）Super
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1035-mixin-trait" class="md-nav__link">
+    10.3.5 Mixin 和 Trait
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="10">10 对象</h1>
+<p>一门语言将函数作为值，就最为自然地提供了表示计算的最小单位。假设程序员需要把某个
+函数<code>f</code>参数化。任何语言都会允许把<strong>被动的</strong>数据——比如数字和字符串——用作函数参数
+。但是如果<strong>主动的</strong>数据——可以<strong>计算</strong>出结果的数据，比如说响应某种信息——也可以用
+作参数，这个想法就很有吸引力了。此外，作为参数传给<code>f</code>的函数——假设它遵从词法作用
+域——可以使用它的调用者提供的数据，而这些数据无需暴露给<code>f</code>，这给安全和隐私提供了
+基石。正因如此，遵从词法作用域的函数成了设计很多安全编程技术的核心。</p>
+<p>函数是好的东西，但是它太过简洁。有时候我们希望多个函数闭合于同一份<strong>共享的</strong>数据
+；共享的意义在于，当这份数据被其中某个函数修改时，我们希望其他函数能够看到修改后
+的结果。在这种情况下，不可能仅仅发送一个函数作为参数；发送一组函数更有用。接收方
+则需要能够从这组函数中提取出各个函数。这么一组函数，外加从中选取函数的方法，便
+是<strong>对象</strong>（object）的精髓。我们已经学过了函数（<a href="./chap7.md">第七章</a>）和可变结构
+（<a href="./chap8.md">第八章</a>），现在正是学习对象的最佳时机——同时前面学习的递归
+（<a href="./chap9.md">第九章</a>）也将派上用场。</p>
+<p>我们来把此概念的对象添加到自己的语言中。然后我们将不断改进和扩展它，从而探究关于
+对象系统设计的各种维度。首先展示一下怎么将对象加入到核心语言中，但是由于想要快速
+构建许多不同的想法，我们很快就会转向基于去语法糖的策略。使用哪种方式取决于你是否
+认为理解它们对理解你的语言的本质至关重要。判断这点的一种方法是，看你的去语法糖过
+程变得有多复杂，以及，在给核心语言添加一些关键特性后，去语法糖的复杂度能否大幅降
+低。</p>
+<blockquote>
+<p>我不能指望这里能讨论关于对象系统的一切，你可以阅读 Éric Tanter 的
+《<a href="http://users.dcc.uchile.cl/~etanter/ooplai/">Object-Oriented Programming Languages: Application and Interpretation</a>》
+（
+《<a href="https://mrmathematica.gitbooks.io/ooplai/content/">面对对象编程语言：应用和解释</a>》
+） 来了解更多细节以及我们没有涉及到的主题。</p>
+</blockquote>
+<h2 id="101">10.1 不支持继承的对象</h2>
+<p>最简单的对象概念——可能是唯一所有谈论对象的人都能认同的定义——对象是：</p>
+<ul>
+<li>值，</li>
+<li>够将一些名字映射成</li>
+<li>其它东西：值或者“方法（methods）”</li>
+</ul>
+<p>从简约的角度来看，方法似乎就是函数，由于我们的语言已经实现了函数，我们先忽略它们
+之间的区别。</p>
+<blockquote>
+<p>之后我们会发现“方法”和函数极其相似，但是在某些重要的方面有所不同：调用方式，还
+有其内部所绑定的东西。</p>
+</blockquote>
+<h3 id="1011">10.1.1 核心语言中的对象</h3>
+<p>让我们往支持一等函数的核心语言（译注，即第七章中实现的语言）中加入简单的对象。显
+然我们必须扩展值的概念：</p>
+<pre><code class="language-Racket">(define-type Value
+  [numV (n : number)]
+  [closV (arg : symbol) (body : ExprC) (env : Env)]
+  [objV (ns : (listof symbol)) (vs : (listof Value))])
+</code></pre>
+<p>还要扩展语法，支持对象的构造表达式：</p>
+<pre><code class="language-Racket">[objC (ns : (listof symbol)) (es : (listof ExprC))]
+</code></pre>
+<blockquote>
+<p>这里语言的设计中已做了一个抉择。在某些语言（如 JavaScript）中，程序员可以直接
+写出对象。这是个非常受欢迎的概念，JavaScript 中该功能的部分语法成了网络标准
+——JSON。在其他语言（如 Java）中，对象只能通过调用某个类的构造函数来创建。这两
+种设计我们都可以模拟。要模拟后一种语言模型，我们必须遵从后文讨论到去语法糖中提
+出的程式化惯例，只在特定位置直接写出对象。</p>
+</blockquote>
+<p>对这个对象表达式的求值很简单：对每个表达式位置都求值就行：</p>
+<pre><code class="language-Racket">[objC (ns es) (objV ns (map (lambda (e)
+                              (interp e env))
+                            es))]
+</code></pre>
+<p>不幸的是，我们无法实际<strong>使用</strong>对象，因为无法获取其内容。为此，我们添加一个操作来
+提取成员：</p>
+<pre><code class="language-Racket">[msgC (o : ExprC) (n : symbol)]  ;消息，核心语言
+</code></pre>
+<p>其行为就是直接：</p>
+<pre><code class="language-Racket">[msgC (o n) (lookup-msg n (interp o env))]
+</code></pre>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>实现函数</p>
+<p><code>Racket
+; lookup-msg : symbol * Value -&gt; Value</code></p>
+<p>第二个参数的类型应该是<code>objV</code>。</p>
+</blockquote>
+<p>原则上，<code>msgC</code>可以被用于获取任意类型的成员，但是简单起见，我们假设成员中只有函数
+。要使用某个成员，需要给其传入参数值。在核心语言的语法中这么写有点笨拙，所以我们
+假设去语法糖过程降低了语法复杂性：表层语法中消息调用同时提供了消息名和参数：</p>
+<pre><code class="language-Racket">[msgS (o : ExprS) (n : symbol) (a : ExprS)]  ;消息，表层语言
+</code></pre>
+<p>去语法糖得<code>msgC</code>和函数调用：</p>
+<pre><code class="language-Racket">[msgS (o n a) (appC (msgC (desugar o) n) (desugar a))]
+</code></pre>
+<p>至此，一个包含对象的语言就诞生了。例如，下面是对象定义和调用：</p>
+<pre><code class="language-Racket">(letS 'o (objS (list 'add1 'sub1)
+               (list (lamS 'x (plusS (idS 'x) (numS 1)))
+                     (lamS 'x (plusS (idS 'x) (numS -1)))))
+      (msgS (idS 'o) 'add1 (numS 3)))
+</code></pre>
+<p>它计算得<code>(numV 4)</code>。</p>
+<h3 id="1012">10.1.2 通过去语法糖实现对象</h3>
+<p>在语言核心中定义对象也许是值得的，但是对于学习它来说这么做太麻烦了。替代方案是我
+们直接使用 Racket 语言中那些我们的解释器已经实现过的特性来表示对象。也就是说，假
+设我们看到的是去语法糖后的结果。（基于这个理由，我们会使用程式化的代码，可能某些
+表达式看上去并不必要，但请注意这是程序生成器输出的代码。）</p>
+<p>注意：后面所有的代码都使用<code>#lang plai</code>，<strong>而不是</strong><code>typed</code>（静态类型）语言。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>为什么使用<code>#lang plai</code>？不然的话，在运行后面的代码的时候会碰到什么问题？这些问
+题好解决吗，比如引入新的数据结构来保证代码类型正确？如果简化我们的模型呢，比如
+让方法只接受一个参数？或者其中有些问题很难解决？</p>
+</blockquote>
+<h3 id="1013">10.1.3 对象作为名称集合</h3>
+<p>首先实现我们之前实现的对象语言。对象是对给定名称进行分派的一种值。简单起见，我们
+用<code>lambda</code>表示对象，用<code>case</code>实现分派：</p>
+<pre><code class="language-Racket">(define o-1
+  (lambda (m)
+    (case m
+      [(add1) (lambda (x) (+ x 1))]
+      [(sub1) (lambda (x) (- x 1))])))
+</code></pre>
+<blockquote>
+<p>注意到这个简单对象的实现是泛化了的<code>lambda</code>，带有多个“入口点”。相反，<code>lambda</code>可
+以理解为只有一个入口点的对象，也因此它不需要“方法名”。</p>
+</blockquote>
+<p>这和本章前面的定义的对象相同，使用其方法的方式也相同：</p>
+<pre><code class="language-Racket">(test ((o-1 'add1) 5) 6)  ;;这个测试会通过
+</code></pre>
+<p>当然，这种嵌套的函数调用有点臃肿（并且将变得更加臃肿），所以我们最好提供一种方便
+的语法来调用方法——和前文<code>msgS</code>一样，不过我们可以简单将其定义为函数：</p>
+<pre><code class="language-Racket">(define (msg o m . a)
+  (apply (o m) a))
+</code></pre>
+<blockquote>
+<p>这里使用了 Racket 的可变参数目数语法：<code>. a</code>的意思是，将剩下所有参数——零个或多
+个——绑定到名为<code>a</code>的链表。<code>apply</code>将链表中的值取出作为参数来进行函数调用。</p>
+</blockquote>
+<p>这样我们的测试就可以这么写：</p>
+<pre><code class="language-Racket">(test (msg o-1 'add1 5) 6)
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>换用去语法糖的方式后，有些重大改变。你意识到是什么吗？</p>
+</blockquote>
+<p>回忆一下之前定义的语法：</p>
+<pre><code class="language-Racket">[msgC (o : ExprC) (n : symbol)]
+</code></pre>
+<p>注意到消息“名字”的位置必须是<strong>符号</strong>。即程序员在该位置必须字面写上符号。而在去语
+法糖的版本中，名字的位置只是表达式，当然该表达式必须计算得到符号；例如，可以这么
+写：</p>
+<pre><code class="language-Racket">(test ((o-1 (string-&gt;symbol &quot;add1&quot;)) 5) 6)  ;;这也会通过
+</code></pre>
+<p>这是去语法糖的常见问题：目标语言中有些表达式可能在源码中没有对应的表示，于是它们
+不能映射回去。幸运的是，通常我们不需要进行反向映射，不过某些调试和程序分析工具中
+可能需要这么做。重要的是，我们必须保证目标语言中不会出现无法在源码中对应
+的<strong>值</strong>。</p>
+<p>有了基本的对象实现，接下来我们添加那些大多数对象系统中都有的特性。</p>
+<h3 id="1014">10.1.4 构造器</h3>
+<p>构造器就是在对象构造时调用的函数。我们还没定义过这种函数。只要将对象从字面值转换
+成接受构造参数的函数，便可以达到效果：</p>
+<pre><code class="language-Racket">(define (o-constr-1 x)
+  (lambda (m)
+    (case m
+      [(addX) (lambda (y) (+ x y))])))
+
+(test (msg (o-constr-1 5) 'addX 3) 8)
+(test (msg (o-constr-1 2) 'addX 3) 5)
+</code></pre>
+<p>在第一个例子中，我们传入 5 作为构造器的参数，所以加 3 得 8。第二个例子是类似的，
+这表明构造器的两次调用不会相互干扰。</p>
+<h3 id="1015">10.1.5 状态</h3>
+<p>许多人认为对象的主要目的就是用来封装状态。【注释】我们当然保有这种能力。如果去除
+语法糖后的语言支持变量（当然支持<code>box</code>也行，代价是去语法糖过程会更麻烦些），我们
+很容易实现多个方法对同一个状态赋值，例如修改构造参数：</p>
+<pre><code class="language-Racket">(define (o-state-1 count)
+  (lambda (m)
+    (case m
+      [(inc) (lambda () (set! count (+ count 1)))]
+      [(dec) (lambda () (set! count (- count 1)))]
+      [(get) (lambda () count)])))
+</code></pre>
+<blockquote>
+<p>Alan Kay——因发明 Smalltalk 和现代对象技术而获得图灵奖——不同意这一观点。在
+《<a href="http://www.smalltalk.org/smalltalk/TheEarlyHistoryOfSmalltalk_Abstract.html">Smalltalk 的早期历史</a>》
+中，他说，“在 Smalltalk 的早期历史中，往小了说（面向对象编程的动机）是寻找更易
+用的赋值，进一步则是尝试完全消除赋值。他补充说：“不幸的是，今天所谓的‘面向对象
+程序设计’大部分都是新瓶装旧酒。很多程序都充满了‘赋值式的’操作，只不过由更昂贵
+的附加子程序完成罢了。”</p>
+</blockquote>
+<p>可以使用下面的代码序列测试：</p>
+<pre><code class="language-Racket">(test (let ([o (o-state-1 5)])
+        (begin (msg o 'inc)
+               (msg o 'dec)
+               (msg o 'get)))
+      5)
+</code></pre>
+<p>请注意，对一个对象进行赋值不会影响到另一个对象：</p>
+<pre><code class="language-Racket">(test (let ([o1 (o-state-1 3)]
+            [o2 (o-state-1 3)])
+        (begin (msg o1 'inc)
+               (msg o1 'inc)
+               (+ (msg o1 'get)
+                  (msg o2 'get))))
+      (+ 5 3))
+</code></pre>
+<h3 id="1016">10.1.6 私有成员</h3>
+<p>另一个常见的对象语言特性是私有成员：只在对象内部可见，外部就不可见。【注释】看上
+去这个特性还有待我们去实现，但我们已经有了局部作用域的、词法绑定的变量：</p>
+<pre><code class="language-Racket">(define (o-state-2 init)
+  (let ([count init])
+    (lambda (m)
+      (case m
+        [(inc) (lambda () (set! count (+ count 1)))]
+        [(dec) (lambda () (set! count (- count 1)))]
+        [(get) (lambda () count)]))))
+</code></pre>
+<blockquote>
+<p>除此之外，在 Java 中，相同类型的其他类的实例也能访问“私有”成员。否则就没办法实
+现抽象数据类型了。</p>
+</blockquote>
+<p>这么去除语法糖之后，不存在访问<code>count</code>的方法，词法作用域则确保它对外部不可见。</p>
+<h3 id="1017">10.1.7 静态成员</h3>
+<p>对于对象的使用者来说，另一个有用的特性是<strong>静态</strong>成员：所有“相同”类型对象实例共享
+的成员。【注释】实际上，这就是（私有的）词法范围标识符，并且位于构造函数之外（这
+使其对所有构造函数的调用来说都是共享的）：</p>
+<pre><code class="language-Racket">(define o-static-1
+  (let ([counter 0])
+    (lambda (amount)
+      (begin
+        (set! counter (+ 1 counter))
+        (lambda (m)
+          (case m
+            [(inc) (lambda (n) (set! amount (+ amount n)))]
+            [(dec) (lambda (n) (set! amount (- amount n)))]
+            [(get) (lambda () amount)]
+            [(count) (lambda () counter)]))))))
+</code></pre>
+<blockquote>
+<p>这里用引号是因为，对象有许多“相同”的概念。太多了。</p>
+</blockquote>
+<p>我们把增加<code>counter</code>的那行放在该对象的“构造器”所在的位置，尽管它也可以在方法内部
+被操纵。。</p>
+<p>测试就是构造多个对象，并确保它们每一个都影响了全局的<code>count</code>：</p>
+<pre><code class="language-Racket">(test (let ([o (o-static-1 1000)])
+        (msg o 'count))
+      1)
+
+(test (let ([o (o-static-1 0)])
+        (msg o 'count))
+      2)
+</code></pre>
+<h3 id="1018">10.1.8 带自引用的对象</h3>
+<p>到目前为止，我们的对象还只是打包的实名函数；或者你可以这么说，有多个实名入口点的
+函数。可以看到，很多对象系统中被认为很重要的特性可以通过函数和作用域实现，事实上
+很长一段时间里懂得<code>lambda</code>的程序员的确是这么做的，只是没有给这种做法起名字罢了。</p>
+<p>对象系统一个不同与众不同的特征是，每个对象都自带了对该对象自己的引用，通常称
+为<code>self</code>或者<code>this</code>。【注释】我们可以方便的实现这一点吗？</p>
+<blockquote>
+<p>对象的倡导者们经常采用的拟人化的术语“了解自己”，而我更喜欢这种略显枯燥的描述。
+事实上，请注意，我们无需要求助于拟人化，已经描述了很多对象系统的属性了。</p>
+</blockquote>
+<h4 id="10181">10.1.8.1 使用赋值实现自引用</h4>
+<p>是的，可以这么实现，之前实现递归的时候我们已经见过此模式了；只需要将其一般化，引
+用对象自身而不是<code>box</code>或者函数：</p>
+<pre><code class="language-Racket">(define o-self!
+  (let ([self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(first) (lambda (x) (msg self 'second (+ x 1)))]
+                [(second) (lambda (x) (+ x 1))])))
+      self)))
+</code></pre>
+<p>可以看见这就是递归的模式（<a href="./chap9.md">递归函数</a>），稍作调整。在方法<code>first</code>中使
+用自引用调用了方法<code>second</code>。测试表明这么做可行：</p>
+<pre><code class="language-Racket">(test (msg o-self! 'first 5) 7)
+</code></pre>
+<h4 id="10182">10.1.8.2 不用赋值实现自引用</h4>
+<p>如果你研究过怎么不使用赋值实现递归，那么你会发现该方案也适用于这里。</p>
+<pre><code class="language-Racket">(define o-self-no!
+  (lambda (m)
+    (case m
+      [(first) (lambda (self x) (msg/self self 'second (+ x 1)))]
+      [(second) (lambda (self x) (+ x 1))])))
+</code></pre>
+<p>现在每个方法需要传入<code>self</code>参数。这意味着方法调用也需要修改，以遵循新模式：</p>
+<pre><code class="language-Racket">(define (msg/self o m . a)
+  (apply (o m) o a))
+</code></pre>
+<p>也就是说，当调用对象<code>o</code>的方法时，必须把<code>o</code>作为参数传递给方法。显然这种方式存在隐
+患，调用方法的时候可以传入不同的对象作为<code>self</code>。因此将这个功能提供给程序员可能是
+个坏主意；如果使用这种技术，则只能通过去语法糖来实现。</p>
+<blockquote>
+<p>尽管如此，Python 还是在其表层语法中这么做了。尽管这种致敬 Y-combinator 的行为
+令人感动，但是由此带来的脆弱性也许不必要。</p>
+</blockquote>
+<h3 id="1019">10.1.9 动态分发</h3>
+<p>最后，我们希望我们的对象可以处理对象系统的这个特性，调用者可以进行方法调用，而无
+需知道或者决定哪个对象会处理该调用。假设我们有个二叉树数据结构，树中要么是不含值
+的节点或者含值的叶节点（译注：原文如此，和后面的代码有相反之处）。传统的函数中，
+我们需要借助某种形式的条件判断——<code>cond</code>、<code>type-case</code>、模式匹配，或与之等价的东西
+——穷举不同形式的树并根据对应形式来选择执行。如果树的定义扩展了，包含了新的类型，
+那么所有相应的代码段必须修改。动态分发（dynamic dispatch）将该条件选择移到<strong>语言
+内部</strong>，使得用户程序可以不用处理这种情况，从而解决此问题。它提供的关键特性是<strong>可
+扩展的条件</strong>。这也是对象提供的可扩展性的一个方面。</p>
+<blockquote>
+<p>动态分发使得系统具有<strong>黑盒可扩展性</strong>，因为系统的某个部分可以在不触及其他部分（
+代码修改）的情况下扩展，这个属性也被认为是面向对象编程的一大好处。这的确是对象
+相比函数的优势，然而函数相比对象有个对等的优势，事实上很多对象程序员使用访问者
+模式（Visitor pattern）来组织代码，使其看起来更像函数式的。请参
+阅<a href="http://www.cs.brown.edu/~sk/Publications/Papers/Published/kff-synth-fp-oo/">Synthesizing Object-Oriented and Functional Design to Promote Re-Use</a>
+，其中包括具体的例子，给出此问题的完整描述。试着用你最喜欢的语言解决这个问题，
+然后可以看
+看<a href="http://www.cs.utah.edu/plt/publications/icfp98-ff/paper.shtml">Racket 中的解决方案</a>。</p>
+</blockquote>
+<p>先来定义两种类型的树对象：</p>
+<pre><code class="language-Racket">(define (mt)
+  (let ([self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(add) (lambda () 0)])))
+      self)))
+
+(define (node v l r)
+  (let ([self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(add) (lambda () (+ v
+                                     (msg l 'add)
+                                     (msg r 'add)))])))
+      self)))
+</code></pre>
+<p>于是，我们可以构造具体的树：</p>
+<pre><code class="language-Racket">(define a-tree
+  (node 10
+        (node 5 (mt) (mt))
+        (node 15 (node 6 (mt) (mt)) (mt))))
+</code></pre>
+<p>最后，测试一下：</p>
+<pre><code class="language-Racket">(test (msg a-tree 'add) (+ 10 5 15 6))
+</code></pre>
+<p>注意到，在测试案例中，还有在<code>node</code>的<code>add</code>方法中，都调用了<code>add</code>方法而没有检查接收
+方是<code>mt</code>还是<code>node</code>。运行时系统提取出接收方的<code>add</code>方法并执行。用户的程序中没有条
+件表达式，这正是动态分发的精髓。</p>
+<h2 id="102">10.2 成员访问的设计空间</h2>
+<p>对于成员名称的处理我们已经有两个正交的纬度。一个维度是名字是静态给定还是计算给出
+的，另一纬度是名字的集合是固定的还是可变的：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>名字是静态的</th>
+<th>名字是计算求得的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>成员固定</strong></td>
+<td>基本的 Java</td>
+<td>Java 中通过反射计算出的名字</td>
+</tr>
+<tr>
+<td><strong>成员可变</strong></td>
+<td>无法想象</td>
+<td>大部分脚本语言</td>
+</tr>
+</tbody>
+</table>
+<p>只有一种情况毫无意义：如果强制程序员在源码中显式指定成员名，那么就无法添加新的可
+访问的成员了（当然，访问曾经存在过但是被删除的成员还是会报错）。其它的几种情况都
+已经在各种语言中被尝试过了。</p>
+<p>右下方那种情况密切对应于那些使用哈希表表示对象的语言。成员名字即哈希表的索引。一
+些语言将这种风格推到极限，当索引是数字时也同样处理，于是对象和和字典（甚至数组）
+都混到了一起。即使对象只处理“成员名字”，这种风格的对象也给类型检查带来极大困难，
+这可不是什么好事。</p>
+<p>因此，本章的其余部分，我们将坚持使用“传统的”对象，成员固定，甚至会让它的名字只能
+是静态的（对应于左上角那种）。即使这样，我们将发现仍有很多待学习的东西。</p>
+<h2 id="103-else">10.3 还有点啥（else 中放什么）？</h2>
+<p>截至目前，我们的<code>case</code>表达式并不包含<code>else</code>子句。这么做的一个原因是，方便使得我们
+的成员（及成员数量）可变；尽管前面我们也讨论过，使用其它方式实现，例如哈希表，可
+能是更好的选择。相反，假如对象成员固定，把对象去语法糖实现为条件表达式从演示的角
+度来讲很合理（因为这种实现方式<strong>强调</strong>了成员名称固定这一点，而哈希表实现就将这一
+点交给了解释器，这么做容易导致错误）。不过，还有一个很好的原因，需要用上<code>else</code>子
+句：<strong>继承</strong>（inheritance）。它指的是，将控制“链式地”交给另一个对象，称为<strong>父对
+象</strong>。</p>
+<p>还是从前文中去语法糖对象模型开始。为了实现继承，需要提供给对象“某种东西”，当遇到
+其识别不了的方法，委托它实现。“某种东西” 怎么选择将导致迥异的设计结果。</p>
+<p>一种简单的选择，另一个对象。</p>
+<pre><code class="language-Racket">(case m
+  ...
+  [else (parent-object m)])
+</code></pre>
+<p>基于我们的实现，这么做的话，我们将在父对象中搜索当前对象中不存在的方法（并且递归
+的搜素父对象的父对象）。如果找到与名称对应的方法，那么方法就会链式的返回最初
+的<code>msg</code>调用。如果找不到方法，最后那个对象可以报错“未找到消息”。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>注意到调用<code>(parent-object m)</code>就像“半个<code>msg</code>”一样，和左值是“半个查找”类似。两者
+有什么联系吗？</p>
+</blockquote>
+<p>让我们来试试这个想法，扩展我们的树实现另一方法<code>size</code>。我们通过给对
+象<code>node</code>和<code>mt</code>分别实现“扩展”（你可能想叫它“子类”，但现在请先忍住）的方式实现，也
+就是使用前述的模式。</p>
+<blockquote>
+<p>这里不会对现有的定义做任何编辑，这正是对象继承的意义所在：以黑盒的形式重用代码
+。这意味着，彼此不认识的各方可以各自扩展相同的基本代码。如果他们必须编辑基本代
+码，首先他们必须知道对方的修改，此外，某一方可能不喜欢另一方做的编辑。继承就可
+以完全避开这种麻烦。</p>
+</blockquote>
+<h3 id="1031">10.3.1 类</h3>
+<p>我们立刻就遇到了难题。构造器的模式是这样的吗？</p>
+<pre><code class="language-Racket">(define (node/size parent-object v l r)
+  ...)
+</code></pre>
+<p>这段代码表明，父对象和对象构造器的其他参数处于“同一级别”。这看上去很合理，只要所
+有这些参数都给定了，该对象也就被“完全定义”了。然而，我们的代码中还有：</p>
+<pre><code class="language-Racket">(define (node v l r)
+  ...)
+</code></pre>
+<p>我们需要把所有的参数写两遍吗？（当有什么相同的东西需要写两次，应该考虑一下我们是
+不是有啥地方没有保持一致，因此引入了微妙的错误。）以下是替代方案
+：<strong><code>node/size</code>可以构造其父对象的实例</strong>。也就是说，传给<code>node/size</code>指明父对象的参
+数不是父<strong>对象</strong>本身，而是父对象的<strong>构造函数</strong>：</p>
+<pre><code class="language-Racket">(define (node/size parent-maker v l r)
+  (let ([parent-object (parent-maker v l r)]
+        [self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(size) (lambda () (+ 1
+                                     (msg l 'size)
+                                     (msg r 'size)))]
+                [else (parent-object m)])))
+      self)))
+
+(define (mt/size parent-maker)
+  (let ([parent-object (parent-maker)]
+        [self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(size) (lambda () 0)]
+                [else (parent-object m)])))
+      self)))
+</code></pre>
+<p>每次调用对象构造器的时候，就必须要记得传入父对象的构造函数：</p>
+<pre><code class="language-Racket">(define a-tree/size
+  (node/size node
+             10
+             (node/size node 5 (mt/size mt) (mt/size mt))
+             (node/size node 15
+                        (node/size node 6 (mt/size mt) (mt/size mt))
+                        (mt/size mt))))
+</code></pre>
+<p>显然我们可以通过合适的语法糖简化上面这一堆东西。写两个测试来确保原功能和新加功能
+都正确：</p>
+<pre><code class="language-Racket">(test (msg a-tree/size 'add) (+ 10 5 15 6))
+(test (msg a-tree/size 'size) 4)
+</code></pre>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>把这段代码改写成 self 调用模式的，不使用赋值（第 10.1.8.2 节）。</p>
+</blockquote>
+<p>这里展示的就是<strong>类</strong>（class）的精髓。给函数加上父参数后它就是……好吧，真的有点棘
+手。现在我们把它称为<strong>blob（难以名状的一团）</strong>。blob 对应于 Java 程序员在编写类
+时定义的内容：</p>
+<pre><code class="language-java">class NodeSize extends Node { ... }
+</code></pre>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>那么，为什么我们不把它叫做“类”呢？</p>
+</blockquote>
+<p>当程序员调用 Java 的类构造器时，它实际上构造了继承链上的所有对象（当然，编译器可
+能会对此优化，只需要进行一次构造器调用和一次对象分配）。每个父类都会对应创建一个
+私有的对象（对于静态方法来说是私有的）。问题是，这些对象中有多少是可见的。Java
+的选择和我们上述的实现不同，是对于每个给定名字（和签名）的方法只保留一个，不管该
+方法在继承链上被实现了多少次，而所有的字段都被保留，可以通过强制类型转换去访问。
+后者细想是合理的，因为对字段来说，可能会有一些基于它的不变量，所以保证它们彼此分
+离（因此所有字段都存在）是很有必要的。相比之下，很容易想出来一种方式可以使所有方
+法可用，而不仅是继承层次中最低（即最精炼）的方法。很多脚本语言采用这种方法。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>前面的代码犯了一个本质错误。<code>self</code>引用的是同一个<strong>语法上的</strong>对象，而它需要引用
+的是最精炼（继承层次中最低）的对象：这个问题被称为<strong>开放式递归</strong>（open
+recursion）。【注释】修改对象的表示法，使得<code>self</code>总是引用对象最精炼的版本。提
+示：你会发现，self 调用的方式（<a href="#10182-不用赋值实现自引用">10.1.8.2 节</a>）更方
+便。</p>
+<p>这展示了从传统对象获得的另一种可扩展性形式：<strong>可扩展递归</strong>（extensible
+recursion）。</p>
+</blockquote>
+<h3 id="1032">10.3.2 原型</h3>
+<p>在前文的描述中，我们给每个类提供了其父<strong>类</strong>的描述。构造对象时将沿着继承链创建每
+个类的实例。关于父代还有一种想法：它不是需要实例化的类，而就是对象本身。这样拥有
+相同父代的子代都会看到同一个对象，这意味着从某个子对象中修改该对象内部状态将对其
+它子对象可见。该共有对象被称为<strong>原型（prototype）</strong>。</p>
+<blockquote>
+<p>代表性的基于原型的语言是<a href="http://selflanguage.org/">Self</a>。虽然你可能听说过
+JavaScript 是“基于”Self 的，但是从其源头来研究这个想法是有意义的，而且 Self 展
+示了原型这个概念最纯粹的形式。</p>
+</blockquote>
+<p>一些语言设计者认为原型比类更为基础，因为原型（外加语言中的其他基本机制，比如函数
+）可以实现类——但是反之则不行。前面我们基本上就是这么做的：每个“类”函数中都包含了
+对对象的描述，所以类就是返回对象的函数。如果我们假设这是两个不同的操作，直接继承
+对象，我们将得到类似原型的东西。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>修改继承模式，实现类似 Self 的、基于原型的语言，而不是基于类的语言。因为类为每
+个对象提供其父对象的不同拷贝，所以基于原型的语言可以提供<strong>克隆</strong>操作，从而简化
+在原型上模拟类的操作。</p>
+</blockquote>
+<h3 id="1033">10.3.3 多重继承</h3>
+<p>你可能会想到，为什么（方法在本对象中找不到时）只提供一个选项呢？很容易把这个推广
+到多个选项的情况，这也很自然的导出<strong>多重继承</strong>（multiple inheritance）。有多个父
+辈之后很显然的问题是，查找方法时按照何种顺序进行。继承关系组织成树状结构，糟糕的
+是，并没有权威的顺序可供使用：比如是深度优先呢还是广度优先呢（两种做法都能找到论
+据支持）。更糟糕的是，例如 blob A 扩展自 B 和 C；而 B 和 C 都扩展自 D。【注释】
+问题来了：A 的实例中包含一个还是两个 D 对象呢？只包含一个既节省空间且行为可能更
+符合期望，那么，访问该对象时是访问一次还是两次呢？两次访问之间应该没有什么区别，
+所以似乎没有必要。但一次访问意味着 B 或 C 之一的行为可能会改变。诸如此类。结果，
+几乎每一个支持多重继承的语言都伴随着一个微妙的算法，仅仅是定义查找的顺序。</p>
+<blockquote>
+<p>这就是臭名昭著的<strong>菱形继承</strong>（diamond inheritance）问题。如果你选择在语言中包
+含多重继承，关于这个问题涉及的设计抉择可能需要你纠结好长时间。你几乎不可能找到
+规范的解决方案，所以你的痛苦才刚刚开始。。</p>
+</blockquote>
+<p>多重继承只有在你思考之前才有吸引力。</p>
+<h3 id="1034-super">10.3.4 （高超的）Super</h3>
+<p>很多语言中支持 super 调用，即调用继承链上一层中的方法或者访问上一层中的字段。【
+注释】包括在对象构造的时候这样做，在那里通常需要调用所有的构造函数，以确保对象被
+正确定义。</p>
+<blockquote>
+<p>注意这里说的是“链”。在多重继承的情况下这些概念要复杂的多。</p>
+</blockquote>
+<p>我们已经对向“上”调用习以为常，也许我们忘了问这是否是最自然的方向。请记住，构造器
+和方法的任务是维护<strong>不变量</strong>。我们应该更信任谁，超类还是子类？有些人认为，子类更
+为精炼，所以它拥有关于对象最全面的描述。但反过来说，超类必须保护其不变量不受无知
+的子类胡乱篡改。</p>
+<p>这是关于继承到底是什么的两种截然不同的认知。向上意味着我们认为扩展是要<strong>替代</strong>超
+类。向下意味着我们认为扩展是<strong>改善</strong>父代。通常我们将子类继承视为后者（改善和精炼
+），但是为什么我们的语言进行调用的时候却选择了“错误的”方向呢？因此，有些语言探索
+了默认向下调用。</p>
+<blockquote>
+<p><a href="http://www.daimi.au.dk/~eernst/gbeta/">gbeta</a>是一门由众多有趣特性的现代语言，
+它支持 inner（即向下调用）。考虑结合
+这<a href="http://www.cs.utah.edu/plt/publications/oopsla04-gff.pdf">两个方向</a>也是非常
+有趣的。</p>
+</blockquote>
+<h3 id="1035-mixin-trait">10.3.5 Mixin 和 Trait</h3>
+<p>回过头讨论我们的“blob”。</p>
+<p>在 Java 中当我们写下一个“类”时候，那对大括号中事实上是什么东西呢？它不是完整的类
+：完整的类取决父类，那又递归的取决于它的父类。其实，我们在大括号内定义的是<strong>类的
+扩展</strong>。仅当在这个定义中<strong>加入</strong>父类后，它才是个完整的类。</p>
+<p>自然我们要问：为什么？为什么不把<strong>扩展的定义</strong>和<strong>将扩展应用于基类</strong>这两个行为分
+开呢？即，将这段代码：</p>
+<pre><code class="language-java">class C extends B { ... }
+</code></pre>
+<p>分割成：</p>
+<pre><code class="language-java">classext E { ... }
+</code></pre>
+<p>和</p>
+<pre><code class="language-java">class C = E(B)
+</code></pre>
+<p>其中<code>B</code>是某个定义好的类。</p>
+<p>看上去这样好像只是用更长的代码实现一样的东西。但是这种类似函数调用的语法不禁让我
+们浮想联翩：可以将某个扩展“应用”于多个不同的基类。比如说：</p>
+<pre><code class="language-java">class C1 = E(B1);
+class C2 = E(B2);
+// ...
+</code></pre>
+<p>诸如此类。通过将 E 的定义和其扩展的类分离开，我们<strong>将扩展从固定基类的暴政中解放
+出来</strong>。这种扩展有个名字：<strong>mixin</strong>。</p>
+<blockquote>
+<p>“mixin”一词起源于 Common Lisp，是多重继承的特定使用模式。鸡窝里飞出金凤凰。</p>
+</blockquote>
+<p>Mixin 使得类定义具有更好的组合性。它提供了很多多重继承的好处（重用多段功能代码）
+，但是避免了多重继承的麻烦（例如没有前面讨论的复杂的查询顺序问题）。采用去语法糖
+的方式的话，mixin 还非常容易实现。Mixin 基本上就是“类的函数”。我们的目标语言支持
+函数，而且已经确定了类去语法糖后的表达式，该表达式可以放入函数中，这意味着实现简
+单的 mixin 模型非常容易。</p>
+<blockquote>
+<p>这里的情况是，去除语法糖后的目标语言拥有良好的通用性，如果我们将其映射回源码语
+言，就能获得<strong>更好的</strong>结构。</p>
+</blockquote>
+<p>在静态类型语言中，好的 mixin 设计完全可以改善面向对象编程的实践。假设我们要定义
+一个基于 mixin 的 Java。如果 mixin 等效于类到类的函数，那么这个“函数”的“类型”是
+什么？显然，mixin 应该使用<strong>接口</strong>（interface）来描述其输入和输出。Java 支持后者
+（但不强制要求），但是不支持前者：类（的扩展）扩展的是另一个<strong>类</strong>——这个类中所有
+的成员对扩展都是可见的——而不是其<strong>接口</strong>。这意味着子类获取了父类所有的行为，而不
+是其规范。如果修改父类，就有可能导致子类出错。</p>
+<p>在支持 mixin 的语言中，我们就可以这么写：</p>
+<pre><code class="language-java">mixin M extends I { ... }
+</code></pre>
+<p>其中 I 是接口。这样 M 可以用来扩展实现了接口 I 的类，语言能<strong>保证只有 I 中指定的
+成员在 M 中可见</strong>。这就遵循了好的软件设计的重要原则之一。</p>
+<blockquote>
+<p>“面向接口编程，而不是面向实现（Program to an interface, not an
+implementation）” —— 《设计模式》</p>
+</blockquote>
+<p>好的 mixin 设计还可以更进一步。按照定义，一个类在继承链中只能使用一次（如果某个
+类的引用它自己，那么继承链上势必存在环路，这会导致无限循环）。反之，当我们编写函
+数时，就不会有这种顾虑（例如：<code>(map ... (filter (map ...)))</code>）。使用某个 mixin
+两次有意义吗？</p>
+<blockquote>
+<p>当然有！请参
+阅<a href="http://www.cs.brown.edu/~sk/Publications/Papers/Published/fkf-classes-mixins/">Classes and Mixins</a>
+的第 3 和第 4 节。</p>
+</blockquote>
+<p>mixin 解决了库设计中出现的一个重要问题。假设我们有十几个不同的特性可以用不同的方
+式进行组合，我们应该提供多少个类？更甚之，并不是所有特性都可以相互组合。显然，产
+生所有组合对应的类不现实。更好的方案是允许程序员选择他们关心的特性，且提供必要的
+机制防止不合理的组合。这正是 mixin 所解决的问题：mixin 提供类的扩展，程序员可以
+自行组合，而接口必须要能对上，从而创建自己需要的类。</p>
+<blockquote>
+<p>Racket 的 GUI 库中广泛使用了 mixin。例如<code>color:text-mixin</code>的输入是基本的文本编
+辑器接口，输出是彩色的文本编辑器接口。后者本身也是一种基本的文本编辑器接口，于
+是其他基本文本相关的 mixin 还可以继续应用于其输出。</p>
+</blockquote>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>你最喜欢的面向对象语言的库是怎么解决上述问题的？</p>
+</blockquote>
+<p>Mixin 也有局限：只能进行线性的组合。这种限制有时会给程序员带来不必要的负担。将
+mixin 泛化，不是只对单个 mixin 扩展，而是扩展一<strong>组</strong>mixin，这被称为<strong>trait</strong>。
+当然，允许扩展多个就必须要处理潜在的名字冲突。因此实现 trait 必须同时提供解决名
+字冲突的机制，通常是某种名称组合代数。Trait 是 mixin 的补充，程序员可以自行选择
+最满足其需求的机制。Racket 支持 mixin 和 trait。</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../js/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

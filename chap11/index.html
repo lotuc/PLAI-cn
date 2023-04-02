@@ -1,0 +1,989 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chap10/">
+      
+      
+        <link rel="next" href="../chap12/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>11 内存管理 - Programming Languages: Application and Interpretation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-CRZZK8N4WE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-CRZZK8N4WE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-CRZZK8N4WE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#11" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-header__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programming Languages: Application and Interpretation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11 内存管理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programming Languages: Application and Interpretation" class="md-nav__button md-logo" aria-label="Programming Languages: Application and Interpretation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programming Languages: Application and Interpretation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lotuc/PLAI-cn.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        索引
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap01/" class="md-nav__link">
+        1 引言
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap02/" class="md-nav__link">
+        2 本书有关语法解析的一切
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap03/" class="md-nav__link">
+        3 解释器初窥
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap04/" class="md-nav__link">
+        4 初试去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap05/" class="md-nav__link">
+        5 添加函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap06/" class="md-nav__link">
+        6 从替换模型到环境模型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap07/" class="md-nav__link">
+        7 任意位置的函数
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap08/" class="md-nav__link">
+        8 可变结构体和变量
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap09/" class="md-nav__link">
+        9 递归和循环：子程序与数据
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap10/" class="md-nav__link">
+        10 对象
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          11 内存管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        11 内存管理
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    11.1 垃圾
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    11.2 什么样的垃圾回收是“正确的”？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    11.3 人工回收
+  </a>
+  
+    <nav class="md-nav" aria-label="11.3 人工回收">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1131" class="md-nav__link">
+    11.3.1 完全人工回收的代价
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1132" class="md-nav__link">
+    11.3.2 引用计数
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    11.4 自动回收，或垃圾收集
+  </a>
+  
+    <nav class="md-nav" aria-label="11.4 自动回收，或垃圾收集">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1141" class="md-nav__link">
+    11.4.1 概览
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1142" class="md-nav__link">
+    11.4.2 事实和可证性
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1143" class="md-nav__link">
+    11.4.3 核心假设
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115" class="md-nav__link">
+    11.5 保守垃圾回收
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#116" class="md-nav__link">
+    11.6 精确垃圾回收
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap12/" class="md-nav__link">
+        12 表示层抉择
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap13/" class="md-nav__link">
+        13 语言中支持去语法糖
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap14/" class="md-nav__link">
+        14 控制指令
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap15/" class="md-nav__link">
+        15 静态地检查程序中的不变量：类型
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap16/" class="md-nav__link">
+        16 动态地检查程序中的不变量：契约
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap17/" class="md-nav__link">
+        17 其他调用语义
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    11.1 垃圾
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    11.2 什么样的垃圾回收是“正确的”？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    11.3 人工回收
+  </a>
+  
+    <nav class="md-nav" aria-label="11.3 人工回收">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1131" class="md-nav__link">
+    11.3.1 完全人工回收的代价
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1132" class="md-nav__link">
+    11.3.2 引用计数
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    11.4 自动回收，或垃圾收集
+  </a>
+  
+    <nav class="md-nav" aria-label="11.4 自动回收，或垃圾收集">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1141" class="md-nav__link">
+    11.4.1 概览
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1142" class="md-nav__link">
+    11.4.2 事实和可证性
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1143" class="md-nav__link">
+    11.4.3 核心假设
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115" class="md-nav__link">
+    11.5 保守垃圾回收
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#116" class="md-nav__link">
+    11.6 精确垃圾回收
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="11">11 内存管理</h1>
+<h2 id="111">11.1 垃圾</h2>
+<p><strong>垃圾</strong>（garbage）指的是已分配但是不再需要的内存。典型的编程语言的运行时系统采
+用两种不同的内存分配方式。一种是分配给环境；这种分配方式要和静态作用域保持一致，
+所以它只需要支持推入（push）和弹出（pop）操作。函数调用返回时，为其环境分配的空
+间也被返回，供后续函数使用，看似没有成本。【注释】与之相对，在贮存中分配的内存必
+须伴随某个值的一生，可能要超过其创建位置的作用域——事实上，它可能一直存活下去。因
+此，我们需要不同的策略来回收在贮存中分配空间所产生的垃圾。</p>
+<blockquote>
+<p>并非没有成本。硬件必须执行“弹出”指令。这<strong>不见得</strong>就一定比其他内存管理策略更高
+效。</p>
+</blockquote>
+<p>空间回收的方法有很多，大体可以分到两个阵营中：人工和自动。人工的方式依赖于开发者
+能够了解内存的使用，并正确的释放不需要的内存。一般认为，人并不擅长做这种事（虽然
+在某些情况下，人类拥有机器所无法获取的知识）。因此，几十年来，自动化的方法越来越
+普及。</p>
+<h2 id="112">11.2 什么样的垃圾回收是“正确的”？</h2>
+<p>垃圾回收既不应该太早地收回空间（<strong>可靠性</strong>，soundness）也不能太晚（<strong>完备
+性</strong>，completeness）。虽然两者都可以被视为缺陷，但是它们的影响并不是对称的：可以
+说，过早收回糟糕得多。这是因为，如果过早回收了某个贮存地址，计算将继续，并可能将
+其他数据写入该地址，从而访问到无意义的数据。往好了说，这会导致程序不正确，极端情
+况下后果更严重，比如可能会导致安全问题。反之，过迟收回会导致性能损失，并且可能最
+终导致程序终止，尽管此时存在理论上可用的内存。这种性能损失以及程序过早终止很令人
+讨厌，在某些关键任务系统中可能会导致重大问题，不过，至少程序不会进行无意义的运算
+。</p>
+<p>理想情况下，我们希望拥有所有的这三项：自动化（automation），可靠性和完备性。然而
+，这里我们面对的是不可兼得的情形，最多只能选择两项。理想的人类能够做到可靠性和完
+备性，但实践中实现其中一个都很少见。【注释】计算机可以实现自动化，同时可以提供可
+靠性和完备性中的一个，但可计算性论证表明，自动化的计算过程不能同时达成这两者。实
+践中，自动化技术一般选择实现可靠性，出于以下原因：（a）它造成的损害最小；（b）它
+相对更容易实现；（c）在添加一些人工帮助的情况下，可以接近完备性。</p>
+<blockquote>
+<p><strong>你</strong>当然是完美的，但是你的程序员同行呢？顺便说一下，经济学理论在等你验证呢。</p>
+</blockquote>
+<h2 id="113">11.3 人工回收</h2>
+<p>人工的最彻底的方式是将所有内存回收交由人操作。例如，在 C 语言中提供了两个基本指
+令：<code>malloc</code>用于分配内存，<code>free</code>用于释放内存。<code>malloc</code>的输入是（内存的）大小，返
+回是对贮存的引用；<code>free</code>的输入是这种引用，释放其占用的内存。</p>
+<blockquote>
+<pre><code>        “在当代欧美语言，"Moloch"摩洛这个词有特定的引申义，指代需要极大牺牲的人物或者事业。”——[维基百科，摩洛词条](http://en.wikipedia.org/wiki/Moloch)
+        “我不认为这个名字听起来像malloc是巧合。”——Ian Barland
+</code></pre>
+</blockquote>
+<h3 id="1131">11.3.1 完全人工回收的代价</h3>
+<p>先来考虑一下这些操作的复杂度。首先我们假设<code>malloc</code>有个指向贮存的关联寄存器（比
+如<code>new-loc</code>），每次分配的时候直接获取下一个可用地址。这个模型非常简单——可惜只是
+看上去简单而已。问题出在当你需要用<code>free</code>释放内存时。如果调用<code>free</code>针对的是最后一
+次<code>malloc</code>分配的内存，那么没有问题；但是贮存中数据一般不遵堆栈的规律。如果释放的
+不是最新分配的内存，将会在贮存中留下空洞。空洞会导致<strong>碎片化</strong>（fragmentation）
+，最坏的情况下，即使贮存中有足够的空间，也无法分配任何对象——许多分割的碎片，没有
+一个足够大。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>原则上，我们可以通过使所有空余空间相邻来解决碎片化的问题。怎么达成这一点？仔细
+考虑所有的后果，然后描述一下如何手工进行这项工作。</p>
+</blockquote>
+<p>在大多数手动内存管理方案中，碎片化仍然是个不可克服的问题，不过在这个看上去很简单
+的方案里还有其他东西值得考虑。释放某个值之后会发生什么？运行时系统需要用某种方式
+记录这块内存可被分配。它是通过维护<strong>空闲表</strong>——空闲空间的链表——来达成这点的。稍作
+思考就会想到问题，空闲表存在哪，<strong>它的</strong>内存又由谁来管理呢？答案是空闲表存放在空
+闲的内存单元格中，这就意味着内存分配时存在最小分配单元。</p>
+<p>那么，原则上，每次<code>malloc</code>现在必须遍历空闲表以找到合适的位置。说“合适”是因为分配
+者必须做出复杂的决定。遇到第一个匹配的空间就分配呢还是继续找找？而且“匹配”又是怎
+么定义的呢？应该选取那些大小刚好的空间，还是将大些的空间拆分成小块（从而增加创建
+不可用的小空间的可能性）？还有其它诸多问题。</p>
+<p>程序员希望内存分配高效。【注释 1】因此，实践中，分配系统倾向于只使用一组固定的尺
+寸，通常是 2 的幂。这样我们就可以不是只维护一个空闲表，而是为每个尺寸（都是 2 的
+幂）维护一个空闲表。然后再维护一个指向这些表的数组，位操作可以减小数组索引的代价
+。当然，这样会浪费一些空间，因为当需要那些不是 2 的幂尺寸的内存时，最终分配给其
+的内存尾部将会有空余。（这是计算机科学中经典的取舍(trade-off)：空间换时间）
+。<code>free</code>需要将释放的内存放到合适的链表中，有时候还需要将较大块的内存分割成小块以
+为将来的分配做准备。这个模型中的任何部分都不像看上去的那样高效。【注释 2】</p>
+<blockquote>
+<p>如果内存分配不够高效，开发者会尝试各种奇技赢巧来重用程序中的值，这会降低代码的
+清晰性，很有可能会导致错误。</p>
+<p>特别地，<code>free</code>并不免费（译注：双关）。</p>
+</blockquote>
+<p>当然，所有这些都基于程序员可以写出可靠（忽略完备）程序的基础上。但是他们做不到。</p>
+<h3 id="1132">11.3.2 引用计数</h3>
+<p>由于完全手工内存回收给程序员带来极大的负担，一些半自动化技术被广为使用，最为人知
+的便是<strong>引用计数</strong>（reference counting）。</p>
+<p>使用引用计数的方式，每个值都关联一个计数，记录对其引用的个数。程序员负责负责递增
+和递减这些计数。当计数降为 0 时，该值的空间可以安全的回收供未来使用。</p>
+<p>请注意，上面简单的定义中隐藏了两个重要假设：</p>
+<ol>
+<li>程序员可以记录每一次引用。回忆一下，别名也是引用。因此，当写出下面的代码时，
+   <code>Racket
+   (let ([x &lt;some value&gt;])
+     (let ([y x])
+       ..))</code>
+   程序员需要记住<code>y</code>是对<code>x</code>引用的那个值的第二次引用，因此要增加该值的引用计数。</li>
+<li>每个值只有有限个引用。如果数据中存在环路，这条假设不成立。</li>
+</ol>
+<p>由于需要手动递增和递减引用，这种技术缺乏可靠性与完备性。事实上，上述第二个假设自
+然导致完备性的丧失，而第一个假设则指出了最简单的方式来打破可靠性。</p>
+<p>手工管理内存的弊端还可以更为深层隐晦。由于程序员负责释放内存（或者，等效的，管理
+引用计数），内存管理策略必须成为每个库接口的一部分：即，“库中分配的值谁来释放？
+库会否释放传递给它的值？”很不幸，用文档准确记录、并遵守这种策略信息极其困难，更
+糟的是，它会导致文档中充斥关于底层的细节，它们通常与库要封装的行为毫无关系。</p>
+<p>一个有趣的想法是将计数值的增减<strong>自动化</strong>。另一个想法是在实现中添加循环检测
+（cycle-detection）。引入这两者将解决上述的很多问题，但是引用计数还有一些其它问
+题：</p>
+<ul>
+<li>引用计数会增加每个对象的大小。计数器需要足够大以防止溢出，又要足够小以避免过多
+  的内存占用。</li>
+<li>对这些计数器值的增减花费的时间会相当可观。</li>
+<li>如果一个对象的引用计数降至 0，那么它所引用的所有内容的计数值都需要减一，这种行
+  为可能会是递归的。这意味着一次释放操作可能会花费大量时间，除非使用聪明的“惰性
+  （lazy）”技巧（这样的话又会导致内存占用增加）。</li>
+<li>为了减少计数值，我们需要遍历已经是垃圾的对象。这看上去很违反直觉：遍历我们已经
+  不感兴趣的对象。工程实践中这会产生后果：这些我们不感兴趣的对象有可能已经很久没
+  有被访问过了，这意味着它们可能被换页换出内存了。引用计数器需要将它们换页回内存
+  ，仅为了告诉它们它们不再被需要了。</li>
+</ul>
+<p>出于所有这些原因，应谨慎引用计数。你不应接受它作为默认，而是应该问自己，为什么拒
+绝通常被认为更好的自动化技术。</p>
+<p><strong>练习</strong></p>
+<blockquote>
+<p>如果引用计数溢出了，哪些正确性属性被破坏，是怎么被破坏的？权衡利弊。</p>
+</blockquote>
+<h2 id="114">11.4 自动回收，或垃圾收集</h2>
+<blockquote>
+<p>有些人认为引用计数是“垃圾收集”技术的一种。我更喜欢用后一个术语来指完全自动的技
+术。但是浏览网页时请注意可能的混淆。</p>
+</blockquote>
+<p>现在让我们来简要地考察一下让语言的运行时系统自动化回收垃圾的过程。我们将使用缩写
+GC（<strong>Garbage Collection</strong>）同时指代垃圾回收的算法与垃圾回收的过程，上下文可以帮
+你区分具体指代哪个。</p>
+<h3 id="1141">11.4.1 概览</h3>
+<p>所有 GC 算法的核心是通过值间引用关系遍历内存。遍历从<strong>根集</strong>（root set）开始，也
+就是是程序可能引用贮存中值的所有地方。通常，根集由环境中的绑定变量以及全局变量组
+成。在实际实现中，还需要考虑到类似寄存器中的引用这种易逝值。从根集开始，算法使用
+一系列算法——通常是深度优先搜索【注释】的变体——来遍历所有可访问的值，以识别所
+有<strong>存活的</strong>值（即，通过一些程序操作的序列可用到的值）。按定义所有其它数据就是垃
+圾。不同的算法使用不同的方式回收这些空间。</p>
+<blockquote>
+<p>通常选用深度优先搜索，因为它适用于基于堆栈的实现。当然，你可能（也应该）想知道
+GC 自己的栈存储在哪里！</p>
+</blockquote>
+<h3 id="1142">11.4.2 事实和可证性</h3>
+<p>如果你仔细阅读的话，你会发现上面我描述了一个<strong>算法</strong>。这是<strong>实现的细节</strong>，而不
+是<strong>规范</strong>的一部分！垃圾回收的规范是<strong>事实</strong>（truth）的表述：我们要准确地回收所
+有是垃圾的值，不多也不少。但是对于任何图灵完备的编程语言，我们都没法得出这一事实
+，于是我们退而求其次，寻求<strong>可证性</strong>（provability）。上述的算法描述提供了存活性
+的有效“证明”，其补集就是垃圾。这个方案当然还有变种，收集更多或更少的垃圾，取决于
+证明“垃圾性”的不同强度。</p>
+<p>上面的说的最后一点指出了严格规范术语描述中的缺陷，对于要回收多少垃圾它完全没有说
+明。考虑一下极端情况实际上是有益的。</p>
+<p><strong>思考题</strong></p>
+<blockquote>
+<p>定义一个可靠的垃圾回收策略很简单。同样，定义一个完备的的垃圾回收策略也非常简单
+。你能想到怎么做吗？</p>
+</blockquote>
+<p>要做到可靠，我们只要确保不会错误的移除任何可能存活的数据。一种确保无疑的方式就
+是<strong>完全不回收垃圾</strong>。与之对应，完备的 GC 回收<strong>所有东西</strong>。显然这两者都是无用的
+（后者显然极其危险）。这为我们的工程实践指明了一点，我们不仅需要 GC 是可靠的，也
+希望它足够完备，同时还要足够高效。</p>
+<h3 id="1143">11.4.3 核心假设</h3>
+<p>能够可靠地执行 GC 依赖于两条关键的假设。一条有关语言的实现，另一条有关语言的语义
+。</p>
+<ol>
+<li>
+<p>对语言中的值，GC 需要知道该值的类型以及它在内存中的表示法。例如，当遍历
+    到<code>cons</code>单元，它必须知道：</p>
+<ol>
+<li>这是一个<code>cons</code>单元；因此，</li>
+<li>它的<code>first</code>在哪里，例如位于 4 个字节的偏移量的地方，</li>
+<li>它的<code>rest</code>在哪里，例如位于 8 个字节的偏移量的地方。</li>
+</ol>
+<p>显然，这个属性必须递归地保持，使得遍历算法能够正确映射内存中的值。</p>
+</li>
+<li>
+<p>程序不能通过下面两种方式<strong>生成</strong>引用：</p>
+<ol>
+<li>对象引用不能发生在语言实现预先定义的根集之外。</li>
+<li>对象引用只能指向对象中明确定义的点。</li>
+</ol>
+<p>违反第二条时，GC 将完全乱套，错误的解释数据。第一条看上去显而易见，如果它被
+违反，意味着运行时系统错误地理解语言的语义。然而这条的后果有点微妙，下面将会
+讨论。</p>
+</li>
+</ol>
+<h2 id="115">11.5 保守垃圾回收</h2>
+<p>上文说过，一般根集包含环境、全局变量和一些易逝值。引用还可能出现在什么地方？</p>
+<p>在大部分语言中，没有其他地方了。但是有些语言（说的就是你们，C 和 C++）允许将引用
+转换成数，以及将任意数转换成引用。因此，原则上，程序中的<strong>任何</strong>数值（由于 C 和
+C++类型系统的特性，程序中几乎任何值）都可以被视为引用。</p>
+<p>两个原因使得它问题重重。首先，GC 不能只将其注意力集中到一个较小的根集；现在整个
+贮存都是潜在的根集。其次，如果 GC 试图以任何方式修改某个对象——例如在遍历时记录一
+个“访问”位——这时它可能修改了一个<strong>非引用</strong>值：例如，它可能实际上改变了程序中某个
+（看似无关的）数型常量。因此，像 C 和 C++这样的语言中的特征组合起来，使得合理而
+有效的 GC 非常困难。</p>
+<p>但并不是不可能。一个令人兴奋的研究方向——称为<strong>保守</strong>GC——成功的为此类语言创造了足
+够高效的 GC 系统。保守（conservative）GC 背后的基本原则是，尽管理论上每个贮存地
+址都可能属于根集，但实际上它们大部分都不是。它会通过一系列聪明的观察来推断出哪些
+位置肯定不是引用（这点和传统 GC 相反），然后将它们安全地<strong>忽略</strong>掉：例如，在字节
+对齐的体系架构中，奇数值不可能为引用。通过忽略大部分贮存，通过对程序行为作出一些
+基本的假定（例如程序不可能产生某种类型的引用），并且小心操作不去修改贮存（例如，
+不改变值中的比特，不移动数据）的情况下，可以得到一个还算有效的 GC 策略。</p>
+<blockquote>
+<p>刻鹄类鹜。</p>
+</blockquote>
+<p>保守 GC 在那些使用或者依赖 C 和 C++实现的编程语言中比较常见。例如，早期的 Racket
+就完全依靠它。这是基于以下原因：</p>
+<ol>
+<li>它是种便捷的自举技术，语言实现者能得以将精力集中在其它更富革新性的特性上。</li>
+<li>如果语言能控制所有的引用（比如 Racket），那么可以使用便于提高 GC 效率的内存表
+   示法（例如，用 1 填充所有(真正的)数的最低有效位）。</li>
+<li>它使得该语言和 C 以及 C++实现的库交互变得容易（当然前提是这些库也符合该技术的
+   要求）。</li>
+</ol>
+<p>这里需要解释一下名词。如前所述，<strong>所有</strong>实用的 GC 技术都是“保守的”，也就是说它们
+用（潜在的）可访问性代替真实中的是否访问。然而，“保守”这个词已经成为专门的术语，
+指在<strong>不合作</strong>（但不是<strong>故意对抗</strong>）的运行时系统中工作的 GC 技术。</p>
+<h2 id="116">11.6 精确垃圾回收</h2>
+<p>在传统的 GC 术语中，“保守”的反义词是<strong>精确</strong>（precise）。这也是误称，因为 GC 不
+可是精确的，即同时做到可靠和完备。这里精确更多是对识别引用能力的表述：当面对值时
+，精确 GC 知道什么是和不是引用，以及引用的位置在哪。相对保守 GC，这省去了猜测哪
+些值不是引用（并以此尽可能多地消除潜在引用）这项繁重的工作。</p>
+<p>大多数当代语言的运行时系统使用精确 GC，而精确 GC 领域中存在大量的实现技术。我推
+荐<a href="ftp://ftp.cs.utexas.edu/pub/garbage/gcsurvey.ps">Paul Wilson 的调查报告</a>（虽
+然这份材料有点显老，但在这个快速发展的领域中仍是很好的资源）
+和<a href="https://www.cs.kent.ac.uk/people/staff/rej/gc.html">Richard Jones</a> 的书和资料
+。最后，对于世代垃圾收集器的概述，可以读一
+下<a href="http://www.cs.princeton.edu/~appel/papers/143.ps">简单的世代垃圾收集器和快速分配</a>。</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../js/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

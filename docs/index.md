@@ -9,7 +9,8 @@
 2. The correct, definitive version is at the
    [original link](http://cs.brown.edu/courses/cs173/2012/book/index.html).
 
-第二版: [Programming Languages: Application and Interpretation - Second Edition](http://cs.brown.edu/courses/cs173/2012/book/index.html)
+第二版:
+[Programming Languages: Application and Interpretation - Second Edition](http://cs.brown.edu/courses/cs173/2012/book/index.html)
 
 ## 译者
 
@@ -21,15 +22,15 @@
 ## 目录
 
 - [封面](https://lotuc.github.io/PLAI-cn#plai-cn)
-- [ 1. 引言](chap1.md)
-- [ 2. 本书有关语法解析的一切](chap2.md)
-- [ 3. 解释器初窥](chap3.md)
-- [ 4. 初试去语法糖](chap4.md)
-- [ 5. 添加函数](chap5.md)
-- [ 6. 从替换模型到环境模型](chap6.md)
-- [ 7. 任意位置的函数](chap7.md)
-- [ 8. 可变结构体和变量](chap8.md)
-- [ 9. 递归和循环：子程序与数据](chap9.md)
+- [ 1. 引言](chap01.md)
+- [ 2. 本书有关语法解析的一切](chap02.md)
+- [ 3. 解释器初窥](chap03.md)
+- [ 4. 初试去语法糖](chap04.md)
+- [ 5. 添加函数](chap05.md)
+- [ 6. 从替换模型到环境模型](chap06.md)
+- [ 7. 任意位置的函数](chap07.md)
+- [ 8. 可变结构体和变量](chap08.md)
+- [ 9. 递归和循环：子程序与数据](chap09.md)
 - [10. 对象](chap10.md)
 - [11. 内存管理](chap11.md)
 - [12. 表示层抉择](chap12.md)

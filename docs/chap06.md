@@ -68,16 +68,16 @@
     (define (interp [expr : ExprC] [env : Env] [fds : (listof FunDefC)]) : number
       (type-case ExprC expr
         [numC (n) n]
-        <idC-case>  ;标识符子句
-        <appC-case>  ;调用子句
-        <plusC/multC-case>))  ;加法乘法子句
+        <idC-case>            ; 标识符子句
+        <appC-case>           ; 调用子句
+        <plusC/multC-case>))  ; 加法乘法子句
 ```
 
 算术操作是最好写的。回忆一下，递归中未涉及到新的替换，因此无需特别处理，环境不会
 发生改变：
 
 ```racket
-<plusC/multC-case> ::=  ;加法乘法子句
+<plusC/multC-case> ::=  ; 加法乘法子句
 
     [plusC (l r) (+ (interp l env fds) (interp r env fds))]
     [multC (l r) (* (interp l env fds) (interp r env fds))]
@@ -87,7 +87,7 @@
 查找对应的值：
 
 ```racket
-<idC-case> ::=  ;标识符子句
+<idC-case> ::=  ; 标识符子句
 
     [idC (n) (lookup n env)]
 ```
@@ -100,20 +100,20 @@
 。因此这个地方会是需要创建绑定的地方。第一步，跟之前一样，提取函数定义：
 
 ```racket
-<appC-case> ::=  ;调用子句
+<appC-case> ::=  ; 调用子句
 
     [appC (f a) (let ([fd (get-fundef f fds)])
-                  <appC-interp>)]  ;调用的解释
+                  <appC-interp>)]  ; 调用的解释
 ```
 
 之前，我们是先进行替换，然后解释。现在剔除掉替换这个步骤，我们首先记录下要替换的
 东西，然后直接进入解释步骤：
 
 ```racket
-<appC-interp> ::=  ;调用的解释
+<appC-interp> ::=  ; 调用的解释
 
     (interp (fdC-body fd)
-            <appC-interp-bind-in-env>  ;调用的解释，环境绑定
+            <appC-interp-bind-in-env>  ; 调用的解释，环境绑定
             fds)
 ```
 
@@ -121,7 +121,7 @@
 新的环境中，该环境包含了函数形式参数的绑定。接下来定义绑定过程：
 
 ```racket
-<appC-interp-bind-in-env-take-1> ::=  ;调用的解释，环境绑定，第一次尝试
+<appC-interp-bind-in-env-take-1> ::=  ; 调用的解释，环境绑定，第一次尝试
 
     (extend-env (bind (fdC-arg fd)
                       (interp a env fds))
@@ -137,7 +137,7 @@
 ```racket
 (define (lookup [for : symbol] [env : Env]) : number
   (cond
-    [(empty? env) (error 'lookup "name not found")]  ;找不到名称
+    [(empty? env) (error 'lookup "name not found")]  ; 找不到名称
     [else (cond
             [(symbol=? for (bind-name (first env)))
              (bind-val (first env))]
@@ -219,7 +219,7 @@
 每个函数创建干净的环境，类似替换模型的做法。很容易实现：
 
 ```racket
-<appC-interp-bind-in-env> ::=  ;调用的解释，环境绑定
+<appC-interp-bind-in-env> ::=  ; 调用的解释，环境绑定
 
     (extend-env (bind (fdC-arg fd)
                       (interp a env fds))

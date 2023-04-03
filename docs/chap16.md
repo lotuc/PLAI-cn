@@ -546,8 +546,8 @@ string-append: contract violation
 (define a1 (guard (function (immediate number?)
                             (immediate number?))
                   add1
-                  "add1 body" ;add1函数体
-                  "add1 input")) ;add1的输入
+                  "add1 body"    ; add1 函数体
+                  "add1 input")) ; add1 的输入
 ```
 
 假设传给`guard`的不是函数，我们会期望在“后验条件”位置出现错误：这并不是后验条件

@@ -433,7 +433,7 @@ lambda；cnd 而不是 if；seq 取代 begin；set 取代 set!。这会是足够
 > 的重复，因此遵循不同的顺序。
 
 ```Racket
-<cps-macro> ::=  ;CPS宏
+<cps-macro> ::=  ; CPS 宏
 
     (define-syntax (cps e)
       (syntax-case e (with rec lam cnd seq set quote display read-number)
@@ -464,7 +464,7 @@ lambda；cnd 而不是 if；seq 取代 begin；set 取代 set!。这会是足够
 ：
 
 ```Racket
-<cps-macro-atomic-case> ::=  ;原子
+<cps-macro-atomic-case> ::=  ; 原子
 
     [(_ atomic)
      #'(lambda (k)
@@ -743,10 +743,10 @@ DrRacket 的 Macro Stepper（宏步进器）完成。【注释】放入 run 函�
 个参数，该参数读入值（需要传给 continuation 的那些值）并最终返回它们：
 
 ```Racket
-<cps-interp> ::=  ;cps解释器
+<cps-interp> ::=             ; CPS 解释器
 
     (define (interp/k [expr : ExprC] [env : Env] [k : (Value -> Value)]) : Value
-      <cps-interp-body>)  ;cps解释器主体
+      <cps-interp-body>)     ; CPS 解释器主体
 ```
 
 对于简单的情况，我们不直接返回值，而是将其传递给 continuation 参数即可：
@@ -936,21 +936,21 @@ yield：要么是关键字（如 Python），要么是绑定为可调用值的�
 我们来逐步实现生成器，这相当于添加一条 cps 宏的规则。先写下模式的头部：
 
 ```Racket
-<cps-macro-generator-case> ::=  ;CPS宏，生成器子句
+<cps-macro-generator-case> ::=  ; CPS 宏，生成器子句
 
     [(_ (generator (yield) (v) b))
      (and (identifier? #'v) (identifier? #'yield))
-     <generator-body>]  ;生成器主体
+     <generator-body>]          ; 生成器主体
 ```
 
 主体第一部分很简单：CPS 中的所有代码都需要先读入 continuation，而且由于生成器是
 值，所以这个值要被传给 continuation：
 
 ```Racket
-<generator-body> ::=  ;生成器主体
+<generator-body> ::=            ; 生成器主体
 
     #'(lambda (k)
-        (k <generator-value>))  ;生成器的值
+        (k <generator-value>))  ; 生成器的值
 ```
 
 下一步要处理生成器的核心了。
@@ -963,7 +963,7 @@ continuation。这个子程序应该做什么？我们刚刚描述过这个。�
 continuation，这个显然必须被保存过。因此，这里可调用值的核心是：
 
 ```Racket
-<generator-core> ::=  ;生成器的核心
+<generator-core> ::=   ; 生成器的核心
 
     (lambda (v dyn-k)
       (begin
@@ -988,7 +988,7 @@ continuation，这个显然必须被保存过。因此，这里可调用值的�
 把这些片段放到一起，我们得到：
 
 ```Racket
-<generator-value> ::=  ;生成器的值
+<generator-value> ::=  ; 生成器的值
 
     (let ([where-to-go (lambda (v) (error 'where-to-go "nothing"))])
       (letrec([resumer (lambda (v)
@@ -1138,7 +1138,7 @@ Racket 的实现保证尾调用不会分配额外的栈空间。有人把这称�
 指令：
 
 ```Racket
-<cps-macro-let/cc-case> ::=  ;cps宏
+<cps-macro-let/cc-case> ::=  ; CPS 宏
 
     [(_ (let/cc kont b))
      (identifier? #'kont)
@@ -1335,7 +1335,7 @@ continuation。其余的代码基本不变。
 ：
 
 ```Racket
-(define d display) ;;有用的简写
+(define d display) ; 有用的简写
 
 (scheduler-loop-0
  (list

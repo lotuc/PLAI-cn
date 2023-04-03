@@ -141,8 +141,8 @@ s-expressions 组成的表。因此，
        (case (s-exp->symbol (first sl))
          [(+) (plusC (parse (second sl)) (parse (third sl)))]
          [(*) (multC (parse (second sl)) (parse (third sl)))]
-         [else (error 'parse "invalid list input")]))]  ;无效的表输入
-    [else (error 'parse "invalid input")]))  ;无效的输入
+         [else (error 'parse "invalid list input")]))]  ; 无效的表输入
+    [else (error 'parse "invalid input")]))  ; 无效的输入
 ```
 
 简单运行如下：

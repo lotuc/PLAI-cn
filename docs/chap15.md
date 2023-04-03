@@ -133,7 +133,7 @@
 于是，我们开始写下的程序结构大致是这样：
 
 ```Racket
-<tc-take-1> ::=  ;;类型检查，第一次尝试
+<tc-take-1> ::=  ; 类型检查，第一次尝试
 
     (define (tc [expr : TyExprC] [tenv : TyEnv]) : boolean
       (type-case TyExprC expr
@@ -163,7 +163,7 @@
 
     [idC (n) (if (lookup n tenv)
                  true
-                 (error 'tc "not a bound identifier"))]  ;不是绑定标识符
+                 (error 'tc "not a bound identifier"))]  ; 不是绑定标识符
 ```
 
 上面的代码你可能感觉不太对：如果标识符未绑定的话，`lookup`会抛出异常，因此没必要
@@ -238,7 +238,7 @@
                    (if (and (equal? lt (numT))
                             (equal? rt (numT)))
                        (numT)
-                       (error 'tc "+ not both numbers")))] ;+不都是数
+                       (error 'tc "+ not both numbers")))] ; + 不都是数
 ```
 
 通常在处理完加法的情形之后，对于乘法我们就一笔带过了，但是这里显式处理一下它还是
@@ -252,7 +252,7 @@
                    (if (and (equal? lt (numT))
                             (equal? rt (numT)))
                        (numT)
-                       (error 'tc "* not both numbers")))] ;*不都是数
+                       (error 'tc "* not both numbers")))] ; * 不都是数
 ```
 
 **思考题**
@@ -280,9 +280,9 @@
                       [at (tc a tenv)])
                   (cond
                     [(not (funT? ft))
-                     (error 'tc "not a function")] ;不是函数
+                     (error 'tc "not a function")]   ; 不是函数
                     [(not (equal? (funT-arg ft) at))
-                     (error 'tc "app arg mismatch")] ;app参数不匹配
+                     (error 'tc "app arg mismatch")] ; app 参数不匹配
                     [else (funT-ret ft)]))]
 ```
 
@@ -302,7 +302,7 @@
     [lamC (a argT retT b)
           (if (equal? (tc b (extend-ty-env (bind a argT) tenv)) retT)
               (funT argT retT)
-              (error 'tc "lam type mismatch"))] ;λ类型不匹配
+              (error 'tc "lam type mismatch"))] ; λ 类型不匹配
 ```
 
 注意到解释器与类型检查器另一个有趣的不同点。解释器中，函数调用负责计算参数表达式
@@ -425,7 +425,7 @@
 (rec (Σ num (n num)
         (if0 n
              0
-             (n + (Σ (n + -1))))) ;译注，原文如此，+应前置
+             (n + (Σ (n + -1))))) ; 译注，原文如此，+应前置
   (Σ 10))
 ```
 
@@ -456,7 +456,7 @@
                                    (extend-ty-env
                                     (bind a aT)
                                     extended-env))))
-               (error 'tc "body return type not correct")] ;函数体类型错误
+               (error 'tc "body return type not correct")] ; 函数体类型错误
               [else (tc u extended-env)]))]
 ```
 
@@ -1189,7 +1189,7 @@ b 本身将被**类型**替换，那么类型的类型是什么？其次，我�
 接下来定义约束生成函数：
 
 ```Racket
-<constr-gen> ::= ;约束生成
+<constr-gen> ::= ; 约束生成
 
     (define (cg [e : ExprC]) : (listof Constraints)
       (type-case ExprC e
@@ -1498,8 +1498,8 @@ b 本身将被**类型**替换，那么类型的类型是什么？其次，我�
 
 ```Racket
 (define-type Animal
-  [armadillo (alive? : boolean)] ;犰狳
-  [boa (length : number)]) ;蚺
+  [armadillo (alive? : boolean)] ; 犰狳
+  [boa (length : number)])       ; 蚺
 ```
 
 > “在德州，马路中间除了黄线和死掉的犰狳什么都没有。” —— Jim Hightower
@@ -1557,7 +1557,7 @@ Racket_ （内置与 DrRacket 中的静态类型 Racket）相比较。下面是�
 #lang typed/racket
 
 (struct: armadillo ([alive? : Boolean]))
-(struct: boa ([length : Real])) ;; feet
+(struct: boa ([length : Real]))  ; feet
 ```
 
 无需引用`armadillo`就可以定义使用`boa`类型值的函数：

@@ -89,7 +89,7 @@ class Box<T> {
   [boxC (arg : ExprC)]
   [unboxC (arg : ExprC)]
   [setboxC (b : ExprC) (v : ExprC)]
-  [seqC (b1 : ExprC) (b2 : ExprC)])  ;序列
+  [seqC (b1 : ExprC) (b2 : ExprC)])  ; 序列
 ```
 
 注意`setboxC`表达式中，两个操作对象均为表达式。值（v）为表达式很自然，没什么奇怪
@@ -200,7 +200,7 @@ public static void main (String[] args) {
 首先重现一下当前的解释器：
 
 ```Racket
-<interp-take-1> ::=  ;解释器，第一次尝试
+<interp-take-1> ::=  ; 解释器，第一次尝试
 
     (define (interp [expr : ExprC] [env : Env]) : Value
       (type-case ExprC expr
@@ -214,27 +214,27 @@ public static void main (String[] args) {
         [plusC (l r) (num+ (interp l env) (interp r env))]
         [multC (l r) (num* (interp l env) (interp r env))]
         [lamC (a b) (closV a b env)]
-        <boxC-case>    ;box子句
-        <unboxC-case>  ;unbox子句
-        <setboxC-case> ;setbox子句
-        <seqC-case>))  ;序列子句
+        <boxC-case>    ; box 子句
+        <unboxC-case>  ; unbox 子句
+        <setboxC-case> ; setbox 子句
+        <seqC-case>))  ; 序列子句
 ```
 
 由于引入了新类型的值——box，我们需要更新返回值的数据类型：
 
 ```Racket
-<value-take-1> ::=  ;值，第一次尝试
+<value-take-1> ::=  ; 值，第一次尝试
 
     (define-type Value
-      [numV (n : number)]  ;数
-      [closV (arg : symbol) (body : ExprC) (env : Env)]  ;闭包
+      [numV (n : number)]                                ; 数
+      [closV (arg : symbol) (body : ExprC) (env : Env)]  ; 闭包
       [boxV (v : Value)])
 ```
 
 先实现两种简单的情形。对于`box`表达式，直接求值并使用`boxV`包裹后返回：
 
 ```Racket
-<boxC-case-take-1> ::=  ;box子句，第一次尝试
+<boxC-case-take-1> ::=  ; box 子句，第一次尝试
 
     [boxC (a) (boxV (interp a env))]
 ```
@@ -242,7 +242,7 @@ public static void main (String[] args) {
 同样，从`box`中提取值也很简单：
 
 ```Racket
-<unboxC-case-take-1> ::=  ;unbox子句，第一次尝试
+<unboxC-case-take-1> ::=  ; unbox 子句，第一次尝试
 
     [unboxC (a) (boxV-v (interp a env))]
 ```
@@ -255,7 +255,7 @@ public static void main (String[] args) {
 先试试二目序列最自然的实现方式：
 
 ```Racket
-<seqC-case-take-1> ::=  ;序列子句，第一次尝试
+<seqC-case-take-1> ::=  ; 序列子句，第一次尝试
 
     [seqC (b1 b2) (let ([v (interp b1 env)])
                     (interp b2 env))]
@@ -268,7 +268,7 @@ public static void main (String[] args) {
 值没啥用（确实，注意`set-box!`返回 void 值）。那么我们可以实现如下：
 
 ```Racket
-<seqC-case-take-2> ::=  ;序列子句，第二次尝试
+<seqC-case-take-2> ::=  ; 序列子句，第二次尝试
 
     [seqC (b1 b2) (begin
                     (interp b1 env)
@@ -393,21 +393,21 @@ public static void main (String[] args) {
 贮存将地址映射到具体的值。
 
 ```Racket
-(define-type-alias Location number)  ;地址
+(define-type-alias Location number)  ; 地址
 
-(define-type Binding  ;绑定
+(define-type Binding                 ; 绑定
   [bind (name : symbol) (val : Location)])
 
-(define-type-alias Env (listof Binding))  ;环境
+(define-type-alias Env (listof Binding))    ; 环境
 (define mt-env empty)
 (define extend-env cons)
 
-(define-type Storage  ;贮存物
+(define-type Storage                        ; 贮存物
   [cell (location : Location) (val : Value)])
 
-(define-type-alias Store (listof Storage))  ;贮存
-(define mt-store empty)  ;空贮存
-(define override-store cons)  ;覆盖贮存
+(define-type-alias Store (listof Storage))  ; 贮存
+(define mt-store empty)                     ; 空贮存
+(define override-store cons)                ; 覆盖贮存
 ```
 
 我们还需要提供函数用于在贮存中查询值，就跟之前的环境一样（现在环境中查询的结果是
@@ -440,14 +440,14 @@ public static void main (String[] args) {
 释器的返回值：
 
 ```Racket
-(define-type Result  ;结果
+(define-type Result  ; 结果
   [v*s (v : Value) (s : Store)])
 ```
 
 于是，解释器的类型变成了这样：
 
 ```Racket
-<interp-mut-struct> ::=  ;解释器，可变结构体
+<interp-mut-struct> ::=  ; 解释器，可变结构体
 
     (define (interp [expr : ExprC] [env : Env] [sto : Store]) : Result
       <ms-numC-case>
@@ -640,7 +640,7 @@ public static void main (String[] args) {
             [v*s (v-f s-f)
                  (type-case Result (interp a env s-f)
                    [v*s (v-a s-a)
-                        <ms-appC-case-main>])])]  ;调用子句主体
+                        <ms-appC-case-main>])])]  ; 调用子句主体
 ```
 
 从如何扩展闭包的环境入手好了。新增绑定的名字显然应该是函数的形参；但是它应该被绑
@@ -649,7 +649,7 @@ public static void main (String[] args) {
 的该地址上：
 
 ```Racket
-<ms-appC-case-main> ::=  ;调用子句主体
+<ms-appC-case-main> ::=  ; 调用子句主体
 
     (let ([where (new-loc)])
       (interp (closV-body v-f)
@@ -905,9 +905,9 @@ o = new String("a new string")
 ```
 
 可能和你想的一样，为了支持变量，出于和前面相同的原因，我们仍需要用到贮存传递模式
-（[8.1.7 节](#817-解释器之解释box)）。区别在于如何使用它。注意到之前序列的实现不
-需要变动（它并不依赖于要改变的东西是 box 还是变量），于是就只剩下变量赋值需要处
-理了。
+（[8.1.7 节](#817-解释器之解释 box)）。区别在于如何使用它。注意到之前序列的实现
+不需要变动（它并不依赖于要改变的东西是 box 还是变量），于是就只剩下变量赋值需要
+处理了。
 
 首先还是要对新值表达式求值，并获取更新后的贮存：
 
@@ -916,7 +916,7 @@ o = new String("a new string")
 
     [setC (var val) (type-case Result (interp val env sto)
                       [v*s (v-val s-val)
-                           <rest-of-setC-case>])]  ;setC子句其余部分
+                           <rest-of-setC-case>])]  ; setC 子句其余部分
 ```
 
 接下来呢？前面讨论过了，对于变量部分，我们不应对求其值（这么做只会获取其旧值），
@@ -924,7 +924,7 @@ o = new String("a new string")
 处理类似：
 
 ```Racket
-<rest-of-setC-case> ::=  ;setC子句其余部分
+<rest-of-setC-case> ::=  ; setC 子句其余部分
 
     (let ([where (lookup var env)])
       (v*s v-val

@@ -27,7 +27,7 @@
 于是我们可以使用如下的表达式：
 
 ```racket
-(define-type ArithC  ;具体算术
+(define-type ArithC  ; 具体算术
   [numC (n : number)]
   [plusC (l : ArithC) (r : ArithC)]
   [multC (l : ArithC) (r : ArithC)])

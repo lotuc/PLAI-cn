@@ -48,8 +48,8 @@
 > 我们将其命名为`my-let`而不是`let`，因为后者在 Racket 中已经有定义了。
 
 ```Racket
-(define-syntax my-let-1  ;定义语法
-  (syntax-rules ()       ;语法规则
+(define-syntax my-let-1  ; 定义语法
+  (syntax-rules ()       ; 语法规则
     [(my-let-1 (var val) body)
      ((lambda (var) body) val)]))
 ```
@@ -141,7 +141,7 @@ syntax-case，就可以做到。由于 syntax-case 还有很多其他有用的�
 字 my-let-3）。第一步还是先写定义的头部；注意到参数被明确写出：
 
 ```Racket
-<sc-macro-eg> ::=  ;syntax-case宏，示例
+<sc-macro-eg> ::=  ; syntax-case 宏，示例
 
     (define-syntax (my-let-3 x)
       <sc-macro-eg-body>)
@@ -479,7 +479,6 @@ my-or-1: bad syntax in: (my-or-1)
 
 ```Racket
 self: unbound identifier in module in: self
-;self: 未绑定的标识符
 ```
 
 错误指向的是 first 方法体中的 self。

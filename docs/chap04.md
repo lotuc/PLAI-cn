@@ -33,7 +33,7 @@ a - b = a + -1 × b
 因此，我们尝试定义新的数据类型来反应我们的表层语言语法结构：
 
 ```racket
-(define-type ArithS  ;表层算术
+(define-type ArithS  ; 表层算术
   [numS (n : number)]
   [plusS (l : ArithS) (r : ArithS)]
   [bminusS (l : ArithS) (r : ArithS)]
@@ -49,7 +49,7 @@ a - b = a + -1 × b
 先来实现去语法糖函数简单的部分：
 
 ```racket
-<desugar> ::=  ;去语法糖
+<desugar> ::=  ; 去语法糖
 
     (define (desugar [as : ArithS]) : ArithC
       (type-case ArithS as
@@ -58,13 +58,13 @@ a - b = a + -1 × b
                             (desugar r))]
         [multS (l r) (multC (desugar l)
                             (desugar r))]
-        <bminusS-case>))  ;二元减法子句
+        <bminusS-case>))  ; 二元减法子句
 ```
 
 把数学描述转化为代码：
 
 ```racket
-<bminusS-case> ::=  ;二元减法子句
+<bminusS-case> ::=  ; 二元减法子句
 
     [bminusS (l r) (plusC (desugar l)
                           (multC (numC -1) (desugar r)))]
@@ -101,7 +101,7 @@ a - b = a + -1 × b
 ，添加取负数的表示法：
 
 ```racket
-[uminusS (e : ArithS)]  ;一元减法表达式
+[uminusS (e : ArithS)]  ; 一元减法表达式
 ```
 
 对应去语法糖的实现也很直接：

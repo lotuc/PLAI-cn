@@ -35,22 +35,22 @@ Scheme 语言报告修订版报告的概述
 首先在我们的核心语言中添加函数定义：
 
 ```Racket
-<expr-type> ::=  ;表达式类型
+<expr-type> ::=    ; 表达式类型
 
     (define-type ExprC
       [numC (n : number)]
       [idC (s : symbol)]
-      <app-type>  ;调用类型
+      <app-type>   ; 调用类型
       [plusC (l : ExprC) (r : ExprC)]
       [multC (l : ExprC) (r : ExprC)]
-      <fun-type>)  ;函数类型
+      <fun-type>)  ; 函数类型
 ```
 
 现在，我们简单把函数定义复制到表达式语言中，以后需要的话还可以修改这一点。这样做
 我们现在可以复用已有的测试案例。
 
 ```Racket
-<fun-type-take-1> ::=  ;函数类型，第一次尝试
+<fun-type-take-1> ::=  ; 函数类型，第一次尝试
 
     [fdC (name : symbol) (arg : symbol) (body : ExprC)]
 ```
@@ -61,7 +61,7 @@ Scheme 语言报告修订版报告的概述
 定义：
 
 ```Racket
-<app-type> ::=  ;调用类型
+<app-type> ::=  ; 调用类型
 
     [appC (fun : ExprC) (arg : ExprC)]
 ```
@@ -89,7 +89,7 @@ Scheme 语言报告修订版报告的概述
 。现在是时候需要这么做了：
 
 ```Racket
-<answer-type-take-1> ::=  ;返回值类型，第一次尝试
+<answer-type-take-1> ::=  ; 返回值类型，第一次尝试
 
     (define-type Value
       [numV (n : number)]
@@ -102,11 +102,11 @@ Scheme 语言报告修订版报告的概述
 下面我们尝试使用该输出类型重写解释器，从类型开始：
 
 ```Racket
-<interp-hof> ::=  ;解释器，高阶函数
+<interp-hof> ::=  ; 解释器，高阶函数
 
     (define (interp [expr : ExprC] [env : Env]) : Value
       (type-case ExprC expr
-        <interp-body-hof>))  ;解释器主体，高阶函数
+        <interp-body-hof>))  ; 解释器主体，高阶函数
 ```
 
 这就要求我们同样修改`Binding`和辅助函数`lookup`的类型。
@@ -116,20 +116,20 @@ Scheme 语言报告修订版报告的概述
 > 修改`Binding`和辅助函数`lookup`。
 
 ```Racket
-<interp-body-hof> ::=  ;解释器主体，高阶函数
+<interp-body-hof> ::=  ; 解释器主体，高阶函数
 
     [numC (n) (numV n)]
     [idC (n) (lookup n env)]
-    <app-case>  ;调用子句
-    <plus/mult-case>  ;加法/乘法子句
-    <fun-case>  ;函数子句
+    <app-case>        ; 调用子句
+    <plus/mult-case>  ; 加法/乘法子句
+    <fun-case>  ; 函数子句
 ```
 
 对于数，显然要使用新的返回值类型构造器对其包裹一下。对于标识符，一切不变。对于加
 法／乘法，需要进行简单的修改使其能正确的返回`Value`类型而不是简单的数：
 
 ```Racket
-<plus/mult-case> ::=  ;加法/乘法子句
+<plus/mult-case> ::=  ; 加法/乘法子句
 
     [plusC (l r) (num+ (interp l env) (interp r env))]
     [multC (l r) (num* (interp l env) (interp r env))]
@@ -143,7 +143,7 @@ Scheme 语言报告修订版报告的概述
     [(and (numV? l) (numV? r))
      (numV (+ (numV-n l) (numV-n r)))]
     [else
-     (error 'num+ "one argument was not a number")]))  ;有参数不是数
+     (error 'num+ "one argument was not a number")]))  ; 有参数不是数
 ```
 
 请留意，在实际做加法前，我们检查了参数的类型确定其为数。后面会有章节继续谈论类型
@@ -152,7 +152,7 @@ Scheme 语言报告修订版报告的概述
 还有两段代码要完成。先是函数定义。上面说过，函数值就是其类型的数据：
 
 ```Racket
-<fun-case-take-1> ::=  ;函数子句，第一次尝试
+<fun-case-take-1> ::=  ; 函数子句，第一次尝试
 
     [fdC (n a b) (funV n a b)]
 ```
@@ -161,7 +161,7 @@ Scheme 语言报告修订版报告的概述
 是尽量保留之前函数调用的代码的结构：
 
 ```Racket
-<app-case-take-1> ::=  ;调用子句，第一次尝试
+<app-case-take-1> ::=  ; 调用子句，第一次尝试
 
     [appC (f a) (let ([fd f])
                   (interp (fdC-body fd)
@@ -190,7 +190,7 @@ Scheme 语言报告修订版报告的概述
 分代码得到：
 
 ```Racket
-<app-case-take-2> ::=  ;调用子句，第二次尝试
+<app-case-take-2> ::=  ; 调用子句，第二次尝试
 
     [appC (f a) (let ([fd (interp f env)])
                   (interp (funV-body fd)
@@ -223,7 +223,7 @@ Scheme 语言报告修订版报告的概述
 以包含···函数定义。例如：
 
 ```Racket
-<nested-fdC> ::=  ;嵌套的fdC
+<nested-fdC> ::=  ; 嵌套的 fdC
 
     (fdC 'f1 'x
          (fdC 'f2 'x
@@ -239,7 +239,7 @@ Scheme 语言报告修订版报告的概述
 当时如果我们调用上面的函数：
 
 ```Racket
-<applied-nested-fdC> ::=  ;调用嵌套的fdC
+<applied-nested-fdC> ::=  ; 调用嵌套的 fdC
 
     (appC <nested-fdC>
           (numC 4))
@@ -331,7 +331,7 @@ Scheme 语言报告修订版报告的概述
 首先将函数值类型改为闭包结构体，而不仅仅是函数本体：
 
 ```Racket
-<answer-type> ::=  ;返回值类型
+<answer-type> ::=  ; 返回值类型
 
     (define-type Value
       [numV (n : number)]
@@ -342,7 +342,7 @@ Scheme 语言报告修订版报告的概述
 为**lambda**：
 
 ```Racket
-<fun-type> ::=  ;函数类型
+<fun-type> ::=     ; 函数类型
 
     [lamC (arg : symbol) (body : ExprC)]
 ```
@@ -350,7 +350,7 @@ Scheme 语言报告修订版报告的概述
 现在，当解释器遇到函数时，需要记录下到目前为止进行过的所有替换：【注释】
 
 ```Racket
-<fun-case> ::=  ;函数子句
+<fun-case> ::=     ; 函数子句
 
     [lamC (a b) (closV a b env)]
 ```
@@ -360,7 +360,7 @@ Scheme 语言报告修订版报告的概述
 然后在调用函数时，需要使用这个保存下来的环境，而不是空白环境。
 
 ```Racket
-<app-case> ::=  ;调用子句
+<app-case> ::=     ; 调用子句
 
     [appC (f a) (let ([f-value (interp f env)])
                   (interp (closV-body f-value)

@@ -39,7 +39,7 @@
 会一步一步完善函数体的表示法，现阶段函数定义的数据类型如下：
 
 ```racket
-<fundef> ::=  ;函数定义
+<fundef> ::=  ; 函数定义
 
     (define-type FunDefC
       [fdC (name : symbol) (arg : symbol) (body : ExprC)])
@@ -66,12 +66,12 @@
 为我们还想保留算术运算）。我们给新的数据类型一个新名字以示区别：
 
 ```racket
-<exprC> ::=  ;表达式
+<exprC> ::=  ; 表达式
 
     (define-type ExprC
       [numC (n : number)]
-      <idC-def>  ;标识符的定义
-      <app-def>  ;调用的定义
+      <idC-def>   ; 标识符的定义
+      <app-def>   ; 调用的定义
       [plusC (l : ExprC) (r : ExprC)]
       [multC (l : ExprC) (r : ExprC)])
 ```
@@ -81,7 +81,7 @@
 使用与形参相同的数据类型来表示标识符。形参的数据类型已经定好了，于是：
 
 ```racket
-<idC-def> ::=  ;标识符的定义
+<idC-def> ::=  ; 标识符的定义
 
     [idC (s : symbol)]
 ```
@@ -93,7 +93,7 @@
 直觉，就这样做吧：
 
 ```racket
-<app-def> ::=  ;调用的定义
+<app-def> ::=  ; 调用的定义
 
     [appC (fun : symbol) (arg : ExprC)]
 ```
@@ -118,10 +118,10 @@
 达式即可，现在它还需要传入函数定义的表。
 
 ```racket
-<interp> ::=  ;解释器
+<interp> ::=  ; 解释器
 
     (define (interp [e : ExprC] [fds : (listof FunDefC)]) : number
-      <interp-body>)  ;解释器主体
+      <interp-body>)  ; 解释器主体
 ```
 
 稍微回顾一下我们前面实现的解释器（[第三章](./chap03.md)）。遇到数，显然还是直接
@@ -130,12 +130,12 @@
 变，在递归时函数定义应该原封不动的往下传递。
 
 ```racket
-<interp-body> ::=  ;解释器主体
+<interp-body> ::=  ; 解释器主体
 
     (type-case ExprC e
       [numC (n) n]
-      <idC-interp-case>  ;解释之标识符子句
-      <appC-interp-case>  ;解释之调用子句
+      <idC-interp-case>   ; 解释之标识符子句
+      <appC-interp-case>  ; 解释之调用子句
       [plusC (l r) (+ (interp l fds) (interp r fds))]
       [multC (l r) (* (interp l fds) (interp r fds))])
 ```
@@ -163,10 +163,10 @@
 将参数名起的有意义些：
 
 ```racket
-<subst> ::=  ;替换
+<subst> ::=  ; 替换
 
     (define (subst [what : ExprC] [for : symbol] [in : ExprC]) : ExprC
-      <subst-body>)  ;替换函数的主体
+      <subst-body>)  ; 替换函数的主体
 ```
 
 在`in`表达式中，将`for`替换成`what`。
@@ -208,7 +208,7 @@
 决定做完了，是时候写代码了：
 
 ```racket
-<subst-body> ::=  ;替换函数的主体
+<subst-body> ::=  ; 替换函数的主体
 
     (type-case ExprC in
       [numC (n) in]
@@ -233,7 +233,7 @@
 调用的很多细节都在其中完成了。很自然的想法是：
 
 ```racket
-<appC-interp-case-take-1> ::=  ;解释之调用子句，第一次尝试
+<appC-interp-case-take-1> ::=  ; 解释之调用子句，第一次尝试
 
     [appC (f a) (let ([fd (get-fundef f fds)])
                   (subst a
@@ -252,7 +252,7 @@
 释器的合法返回值。需要进一步对其求值。所以应该这么做：
 
 ```racket
-<appC-interp-case> ::=  ;解释之调用子句
+<appC-interp-case> ::=  ; 解释之调用子句
 
     [appC (f a) (let ([fd (get-fundef f fds)])
                   (interp (subst a
@@ -283,9 +283,9 @@
 处理：
 
 ```racket
-<idC-interp-case> ::=  ;解释之标识符子句
+<idC-interp-case> ::=  ; 解释之标识符子句
 
-    [idC (_) (error 'interp "shouldn't get here")]  ;不应执行到这里
+    [idC (_) (error 'interp "shouldn't get here")]  ; 不应执行到这里
 ```
 
 这样我们的解释器就完成了！
@@ -293,10 +293,10 @@
 最后，为了完整，我们还需要实现`get-fundef`：
 
 ```
-;获取函数定义
+;; 获取函数定义
 (define (get-fundef [n : symbol] [fds : (listof FunDefC)]) : FunDefC
   (cond
-    [(empty? fds) (error 'get-fundef "reference to undefined function")]  ;引用未定义的函数
+    [(empty? fds) (error 'get-fundef "reference to undefined function")]  ; 引用未定义的函数
     [(cons? fds) (cond
                    [(equal? n (fdC-name (first fds))) (first fds)]
                    [else (get-fundef n (rest fds))])]))

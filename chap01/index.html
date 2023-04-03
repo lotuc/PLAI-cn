@@ -655,7 +655,7 @@ Racket 程序以<code>#lang &lt;语言名字&gt;</code> 开头。默认的语言
 <p>不过我们倾向于对类型进行显式的声明。这么做一方面是尊崇规则，另一方面当我们日后阅
 读代码时有助于理解。</p>
 <p>类型的名字可以递归的使用，本书会经常使用这种方式（例
-如<a href="./chap2.md#24-完整的语法解析器">2.4 节</a>中）。</p>
+如<a href="../chap02/#24-完整的语法解析器">2.4 节</a>中）。</p>
 <p>该语言为我们提供了模式匹配功能，例如这个函数体：</p>
 <pre><code class="language-racket">(define (good? [ma : MisspelledAnimal]) : boolean
   (type-case MisspelledAnimal ma

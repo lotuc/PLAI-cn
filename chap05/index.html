@@ -634,7 +634,7 @@
 我们将使用符号（symbol）类型表示（<code>'double</code>等）；<strong>形参</strong>（formal parameter，形
 式参数的简写）（例如<code>x</code>），也使用符号类型表示（<code>'x</code>）；最后还有函数体。我们后面
 会一步一步完善函数体的表示法，现阶段函数定义的数据类型如下：</p>
-<pre><code class="language-racket">&lt;fundef&gt; ::=  ;函数定义
+<pre><code class="language-racket">&lt;fundef&gt; ::=  ; 函数定义
 
     (define-type FunDefC
       [fdC (name : symbol) (arg : symbol) (body : ExprC)])
@@ -657,19 +657,19 @@
 数可以是任意表达式。</p>
 <p>下面我们尝试把上面所有的东西糅合到一个数据类型中。显然我们需要扩展已有的语法（因
 为我们还想保留算术运算）。我们给新的数据类型一个新名字以示区别：</p>
-<pre><code class="language-racket">&lt;exprC&gt; ::=  ;表达式
+<pre><code class="language-racket">&lt;exprC&gt; ::=  ; 表达式
 
     (define-type ExprC
       [numC (n : number)]
-      &lt;idC-def&gt;  ;标识符的定义
-      &lt;app-def&gt;  ;调用的定义
+      &lt;idC-def&gt;   ; 标识符的定义
+      &lt;app-def&gt;   ; 调用的定义
       [plusC (l : ExprC) (r : ExprC)]
       [multC (l : ExprC) (r : ExprC)])
 </code></pre>
 <p>标识符与形参关系紧密。当调用函数时，我们传给它某个值，从效果来说是将函数体中出现
 的形参实例——所有同名标识符——替换为该值。【注释】为了简化这个搜索——替换过程，不妨
 使用与形参相同的数据类型来表示标识符。形参的数据类型已经定好了，于是：</p>
-<pre><code class="language-racket">&lt;idC-def&gt; ::=  ;标识符的定义
+<pre><code class="language-racket">&lt;idC-def&gt; ::=  ; 标识符的定义
 
     [idC (s : symbol)]
 </code></pre>
@@ -679,7 +679,7 @@
 <p>最后，函数调用。它包含两个部分：函数名和（实际）参数。上面已经说过参数可以为任意
 表达式（包括标识符和函数调用）。至于函数名，让其和函数定义中的函数名类型一致符合
 直觉，就这样做吧：</p>
-<pre><code class="language-racket">&lt;app-def&gt; ::=  ;调用的定义
+<pre><code class="language-racket">&lt;app-def&gt; ::=  ; 调用的定义
 
     [appC (fun : symbol) (arg : ExprC)]
 </code></pre>
@@ -699,21 +699,21 @@
 <h2 id="52">5.2 开始实现解释器</h2>
 <p>于是我们可以开始实现解释器了。首先考虑解释器的输入是什么。之前，只需要传入一个表
 达式即可，现在它还需要传入函数定义的表。</p>
-<pre><code class="language-racket">&lt;interp&gt; ::=  ;解释器
+<pre><code class="language-racket">&lt;interp&gt; ::=  ; 解释器
 
     (define (interp [e : ExprC] [fds : (listof FunDefC)]) : number
-      &lt;interp-body&gt;)  ;解释器主体
+      &lt;interp-body&gt;)  ; 解释器主体
 </code></pre>
 <p>稍微回顾一下我们前面实现的解释器（<a href="../chap03/">第三章</a>）。遇到数，显然还是直接
 返回该数作为结果；遇到加法和乘法，还是应该一样递归的求值。递归时该用什么作函数定
 义呢？由于求值过程中，既不需要添加也不需要移除函数<strong>定义</strong>，即函数定义集合保持不
 变，在递归时函数定义应该原封不动的往下传递。</p>
-<pre><code class="language-racket">&lt;interp-body&gt; ::=  ;解释器主体
+<pre><code class="language-racket">&lt;interp-body&gt; ::=  ; 解释器主体
 
     (type-case ExprC e
       [numC (n) n]
-      &lt;idC-interp-case&gt;  ;解释之标识符子句
-      &lt;appC-interp-case&gt;  ;解释之调用子句
+      &lt;idC-interp-case&gt;   ; 解释之标识符子句
+      &lt;appC-interp-case&gt;  ; 解释之调用子句
       [plusC (l r) (+ (interp l fds) (interp r fds))]
       [multC (l r) (* (interp l fds) (interp r fds))])
 </code></pre>
@@ -730,10 +730,10 @@
 <pre><code class="language-racket">; subst : ExprC * symbol * ExprC -&gt; ExprC
 </code></pre>
 <p>将参数名起的有意义些：</p>
-<pre><code class="language-racket">&lt;subst&gt; ::=  ;替换
+<pre><code class="language-racket">&lt;subst&gt; ::=  ; 替换
 
     (define (subst [what : ExprC] [for : symbol] [in : ExprC]) : ExprC
-      &lt;subst-body&gt;)  ;替换函数的主体
+      &lt;subst-body&gt;)  ; 替换函数的主体
 </code></pre>
 <p>在<code>in</code>表达式中，将<code>for</code>替换成<code>what</code>。</p>
 <p><strong>思考题</strong></p>
@@ -767,7 +767,7 @@
 数名和要替换的符号没有关系。（比如，某个函数的参数可以叫<code>x</code>，其函数体中又可以调
 用另一个名为<code>x</code>的函数，两者被区别处理。）</p>
 <p>决定做完了，是时候写代码了：</p>
-<pre><code class="language-racket">&lt;subst-body&gt; ::=  ;替换函数的主体
+<pre><code class="language-racket">&lt;subst-body&gt; ::=  ; 替换函数的主体
 
     (type-case ExprC in
       [numC (n) in]
@@ -788,7 +788,7 @@
 <h2 id="54">5.4 继续实现解释器</h2>
 <p>搞定了替换的实现（我们这么认为），我们来完成解释器。替换这步干了很多事，好在函数
 调用的很多细节都在其中完成了。很自然的想法是：</p>
-<pre><code class="language-racket">&lt;appC-interp-case-take-1&gt; ::=  ;解释之调用子句，第一次尝试
+<pre><code class="language-racket">&lt;appC-interp-case-take-1&gt; ::=  ; 解释之调用子句，第一次尝试
 
     [appC (f a) (let ([fd (get-fundef f fds)])
                   (subst a
@@ -803,7 +803,7 @@
 <p>从类型角度考察，解释器的函数返回类型是什么？数。替换函数的返回类型呢？表达式。比
 如说，在替换<code>double</code>的函数体是，可能得到的结果是<code>(+ 5 5)</code>的表达形式。这并不是解
 释器的合法返回值。需要进一步对其求值。所以应该这么做：</p>
-<pre><code class="language-racket">&lt;appC-interp-case&gt; ::=  ;解释之调用子句
+<pre><code class="language-racket">&lt;appC-interp-case&gt; ::=  ; 解释之调用子句
 
     [appC (f a) (let ([fd (get-fundef f fds)])
                   (interp (subst a
@@ -826,16 +826,16 @@
 <p>换一种说法，解释器应该永远也遇不到标识符。在解释过程中，所有标识符应该都会被替换
 掉（被称为<strong>被绑定</strong>的，这是种正面的说法）。因此，当解释器直面标识符时，只能这么
 处理：</p>
-<pre><code class="language-racket">&lt;idC-interp-case&gt; ::=  ;解释之标识符子句
+<pre><code class="language-racket">&lt;idC-interp-case&gt; ::=  ; 解释之标识符子句
 
-    [idC (_) (error 'interp &quot;shouldn't get here&quot;)]  ;不应执行到这里
+    [idC (_) (error 'interp &quot;shouldn't get here&quot;)]  ; 不应执行到这里
 </code></pre>
 <p>这样我们的解释器就完成了！</p>
 <p>最后，为了完整，我们还需要实现<code>get-fundef</code>：</p>
-<pre><code>;获取函数定义
+<pre><code>;; 获取函数定义
 (define (get-fundef [n : symbol] [fds : (listof FunDefC)]) : FunDefC
   (cond
-    [(empty? fds) (error 'get-fundef &quot;reference to undefined function&quot;)]  ;引用未定义的函数
+    [(empty? fds) (error 'get-fundef &quot;reference to undefined function&quot;)]  ; 引用未定义的函数
     [(cons? fds) (cond
                    [(equal? n (fdC-name (first fds))) (first fds)]
                    [else (get-fundef n (rest fds))])]))

@@ -608,7 +608,7 @@
 法的，但是 1 除以 0 就有争议了。1 除以（1 减去 1）就更有争议了。目前我们无需陷入
 这种矛盾，以后再讨论。</p>
 <p>于是我们可以使用如下的表达式：</p>
-<pre><code class="language-racket">(define-type ArithC  ;具体算术
+<pre><code class="language-racket">(define-type ArithC  ; 具体算术
   [numC (n : number)]
   [plusC (l : ArithC) (r : ArithC)]
   [multC (l : ArithC) (r : ArithC)])

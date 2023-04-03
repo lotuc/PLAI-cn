@@ -584,7 +584,7 @@
 程序更易于阅读易于维护。此外，你可能会将不同的功能扩展放在不同的层次上，这么做（
 将核心语法和表层语法区分开）正有利于这么做。</p>
 <p>因此，我们尝试定义新的数据类型来反应我们的表层语言语法结构：</p>
-<pre><code class="language-racket">(define-type ArithS  ;表层算术
+<pre><code class="language-racket">(define-type ArithS  ; 表层算术
   [numS (n : number)]
   [plusS (l : ArithS) (r : ArithS)]
   [bminusS (l : ArithS) (r : ArithS)]
@@ -595,7 +595,7 @@
 据（而不是 ArithC 类型）。第二是要实现去语法糖（desugar）函数，它需要能
 把<code>ArithS</code>值转换成<code>ArithC</code>值。</p>
 <p>先来实现去语法糖函数简单的部分：</p>
-<pre><code class="language-racket">&lt;desugar&gt; ::=  ;去语法糖
+<pre><code class="language-racket">&lt;desugar&gt; ::=  ; 去语法糖
 
     (define (desugar [as : ArithS]) : ArithC
       (type-case ArithS as
@@ -604,10 +604,10 @@
                             (desugar r))]
         [multS (l r) (multC (desugar l)
                             (desugar r))]
-        &lt;bminusS-case&gt;))  ;二元减法子句
+        &lt;bminusS-case&gt;))  ; 二元减法子句
 </code></pre>
 <p>把数学描述转化为代码：</p>
-<pre><code class="language-racket">&lt;bminusS-case&gt; ::=  ;二元减法子句
+<pre><code class="language-racket">&lt;bminusS-case&gt; ::=  ; 二元减法子句
 
     [bminusS (l r) (plusC (desugar l)
                           (multC (numC -1) (desugar r)))]
@@ -633,7 +633,7 @@
 </blockquote>
 <p>大家可能希望使用第一种方式，因为它看起来更为简单。假设我们扩展了<code>ArithS</code>数据类型
 ，添加取负数的表示法：</p>
-<pre><code class="language-racket">[uminusS (e : ArithS)]  ;一元减法表达式
+<pre><code class="language-racket">[uminusS (e : ArithS)]  ; 一元减法表达式
 </code></pre>
 <p>对应去语法糖的实现也很直接：</p>
 <pre><code class="language-racket">[(uminusS (e) (desugar (bminusS (numS 0) e)))]

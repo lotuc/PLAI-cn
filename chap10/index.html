@@ -898,7 +898,7 @@
 </code></pre>
 <p>不幸的是，我们无法实际<strong>使用</strong>对象，因为无法获取其内容。为此，我们添加一个操作来
 提取成员：</p>
-<pre><code class="language-Racket">[msgC (o : ExprC) (n : symbol)]  ;消息，核心语言
+<pre><code class="language-Racket">[msgC (o : ExprC) (n : symbol)]  ; 消息，核心语言
 </code></pre>
 <p>其行为就是直接：</p>
 <pre><code class="language-Racket">[msgC (o n) (lookup-msg n (interp o env))]
@@ -913,7 +913,7 @@
 <p>原则上，<code>msgC</code>可以被用于获取任意类型的成员，但是简单起见，我们假设成员中只有函数
 。要使用某个成员，需要给其传入参数值。在核心语言的语法中这么写有点笨拙，所以我们
 假设去语法糖过程降低了语法复杂性：表层语法中消息调用同时提供了消息名和参数：</p>
-<pre><code class="language-Racket">[msgS (o : ExprS) (n : symbol) (a : ExprS)]  ;消息，表层语言
+<pre><code class="language-Racket">[msgS (o : ExprS) (n : symbol) (a : ExprS)]  ; 消息，表层语言
 </code></pre>
 <p>去语法糖得<code>msgC</code>和函数调用：</p>
 <pre><code class="language-Racket">[msgS (o n a) (appC (msgC (desugar o) n) (desugar a))]
@@ -951,7 +951,7 @@
 以理解为只有一个入口点的对象，也因此它不需要“方法名”。</p>
 </blockquote>
 <p>这和本章前面的定义的对象相同，使用其方法的方式也相同：</p>
-<pre><code class="language-Racket">(test ((o-1 'add1) 5) 6)  ;;这个测试会通过
+<pre><code class="language-Racket">(test ((o-1 'add1) 5) 6)  ; 这个测试会通过
 </code></pre>
 <p>当然，这种嵌套的函数调用有点臃肿（并且将变得更加臃肿），所以我们最好提供一种方便
 的语法来调用方法——和前文<code>msgS</code>一样，不过我们可以简单将其定义为函数：</p>
@@ -975,7 +975,7 @@
 <p>注意到消息“名字”的位置必须是<strong>符号</strong>。即程序员在该位置必须字面写上符号。而在去语
 法糖的版本中，名字的位置只是表达式，当然该表达式必须计算得到符号；例如，可以这么
 写：</p>
-<pre><code class="language-Racket">(test ((o-1 (string-&gt;symbol &quot;add1&quot;)) 5) 6)  ;;这也会通过
+<pre><code class="language-Racket">(test ((o-1 (string-&gt;symbol &quot;add1&quot;)) 5) 6)  ; 这也会通过
 </code></pre>
 <p>这是去语法糖的常见问题：目标语言中有些表达式可能在源码中没有对应的表示，于是它们
 不能映射回去。幸运的是，通常我们不需要进行反向映射，不过某些调试和程序分析工具中

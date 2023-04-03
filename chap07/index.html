@@ -627,19 +627,19 @@
 <p>计算它得到<code>(+ 2 (* 4 3))</code>，也就是<code>14</code>。（注意到没？这里使用了替换计算模型。）</p>
 <h2 id="71">7.1 函数作为表达式和值</h2>
 <p>首先在我们的核心语言中添加函数定义：</p>
-<pre><code class="language-Racket">&lt;expr-type&gt; ::=  ;表达式类型
+<pre><code class="language-Racket">&lt;expr-type&gt; ::=    ; 表达式类型
 
     (define-type ExprC
       [numC (n : number)]
       [idC (s : symbol)]
-      &lt;app-type&gt;  ;调用类型
+      &lt;app-type&gt;   ; 调用类型
       [plusC (l : ExprC) (r : ExprC)]
       [multC (l : ExprC) (r : ExprC)]
-      &lt;fun-type&gt;)  ;函数类型
+      &lt;fun-type&gt;)  ; 函数类型
 </code></pre>
 <p>现在，我们简单把函数定义复制到表达式语言中，以后需要的话还可以修改这一点。这样做
 我们现在可以复用已有的测试案例。</p>
-<pre><code class="language-Racket">&lt;fun-type-take-1&gt; ::=  ;函数类型，第一次尝试
+<pre><code class="language-Racket">&lt;fun-type-take-1&gt; ::=  ; 函数类型，第一次尝试
 
     [fdC (name : symbol) (arg : symbol) (body : ExprC)]
 </code></pre>
@@ -647,7 +647,7 @@
 而不是像之前那样只能是定义好的函数的名字。由于现在函数定义类型和其它表达式类型混
 在了一起，这里让函数的位置可以放任意表达式吧，但是需要记住我们其实只希望它为函数
 定义：</p>
-<pre><code class="language-Racket">&lt;app-type&gt; ::=  ;调用类型
+<pre><code class="language-Racket">&lt;app-type&gt; ::=  ; 调用类型
 
     [appC (fun : ExprC) (arg : ExprC)]
 </code></pre>
@@ -668,7 +668,7 @@
 <p>显然，这是爆炸性的改变：解释器不再总是返回数了，于是出现类型错误。</p>
 <p>在之前解释器实现过程中，也不时的需要注意其返回值类型，但并没专门给其定义数据类型
 。现在是时候需要这么做了：</p>
-<pre><code class="language-Racket">&lt;answer-type-take-1&gt; ::=  ;返回值类型，第一次尝试
+<pre><code class="language-Racket">&lt;answer-type-take-1&gt; ::=  ; 返回值类型，第一次尝试
 
     (define-type Value
       [numV (n : number)]
@@ -677,28 +677,28 @@
 <p>我们使用后缀<code>V</code>表示值（value），即求值的结果。<code>funV</code>部分正对应<code>fdC</code>；<code>fdC</code>为输入
 ，<code>funV</code>为输出。通过区分这两者类型，我们可以分别修正它们两个。</p>
 <p>下面我们尝试使用该输出类型重写解释器，从类型开始：</p>
-<pre><code class="language-Racket">&lt;interp-hof&gt; ::=  ;解释器，高阶函数
+<pre><code class="language-Racket">&lt;interp-hof&gt; ::=  ; 解释器，高阶函数
 
     (define (interp [expr : ExprC] [env : Env]) : Value
       (type-case ExprC expr
-        &lt;interp-body-hof&gt;))  ;解释器主体，高阶函数
+        &lt;interp-body-hof&gt;))  ; 解释器主体，高阶函数
 </code></pre>
 <p>这就要求我们同样修改<code>Binding</code>和辅助函数<code>lookup</code>的类型。</p>
 <p><strong>练习</strong></p>
 <blockquote>
 <p>修改<code>Binding</code>和辅助函数<code>lookup</code>。</p>
 </blockquote>
-<pre><code class="language-Racket">&lt;interp-body-hof&gt; ::=  ;解释器主体，高阶函数
+<pre><code class="language-Racket">&lt;interp-body-hof&gt; ::=  ; 解释器主体，高阶函数
 
     [numC (n) (numV n)]
     [idC (n) (lookup n env)]
-    &lt;app-case&gt;  ;调用子句
-    &lt;plus/mult-case&gt;  ;加法/乘法子句
-    &lt;fun-case&gt;  ;函数子句
+    &lt;app-case&gt;        ; 调用子句
+    &lt;plus/mult-case&gt;  ; 加法/乘法子句
+    &lt;fun-case&gt;  ; 函数子句
 </code></pre>
 <p>对于数，显然要使用新的返回值类型构造器对其包裹一下。对于标识符，一切不变。对于加
 法／乘法，需要进行简单的修改使其能正确的返回<code>Value</code>类型而不是简单的数：</p>
-<pre><code class="language-Racket">&lt;plus/mult-case&gt; ::=  ;加法/乘法子句
+<pre><code class="language-Racket">&lt;plus/mult-case&gt; ::=  ; 加法/乘法子句
 
     [plusC (l r) (num+ (interp l env) (interp r env))]
     [multC (l r) (num* (interp l env) (interp r env))]
@@ -709,18 +709,18 @@
     [(and (numV? l) (numV? r))
      (numV (+ (numV-n l) (numV-n r)))]
     [else
-     (error 'num+ &quot;one argument was not a number&quot;)]))  ;有参数不是数
+     (error 'num+ &quot;one argument was not a number&quot;)]))  ; 有参数不是数
 </code></pre>
 <p>请留意，在实际做加法前，我们检查了参数的类型确定其为数。后面会有章节继续谈论类型
 这个主题。</p>
 <p>还有两段代码要完成。先是函数定义。上面说过，函数值就是其类型的数据：</p>
-<pre><code class="language-Racket">&lt;fun-case-take-1&gt; ::=  ;函数子句，第一次尝试
+<pre><code class="language-Racket">&lt;fun-case-take-1&gt; ::=  ; 函数子句，第一次尝试
 
     [fdC (n a b) (funV n a b)]
 </code></pre>
 <p>最后剩下函数调用的代码。尽管我们不再需要从函数定义链表中查询函数定义，但是这里还
 是尽量保留之前函数调用的代码的结构：</p>
-<pre><code class="language-Racket">&lt;app-case-take-1&gt; ::=  ;调用子句，第一次尝试
+<pre><code class="language-Racket">&lt;app-case-take-1&gt; ::=  ; 调用子句，第一次尝试
 
     [appC (f a) (let ([fd f])
                   (interp (fdC-body fd)
@@ -745,7 +745,7 @@
 对于程序来说，第二种选择可以处理更多情况，比如程序生成代码。并且我们也会用到这个
 功能，就在<a href="#75-匿名之上的语法糖">匿名之上的语法糖</a>的讨论中。于是，修改函数调用部
 分代码得到：</p>
-<pre><code class="language-Racket">&lt;app-case-take-2&gt; ::=  ;调用子句，第二次尝试
+<pre><code class="language-Racket">&lt;app-case-take-2&gt; ::=  ; 调用子句，第二次尝试
 
     [appC (f a) (let ([fd (interp f env)])
                   (interp (funV-body fd)
@@ -771,7 +771,7 @@
 <h2 id="72">7.2 什么？嵌套？</h2>
 <p>函数定义的函数体部分可以是任意表达式。而函数定义本身也是表达式。于是函数定义中可
 以包含···函数定义。例如：</p>
-<pre><code class="language-Racket">&lt;nested-fdC&gt; ::=  ;嵌套的fdC
+<pre><code class="language-Racket">&lt;nested-fdC&gt; ::=  ; 嵌套的 fdC
 
     (fdC 'f1 'x
          (fdC 'f2 'x
@@ -781,7 +781,7 @@
 <pre><code class="language-Racket">(funV 'f1 'x (fdC 'f2 'x (plusC (idC 'x) (idC 'x))))
 </code></pre>
 <p>当时如果我们调用上面的函数：</p>
-<pre><code class="language-Racket">&lt;applied-nested-fdC&gt; ::=  ;调用嵌套的fdC
+<pre><code class="language-Racket">&lt;applied-nested-fdC&gt; ::=  ; 调用嵌套的 fdC
 
     (appC &lt;nested-fdC&gt;
           (numC 4))
@@ -846,7 +846,7 @@
 的<a href="#75-匿名之上的语法糖">匿名之上的语法糖</a>中会说到这个主题）</p>
 <h2 id="73">7.3 实现闭包</h2>
 <p>首先将函数值类型改为闭包结构体，而不仅仅是函数本体：</p>
-<pre><code class="language-Racket">&lt;answer-type&gt; ::=  ;返回值类型
+<pre><code class="language-Racket">&lt;answer-type&gt; ::=  ; 返回值类型
 
     (define-type Value
       [numV (n : number)]
@@ -854,12 +854,12 @@
 </code></pre>
 <p>同时，我们可以修改函数类型，去除没用的函数名部分。由于历史原因，该构造被称
 为<strong>lambda</strong>：</p>
-<pre><code class="language-Racket">&lt;fun-type&gt; ::=  ;函数类型
+<pre><code class="language-Racket">&lt;fun-type&gt; ::=     ; 函数类型
 
     [lamC (arg : symbol) (body : ExprC)]
 </code></pre>
 <p>现在，当解释器遇到函数时，需要记录下到目前为止进行过的所有替换：【注释】</p>
-<pre><code class="language-Racket">&lt;fun-case&gt; ::=  ;函数子句
+<pre><code class="language-Racket">&lt;fun-case&gt; ::=     ; 函数子句
 
     [lamC (a b) (closV a b env)]
 </code></pre>
@@ -867,7 +867,7 @@
 <p>“Save the environment! Create a closure today!” —Cormac Flanagan</p>
 </blockquote>
 <p>然后在调用函数时，需要使用这个保存下来的环境，而不是空白环境。</p>
-<pre><code class="language-Racket">&lt;app-case&gt; ::=  ;调用子句
+<pre><code class="language-Racket">&lt;app-case&gt; ::=     ; 调用子句
 
     [appC (f a) (let ([f-value (interp f env)])
                   (interp (closV-body f-value)

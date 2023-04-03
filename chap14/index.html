@@ -1168,7 +1168,7 @@ lambda；cnd 而不是 if；seq 取代 begin；set 取代 set!。这会是足够
 <p>后文中宏的子句按照我认为从容易到困难的顺序排列。但是，宏定义的代码必须避免模式
 的重复，因此遵循不同的顺序。</p>
 </blockquote>
-<pre><code class="language-Racket">&lt;cps-macro&gt; ::=  ;CPS宏
+<pre><code class="language-Racket">&lt;cps-macro&gt; ::=  ; CPS 宏
 
     (define-syntax (cps e)
       (syntax-case e (with rec lam cnd seq set quote display read-number)
@@ -1195,7 +1195,7 @@ lambda；cnd 而不是 if；seq 取代 begin；set 取代 set!。这会是足够
 个位置，然后提供一个能精确定义我们原子值的匹配表达式，这里放宽要求是因为我们对其
 他情况更为关心。）原子值的情况中，我们已经有一个值，将其传递给 continutaion 即可
 ：</p>
-<pre><code class="language-Racket">&lt;cps-macro-atomic-case&gt; ::=  ;原子
+<pre><code class="language-Racket">&lt;cps-macro-atomic-case&gt; ::=  ; 原子
 
     [(_ atomic)
      #'(lambda (k)
@@ -1410,10 +1410,10 @@ DrRacket 的 Macro Stepper（宏步进器）完成。【注释】放入 run 函�
 ，我们可以将 CPS 转换应用于其上，从而获得事实上的 continuation。</p>
 <p>首先，这里使用函数来表示闭包较为方便（译注，12.1 节）。我们让解释器读入多读入一
 个参数，该参数读入值（需要传给 continuation 的那些值）并最终返回它们：</p>
-<pre><code class="language-Racket">&lt;cps-interp&gt; ::=  ;cps解释器
+<pre><code class="language-Racket">&lt;cps-interp&gt; ::=             ; CPS 解释器
 
     (define (interp/k [expr : ExprC] [env : Env] [k : (Value -&gt; Value)]) : Value
-      &lt;cps-interp-body&gt;)  ;cps解释器主体
+      &lt;cps-interp-body&gt;)     ; CPS 解释器主体
 </code></pre>
 <p>对于简单的情况，我们不直接返回值，而是将其传递给 continuation 参数即可：</p>
 <pre><code class="language-Racket">&lt;cps-interp-body&gt; ::=
@@ -1565,18 +1565,18 @@ yield 提供相同的灵活性，因为这是唯一确定哪些函数是生成�
 <p>请注意调用与让位之间的对偶。</p>
 <p>你可能猜到了，这些“哪里”就是 continuation。</p>
 <p>我们来逐步实现生成器，这相当于添加一条 cps 宏的规则。先写下模式的头部：</p>
-<pre><code class="language-Racket">&lt;cps-macro-generator-case&gt; ::=  ;CPS宏，生成器子句
+<pre><code class="language-Racket">&lt;cps-macro-generator-case&gt; ::=  ; CPS 宏，生成器子句
 
     [(_ (generator (yield) (v) b))
      (and (identifier? #'v) (identifier? #'yield))
-     &lt;generator-body&gt;]  ;生成器主体
+     &lt;generator-body&gt;]          ; 生成器主体
 </code></pre>
 <p>主体第一部分很简单：CPS 中的所有代码都需要先读入 continuation，而且由于生成器是
 值，所以这个值要被传给 continuation：</p>
-<pre><code class="language-Racket">&lt;generator-body&gt; ::=  ;生成器主体
+<pre><code class="language-Racket">&lt;generator-body&gt; ::=            ; 生成器主体
 
     #'(lambda (k)
-        (k &lt;generator-value&gt;))  ;生成器的值
+        (k &lt;generator-value&gt;))  ; 生成器的值
 </code></pre>
 <p>下一步要处理生成器的核心了。</p>
 <p>回忆一下，生成器是可调用的值。这就是说，它可以被放在函数调用的位置，因此它必须具
@@ -1585,7 +1585,7 @@ continuation。这个子程序应该做什么？我们刚刚描述过这个。�
 调用者正在执行的地方，这正是调用位置的 continuation；“记住”这里最简单的意思是“必
 须保存在状态中”。然后，生成器应该返回到它之前所在的地方，即它<strong>自己</strong>的
 continuation，这个显然必须被保存过。因此，这里可调用值的核心是：</p>
-<pre><code class="language-Racket">&lt;generator-core&gt; ::=  ;生成器的核心
+<pre><code class="language-Racket">&lt;generator-core&gt; ::=   ; 生成器的核心
 
     (lambda (v dyn-k)
       (begin
@@ -1606,7 +1606,7 @@ continuation，这个显然必须被保存过。因此，这里可调用值的�
 <p>还需要绑定 yield。正如我们已经指出的，它对称于生成器的恢复：将本地 continuation
 保存在 resumer 中，然后通过调用 where-to-go 返回。</p>
 <p>把这些片段放到一起，我们得到：</p>
-<pre><code class="language-Racket">&lt;generator-value&gt; ::=  ;生成器的值
+<pre><code class="language-Racket">&lt;generator-value&gt; ::=  ; 生成器的值
 
     (let ([where-to-go (lambda (v) (error 'where-to-go &quot;nothing&quot;))])
       (letrec([resumer (lambda (v)
@@ -1732,7 +1732,7 @@ continuation，这个显然必须被保存过。因此，这里可调用值的�
 返回到函数创建点。</p>
 <p>实际上，我想说的是，让 lambda 保持不变，而给我们的语言提供新的、对于与这种行为的
 指令：</p>
-<pre><code class="language-Racket">&lt;cps-macro-let/cc-case&gt; ::=  ;cps宏
+<pre><code class="language-Racket">&lt;cps-macro-let/cc-case&gt; ::=  ; CPS 宏
 
     [(_ (let/cc kont b))
      (identifier? #'kont)
@@ -1879,7 +1879,7 @@ continuation。其余的代码基本不变。</p>
 <h3 id="1463">14.6.3 定义线程</h3>
 <p>完成生成器之后，我们再做个类似的功能：线程。具体来说，我们希望能够编写如下的程序
 ：</p>
-<pre><code class="language-Racket">(define d display) ;;有用的简写
+<pre><code class="language-Racket">(define d display) ; 有用的简写
 
 (scheduler-loop-0
  (list

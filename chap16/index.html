@@ -1078,8 +1078,8 @@ string-append: contract violation
 <pre><code class="language-Racket">(define a1 (guard (function (immediate number?)
                             (immediate number?))
                   add1
-                  &quot;add1 body&quot; ;add1函数体
-                  &quot;add1 input&quot;)) ;add1的输入
+                  &quot;add1 body&quot;    ; add1 函数体
+                  &quot;add1 input&quot;)) ; add1 的输入
 </code></pre>
 <p>假设传给<code>guard</code>的不是函数，我们会期望在“后验条件”位置出现错误：这并不是后验条件
 的失败，而是因为，如果调用的不是函数，不能去指责参数。（当然，这表明我们这里扩展

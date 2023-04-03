@@ -699,20 +699,20 @@
     (define (interp [expr : ExprC] [env : Env] [fds : (listof FunDefC)]) : number
       (type-case ExprC expr
         [numC (n) n]
-        &lt;idC-case&gt;  ;标识符子句
-        &lt;appC-case&gt;  ;调用子句
-        &lt;plusC/multC-case&gt;))  ;加法乘法子句
+        &lt;idC-case&gt;            ; 标识符子句
+        &lt;appC-case&gt;           ; 调用子句
+        &lt;plusC/multC-case&gt;))  ; 加法乘法子句
 </code></pre>
 <p>算术操作是最好写的。回忆一下，递归中未涉及到新的替换，因此无需特别处理，环境不会
 发生改变：</p>
-<pre><code class="language-racket">&lt;plusC/multC-case&gt; ::=  ;加法乘法子句
+<pre><code class="language-racket">&lt;plusC/multC-case&gt; ::=  ; 加法乘法子句
 
     [plusC (l r) (+ (interp l env fds) (interp r env fds))]
     [multC (l r) (* (interp l env fds) (interp r env fds))]
 </code></pre>
 <p>接下来我们处理标识符。显然，现在遇到标识符不应该直接报错了。我们应该在当前环境中
 查找对应的值：</p>
-<pre><code class="language-racket">&lt;idC-case&gt; ::=  ;标识符子句
+<pre><code class="language-racket">&lt;idC-case&gt; ::=  ; 标识符子句
 
     [idC (n) (lookup n env)]
 </code></pre>
@@ -722,22 +722,22 @@
 </blockquote>
 <p>最后，处理函数调用。注意到在替换模型的解释器中，唯一创建新替换的部分就是函数调用
 。因此这个地方会是需要创建绑定的地方。第一步，跟之前一样，提取函数定义：</p>
-<pre><code class="language-racket">&lt;appC-case&gt; ::=  ;调用子句
+<pre><code class="language-racket">&lt;appC-case&gt; ::=  ; 调用子句
 
     [appC (f a) (let ([fd (get-fundef f fds)])
-                  &lt;appC-interp&gt;)]  ;调用的解释
+                  &lt;appC-interp&gt;)]  ; 调用的解释
 </code></pre>
 <p>之前，我们是先进行替换，然后解释。现在剔除掉替换这个步骤，我们首先记录下要替换的
 东西，然后直接进入解释步骤：</p>
-<pre><code class="language-racket">&lt;appC-interp&gt; ::=  ;调用的解释
+<pre><code class="language-racket">&lt;appC-interp&gt; ::=  ; 调用的解释
 
     (interp (fdC-body fd)
-            &lt;appC-interp-bind-in-env&gt;  ;调用的解释，环境绑定
+            &lt;appC-interp-bind-in-env&gt;  ; 调用的解释，环境绑定
             fds)
 </code></pre>
 <p>也就是说，函数定义部分保持不变；我们照旧解释函数的主体部分；不过解释过程要被放在
 新的环境中，该环境包含了函数形式参数的绑定。接下来定义绑定过程：</p>
-<pre><code class="language-racket">&lt;appC-interp-bind-in-env-take-1&gt; ::=  ;调用的解释，环境绑定，第一次尝试
+<pre><code class="language-racket">&lt;appC-interp-bind-in-env-take-1&gt; ::=  ; 调用的解释，环境绑定，第一次尝试
 
     (extend-env (bind (fdC-arg fd)
                       (interp a env fds))
@@ -749,7 +749,7 @@
 <p>最后加上 lookup 函数的实现，一切就都完成了：</p>
 <pre><code class="language-racket">(define (lookup [for : symbol] [env : Env]) : number
   (cond
-    [(empty? env) (error 'lookup &quot;name not found&quot;)]  ;找不到名称
+    [(empty? env) (error 'lookup &quot;name not found&quot;)]  ; 找不到名称
     [else (cond
             [(symbol=? for (bind-name (first env)))
              (bind-val (first env))]
@@ -812,7 +812,7 @@
 <p>由于前面说过，环境模型是替换模型的替代实现策略——我们的语言意义不应该发生改变——唯
 一合理的做法是修改解释器。具体来说，我们不应该让解释过程携带所有历史绑定，而应为
 每个函数创建干净的环境，类似替换模型的做法。很容易实现：</p>
-<pre><code class="language-racket">&lt;appC-interp-bind-in-env&gt; ::=  ;调用的解释，环境绑定
+<pre><code class="language-racket">&lt;appC-interp-bind-in-env&gt; ::=  ; 调用的解释，环境绑定
 
     (extend-env (bind (fdC-arg fd)
                       (interp a env fds))

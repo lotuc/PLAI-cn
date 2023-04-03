@@ -583,8 +583,8 @@
 <blockquote>
 <p>我们将其命名为<code>my-let</code>而不是<code>let</code>，因为后者在 Racket 中已经有定义了。</p>
 </blockquote>
-<pre><code class="language-Racket">(define-syntax my-let-1  ;定义语法
-  (syntax-rules ()       ;语法规则
+<pre><code class="language-Racket">(define-syntax my-let-1  ; 定义语法
+  (syntax-rules ()       ; 语法规则
     [(my-let-1 (var val) body)
      ((lambda (var) body) val)]))
 </code></pre>
@@ -655,7 +655,7 @@ syntax-case，就可以做到。由于 syntax-case 还有很多其他有用的�
 部功能。</p>
 <p>背景说完了，接下来开始介绍<code>syntax-case</code>。首先我们用它重写 my-let-1（重写时使用名
 字 my-let-3）。第一步还是先写定义的头部；注意到参数被明确写出：</p>
-<pre><code class="language-Racket">&lt;sc-macro-eg&gt; ::=  ;syntax-case宏，示例
+<pre><code class="language-Racket">&lt;sc-macro-eg&gt; ::=  ; syntax-case 宏，示例
 
     (define-syntax (my-let-3 x)
       &lt;sc-macro-eg-body&gt;)
@@ -905,7 +905,6 @@ my-or-1: bad syntax in: (my-or-1)
 </code></pre>
 <p>不幸的是，这个宏会产生以下错误：</p>
 <pre><code class="language-Racket">self: unbound identifier in module in: self
-;self: 未绑定的标识符
 </code></pre>
 <p>错误指向的是 first 方法体中的 self。</p>
 <p><strong>练习</strong></p>

@@ -706,8 +706,8 @@ s-expressions 组成的表。因此，</p>
        (case (s-exp-&gt;symbol (first sl))
          [(+) (plusC (parse (second sl)) (parse (third sl)))]
          [(*) (multC (parse (second sl)) (parse (third sl)))]
-         [else (error 'parse &quot;invalid list input&quot;)]))]  ;无效的表输入
-    [else (error 'parse &quot;invalid input&quot;)]))  ;无效的输入
+         [else (error 'parse &quot;invalid list input&quot;)]))]  ; 无效的表输入
+    [else (error 'parse &quot;invalid input&quot;)]))  ; 无效的输入
 </code></pre>
 <p>简单运行如下：</p>
 <pre><code class="language-racket">&gt; (parse '(+ (* 1 2) (+ 2 3)))

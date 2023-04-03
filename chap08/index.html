@@ -839,7 +839,7 @@ set-box! : ((boxof 'a) 'a -&gt; void)
   [boxC (arg : ExprC)]
   [unboxC (arg : ExprC)]
   [setboxC (b : ExprC) (v : ExprC)]
-  [seqC (b1 : ExprC) (b2 : ExprC)])  ;序列
+  [seqC (b1 : ExprC) (b2 : ExprC)])  ; 序列
 </code></pre>
 <p>注意<code>setboxC</code>表达式中，两个操作对象均为表达式。值（v）为表达式很自然，没什么奇怪
 的；但是<code>box</code>参数（b）为表达式的话乍一看还挺奇怪的。它意味着我们可以写出对应于如
@@ -924,7 +924,7 @@ set-box! : ((boxof 'a) 'a -&gt; void)
 我们实现的核心。</p>
 <h3 id="814-box">8.1.4 理解 box 的解释</h3>
 <p>首先重现一下当前的解释器：</p>
-<pre><code class="language-Racket">&lt;interp-take-1&gt; ::=  ;解释器，第一次尝试
+<pre><code class="language-Racket">&lt;interp-take-1&gt; ::=  ; 解释器，第一次尝试
 
     (define (interp [expr : ExprC] [env : Env]) : Value
       (type-case ExprC expr
@@ -938,26 +938,26 @@ set-box! : ((boxof 'a) 'a -&gt; void)
         [plusC (l r) (num+ (interp l env) (interp r env))]
         [multC (l r) (num* (interp l env) (interp r env))]
         [lamC (a b) (closV a b env)]
-        &lt;boxC-case&gt;    ;box子句
-        &lt;unboxC-case&gt;  ;unbox子句
-        &lt;setboxC-case&gt; ;setbox子句
-        &lt;seqC-case&gt;))  ;序列子句
+        &lt;boxC-case&gt;    ; box 子句
+        &lt;unboxC-case&gt;  ; unbox 子句
+        &lt;setboxC-case&gt; ; setbox 子句
+        &lt;seqC-case&gt;))  ; 序列子句
 </code></pre>
 <p>由于引入了新类型的值——box，我们需要更新返回值的数据类型：</p>
-<pre><code class="language-Racket">&lt;value-take-1&gt; ::=  ;值，第一次尝试
+<pre><code class="language-Racket">&lt;value-take-1&gt; ::=  ; 值，第一次尝试
 
     (define-type Value
-      [numV (n : number)]  ;数
-      [closV (arg : symbol) (body : ExprC) (env : Env)]  ;闭包
+      [numV (n : number)]                                ; 数
+      [closV (arg : symbol) (body : ExprC) (env : Env)]  ; 闭包
       [boxV (v : Value)])
 </code></pre>
 <p>先实现两种简单的情形。对于<code>box</code>表达式，直接求值并使用<code>boxV</code>包裹后返回：</p>
-<pre><code class="language-Racket">&lt;boxC-case-take-1&gt; ::=  ;box子句，第一次尝试
+<pre><code class="language-Racket">&lt;boxC-case-take-1&gt; ::=  ; box 子句，第一次尝试
 
     [boxC (a) (boxV (interp a env))]
 </code></pre>
 <p>同样，从<code>box</code>中提取值也很简单：</p>
-<pre><code class="language-Racket">&lt;unboxC-case-take-1&gt; ::=  ;unbox子句，第一次尝试
+<pre><code class="language-Racket">&lt;unboxC-case-take-1&gt; ::=  ; unbox 子句，第一次尝试
 
     [unboxC (a) (boxV-v (interp a env))]
 </code></pre>
@@ -965,7 +965,7 @@ set-box! : ((boxof 'a) 'a -&gt; void)
 <p>当然，现在还没有做到难的部分。可以预见，所有有意思的行为都在对<code>setboxC</code>的处理上
 。然而，我们却要先考察<code>seqC</code>（你会看到我们为什么把它加到核心语言中）。</p>
 <p>先试试二目序列最自然的实现方式：</p>
-<pre><code class="language-Racket">&lt;seqC-case-take-1&gt; ::=  ;序列子句，第一次尝试
+<pre><code class="language-Racket">&lt;seqC-case-take-1&gt; ::=  ; 序列子句，第一次尝试
 
     [seqC (b1 b2) (let ([v (interp b1 env)])
                     (interp b2 env))]
@@ -974,7 +974,7 @@ set-box! : ((boxof 'a) 'a -&gt; void)
 <p>你应当迅速察觉到一些问题，我们计算了第一个子项并把它的值绑定到了<code>v</code>，但是后面的
 计算过程中没有用它。这倒没关系：正常来说，第一个子项中包含了某种赋值操作，其返回
 值没啥用（确实，注意<code>set-box!</code>返回 void 值）。那么我们可以实现如下：</p>
-<pre><code class="language-Racket">&lt;seqC-case-take-2&gt; ::=  ;序列子句，第二次尝试
+<pre><code class="language-Racket">&lt;seqC-case-take-2&gt; ::=  ; 序列子句，第二次尝试
 
     [seqC (b1 b2) (begin
                     (interp b1 env)
@@ -1070,21 +1070,21 @@ set-box! : ((boxof 'a) 'a -&gt; void)
 其想作用于表示内存地址的数。这是因为，在语义上来说，存储就对应于（抽象的）计算机
 的物理内存，而传统上内存地址一般采用数进行寻址。因此环境是将名字映射到地址，然后
 贮存将地址映射到具体的值。</p>
-<pre><code class="language-Racket">(define-type-alias Location number)  ;地址
+<pre><code class="language-Racket">(define-type-alias Location number)  ; 地址
 
-(define-type Binding  ;绑定
+(define-type Binding                 ; 绑定
   [bind (name : symbol) (val : Location)])
 
-(define-type-alias Env (listof Binding))  ;环境
+(define-type-alias Env (listof Binding))    ; 环境
 (define mt-env empty)
 (define extend-env cons)
 
-(define-type Storage  ;贮存物
+(define-type Storage                        ; 贮存物
   [cell (location : Location) (val : Value)])
 
-(define-type-alias Store (listof Storage))  ;贮存
-(define mt-store empty)  ;空贮存
-(define override-store cons)  ;覆盖贮存
+(define-type-alias Store (listof Storage))  ; 贮存
+(define mt-store empty)                     ; 空贮存
+(define override-store cons)                ; 覆盖贮存
 </code></pre>
 <p>我们还需要提供函数用于在贮存中查询值，就跟之前的环境一样（现在环境中查询的结果是
 地址了）。</p>
@@ -1107,11 +1107,11 @@ set-box! : ((boxof 'a) 'a -&gt; void)
 <p>现在有了贮存，环境可以返回之、可以更新之从而反映求值过程中的赋值，而且赋值本身不
 需要修改环境中的内容。由于函数只能返回一个值，我们考虑定义一个数据结构用于存放解
 释器的返回值：</p>
-<pre><code class="language-Racket">(define-type Result  ;结果
+<pre><code class="language-Racket">(define-type Result  ; 结果
   [v*s (v : Value) (s : Store)])
 </code></pre>
 <p>于是，解释器的类型变成了这样：</p>
-<pre><code class="language-Racket">&lt;interp-mut-struct&gt; ::=  ;解释器，可变结构体
+<pre><code class="language-Racket">&lt;interp-mut-struct&gt; ::=  ; 解释器，可变结构体
 
     (define (interp [expr : ExprC] [env : Env] [sto : Store]) : Result
       &lt;ms-numC-case&gt;
@@ -1264,13 +1264,13 @@ set-box! : ((boxof 'a) 'a -&gt; void)
             [v*s (v-f s-f)
                  (type-case Result (interp a env s-f)
                    [v*s (v-a s-a)
-                        &lt;ms-appC-case-main&gt;])])]  ;调用子句主体
+                        &lt;ms-appC-case-main&gt;])])]  ; 调用子句主体
 </code></pre>
 <p>从如何扩展闭包的环境入手好了。新增绑定的名字显然应该是函数的形参；但是它应该被绑
 定到什么地址呢？为了避免使用已有地址将招致的困惑（我们后面将详细介绍会招致何种困
 惑！），先使用新分配的地址吧。将该地址绑定到环境中，然后将求得的参数值存放在贮存
 的该地址上：</p>
-<pre><code class="language-Racket">&lt;ms-appC-case-main&gt; ::=  ;调用子句主体
+<pre><code class="language-Racket">&lt;ms-appC-case-main&gt; ::=  ; 调用子句主体
 
     (let ([where (new-loc)])
       (interp (closV-body v-f)
@@ -1486,20 +1486,20 @@ Java 代码中的<code>x</code>。</p>
   [closV (arg : symbol) (body : ExprC) (env : Env)])
 </code></pre>
 <p>可能和你想的一样，为了支持变量，出于和前面相同的原因，我们仍需要用到贮存传递模式
-（<a href="#817-解释器之解释box">8.1.7 节</a>）。区别在于如何使用它。注意到之前序列的实现不
-需要变动（它并不依赖于要改变的东西是 box 还是变量），于是就只剩下变量赋值需要处
-理了。</p>
+（<a href="#817-解释器之解释 box">8.1.7 节</a>）。区别在于如何使用它。注意到之前序列的实现
+不需要变动（它并不依赖于要改变的东西是 box 还是变量），于是就只剩下变量赋值需要
+处理了。</p>
 <p>首先还是要对新值表达式求值，并获取更新后的贮存：</p>
 <pre><code class="language-Racket">&lt;setC-case&gt; ::=
 
     [setC (var val) (type-case Result (interp val env sto)
                       [v*s (v-val s-val)
-                           &lt;rest-of-setC-case&gt;])]  ;setC子句其余部分
+                           &lt;rest-of-setC-case&gt;])]  ; setC 子句其余部分
 </code></pre>
 <p>接下来呢？前面讨论过了，对于变量部分，我们不应对求其值（这么做只会获取其旧值），
 而是应该获取它对应的存储地址，然后更新该地址中的内容，<strong>最后</strong>这步和之前 box 的
 处理类似：</p>
-<pre><code class="language-Racket">&lt;rest-of-setC-case&gt; ::=  ;setC子句其余部分
+<pre><code class="language-Racket">&lt;rest-of-setC-case&gt; ::=  ; setC 子句其余部分
 
     (let ([where (lookup var env)])
       (v*s v-val

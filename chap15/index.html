@@ -1315,7 +1315,7 @@
 <p>定义与类型环境相关的数据类型以及函数。</p>
 </blockquote>
 <p>于是，我们开始写下的程序结构大致是这样：</p>
-<pre><code class="language-Racket">&lt;tc-take-1&gt; ::=  ;;类型检查，第一次尝试
+<pre><code class="language-Racket">&lt;tc-take-1&gt; ::=  ; 类型检查，第一次尝试
 
     (define (tc [expr : TyExprC] [tenv : TyEnv]) : boolean
       (type-case TyExprC expr
@@ -1338,7 +1338,7 @@
 
     [idC (n) (if (lookup n tenv)
                  true
-                 (error 'tc &quot;not a bound identifier&quot;))]  ;不是绑定标识符
+                 (error 'tc &quot;not a bound identifier&quot;))]  ; 不是绑定标识符
 </code></pre>
 <p>上面的代码你可能感觉不太对：如果标识符未绑定的话，<code>lookup</code>会抛出异常，因此没必要
 再去重复处理该情况（事实上，代码永远不会执行到<code>error</code>调用那个分支）。但是让我们
@@ -1394,7 +1394,7 @@
                    (if (and (equal? lt (numT))
                             (equal? rt (numT)))
                        (numT)
-                       (error 'tc &quot;+ not both numbers&quot;)))] ;+不都是数
+                       (error 'tc &quot;+ not both numbers&quot;)))] ; + 不都是数
 </code></pre>
 <p>通常在处理完加法的情形之后，对于乘法我们就一笔带过了，但是这里显式处理一下它还是
 很有教益的：</p>
@@ -1405,7 +1405,7 @@
                    (if (and (equal? lt (numT))
                             (equal? rt (numT)))
                        (numT)
-                       (error 'tc &quot;* not both numbers&quot;)))] ;*不都是数
+                       (error 'tc &quot;* not both numbers&quot;)))] ; * 不都是数
 </code></pre>
 <p><strong>思考题</strong></p>
 <blockquote>
@@ -1428,9 +1428,9 @@
                       [at (tc a tenv)])
                   (cond
                     [(not (funT? ft))
-                     (error 'tc &quot;not a function&quot;)] ;不是函数
+                     (error 'tc &quot;not a function&quot;)]   ; 不是函数
                     [(not (equal? (funT-arg ft) at))
-                     (error 'tc &quot;app arg mismatch&quot;)] ;app参数不匹配
+                     (error 'tc &quot;app arg mismatch&quot;)] ; app 参数不匹配
                     [else (funT-ret ft)]))]
 </code></pre>
 <p>最后还剩下函数定义。函数有一个形参，函数体中一般会用到；除非它被绑定到环境中，不
@@ -1447,7 +1447,7 @@
     [lamC (a argT retT b)
           (if (equal? (tc b (extend-ty-env (bind a argT) tenv)) retT)
               (funT argT retT)
-              (error 'tc &quot;lam type mismatch&quot;))] ;λ类型不匹配
+              (error 'tc &quot;lam type mismatch&quot;))] ; λ 类型不匹配
 </code></pre>
 <p>注意到解释器与类型检查器另一个有趣的不同点。解释器中，函数调用负责计算参数表达式
 的值，扩展环境，然后对函数体求值。而这里，函数调用的情形中的确也检查了参数表达式
@@ -1549,7 +1549,7 @@
 <pre><code class="language-Racket">(rec (Σ num (n num)
         (if0 n
              0
-             (n + (Σ (n + -1))))) ;译注，原文如此，+应前置
+             (n + (Σ (n + -1))))) ; 译注，原文如此，+应前置
   (Σ 10))
 </code></pre>
 <p>其中，<code>Σ</code>是函数名，<code>n</code>为其参数，<code>num</code>为函数参数以及返回值的类型。表达
@@ -1574,7 +1574,7 @@
                                    (extend-ty-env
                                     (bind a aT)
                                     extended-env))))
-               (error 'tc &quot;body return type not correct&quot;)] ;函数体类型错误
+               (error 'tc &quot;body return type not correct&quot;)] ; 函数体类型错误
               [else (tc u extended-env)]))]
 </code></pre>
 <h3 id="1524">15.2.4 数据中的递归</h3>
@@ -2155,7 +2155,7 @@ Parametric Polymorphism》。</p>
   [tArrow (dom : Term) (rng : Term)])
 </code></pre>
 <p>接下来定义约束生成函数：</p>
-<pre><code class="language-Racket">&lt;constr-gen&gt; ::= ;约束生成
+<pre><code class="language-Racket">&lt;constr-gen&gt; ::= ; 约束生成
 
     (define (cg [e : ExprC]) : (listof Constraints)
       (type-case ExprC e
@@ -2398,8 +2398,8 @@ Parametric Polymorphism》。</p>
 <p>假设我们要建立动物园动物的链表，动物有这些种类：犰狳、红尾蚺等。目前，我们必须创
 建新的数据类型：</p>
 <pre><code class="language-Racket">(define-type Animal
-  [armadillo (alive? : boolean)] ;犰狳
-  [boa (length : number)]) ;蚺
+  [armadillo (alive? : boolean)] ; 犰狳
+  [boa (length : number)])       ; 蚺
 </code></pre>
 <blockquote>
 <p>“在德州，马路中间除了黄线和死掉的犰狳什么都没有。” —— Jim Hightower</p>
@@ -2440,7 +2440,7 @@ Racket</em> （内置与 DrRacket 中的静态类型 Racket）相比较。下面
 <pre><code class="language-Racket">#lang typed/racket
 
 (struct: armadillo ([alive? : Boolean]))
-(struct: boa ([length : Real])) ;; feet
+(struct: boa ([length : Real]))  ; feet
 </code></pre>
 <p>无需引用<code>armadillo</code>就可以定义使用<code>boa</code>类型值的函数：</p>
 <pre><code class="language-Racket">;; http://en.wikipedia.org/wiki/Boa_constrictor#Size_and_weight
